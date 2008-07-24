@@ -19,69 +19,52 @@
  */
 
 
-#import "Action.h"
-#import "CocosNode.h"
+// cocoa related
+#import <UIKit/UIKit.h>
 
 //
-// Action Base Class
+// Timer
 //
-@implementation Action
-
-@synthesize target;
-
-+(id) action
+/** Light weight timer */
+@interface Timer : NSObject
 {
-	return [[[self alloc] init] autorelease];
+	id target;
+	SEL sel;
 }
 
--(id) init
+/** constructor for timer */
++(id) timerWithTarget:(id) t sel:(SEL)s;
+
+/** init for Timer */
+-(id) initWithTarget:(id) t sel:(SEL)s;
+
+/** triggers the timer */
+-(void) fire;
+@end
+
+//
+// Scheduler
+//
+/**Class manages all the schedulers
+*/
+@interface Scheduler : NSObject
 {
-	if( ![super init] )
-		return nil;
-	
-	target = nil;
-	return self;
+	NSMutableArray *scheduledMethods;
+	NSMutableArray *methodsToRemove;
 }
 
--(void) dealloc
-{
-	NSLog(@"deallocing %@", self);
-	if( target )
-		[target release];
-	[super dealloc];
-}
+/** returns a shared instance of the Scheduler */
++(Scheduler *)sharedScheduler;
 
--(id) copyWithZone: (NSZone*) zone
-{
-	Action *copy = [[[self class] allocWithZone: zone] init];
-					 	
-    [copy setTarget:[self target]];
-    return copy;
-}
+/** the scheduler is ticked */
+-(void) tick;
 
--(void) start
-{
-	// override me
-}
+/** schedule a target/selector */
+-(Timer*) scheduleTarget:(id) r selector:(SEL) s;
 
--(void) stop
-{
-	// override me
-}
+/** schedule a Timer */
+-(void) scheduleTimer: (Timer*) t;
 
--(BOOL) isDone
-{
-	return YES;
-}
-
--(void) step
-{
-	NSLog(@"[Action step]. override me");
-}
-
--(void) update: (double) time
-{
-	NSLog(@"[Action update]. override me");
-}
-
+/** unschedule a timer */
+-(void) unscheduleTimer: (Timer*) t;
 @end
