@@ -236,7 +236,7 @@ typedef enum {
  */
 @interface FadeTRTransition : TransitionScene
 {}
--(IntervalAction*) actionWithSize:(ccGridSize) vector;
+-(IntervalAction*) actionWithSize:(ccGrid) vector;
 @end
 
 /** FadeBLTransition.

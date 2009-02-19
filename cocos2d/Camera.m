@@ -66,7 +66,7 @@
 				);
 		
 		if( landscape )
-#ifdef LANDSCAPE_LEFT
+#if LANDSCAPE_LEFT
 			glTranslatef(-80,80,0);
 #else
 #error "FIX ME"

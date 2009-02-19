@@ -132,7 +132,9 @@ static Scheduler *sharedScheduler;
 
 - (void) dealloc
 {
-	CCLOG( @"deallocing %@", self);
+#if DEBUG
+	NSLog( @"deallocing %@", self);
+#endif	
 	[scheduledMethods release];
 	[methodsToRemove release];
 	[methodsToAdd release];

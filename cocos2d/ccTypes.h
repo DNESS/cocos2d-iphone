@@ -73,18 +73,18 @@ typedef struct _ccVertex3D
 	float z;
 } ccVertex3D;
 
-//! A 2D grid size
-typedef struct _ccGridSize
+//! A 2D grid
+typedef struct _ccGrid
 {
 	int	x;
 	int	y;
-} ccGridSize;
+} ccGrid;
 
-//! helper function to create a ccGridSize
-static inline ccGridSize
+//! helper function to create a ccGrid
+static inline ccGrid
 ccg(const int x, const int y)
 {
-	ccGridSize v = {x, y};
+	ccGrid v = {x, y};
 	return v;
 }
 

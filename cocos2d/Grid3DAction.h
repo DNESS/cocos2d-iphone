@@ -25,8 +25,8 @@
 @property float amplitude;
 @property float amplitudeRate;
 
-+(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
--(id)initWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
++(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d;
+-(id)initWithWaves:(int)wav amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d;
 
 @end
 
@@ -37,17 +37,12 @@
 {
 }
 
-/** creates the action with duration */
-+(id) actionWithDuration:(ccTime)d;
-/** initizlies the action with duration */
--(id) initWithDuration:(ccTime)d;
-
 @end
 
 ////////////////////////////////////////////////////////////
 
 /** FlipY3D action */
-@interface FlipY3D : FlipX3D
+@interface FlipY3D : Grid3DAction
 {
 }
 
@@ -64,15 +59,12 @@
 	cpVect	lastPosition;
 }
 
-/** lens effect. Defaults to 0.7 - 0 means no effect, 1 is very strong effect */
+// Defaults to 0.7 - 0 means no effect, 1 is very strong effect
 @property float lensEffect;
-/** lens center position */
 @property cpVect position;
 
-/** creates the action with center position, radius, a grid size and duration */
-+(id)actionWithPosition:(cpVect)pos radius:(float)r grid:(ccGridSize)gridSize duration:(ccTime)d;
-/** initializes the action with center position, radius, a grid size and duration */
--(id)initWithPosition:(cpVect)pos radius:(float)r grid:(ccGridSize)gridSize duration:(ccTime)d;
++(id)actionWithPosition:(cpVect)pos radius:(float)r grid:(ccGrid)gridSize duration:(ccTime)d;
+-(id)initWithPosition:(cpVect)pos radius:(float)r grid:(ccGrid)gridSize duration:(ccTime)d;
 
 @end
 
@@ -88,17 +80,12 @@
 	float	amplitudeRate;
 }
 
-/** center position */
 @property cpVect position;
-/** amplitude */
 @property float amplitude;
-/** amplitude rate */
 @property float amplitudeRate;
 
-/** creates the action with radius, number of waves, amplitude, a grid size and duration */
-+(id)actionWithPosition:(cpVect)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
-/** initializes the action with radius, number of waves, amplitude, a grid size and duration */
--(id)initWithPosition:(cpVect)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
++(id)actionWithPosition:(cpVect)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d;
+-(id)initWithPosition:(cpVect)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d;
 
 @end
 
@@ -108,13 +95,10 @@
 @interface Shaky3D : Grid3DAction
 {
 	int randrange;
-	BOOL	shakeZ;
 }
 
-/** creates the action with a range, shake Z vertices, a grid and duration */
-+(id)actionWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(ccGridSize)gridSize duration:(ccTime)d;
-/** initializes the action with a range, shake Z vertices, a grid and duration */
--(id)initWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(ccGridSize)gridSize duration:(ccTime)d;
++(id)actionWithRange:(int)range grid:(ccGrid)gridSize duration:(ccTime)d;
+-(id)initWithRange:(int)range grid:(ccGrid)gridSize duration:(ccTime)d;
 
 @end
 
@@ -129,15 +113,11 @@
 	
 }
 
-/** amplitude */
 @property float amplitude;
-/** amplitude rate */
 @property float amplitudeRate;
 
-/** creates the action with amplitude, a grid and duration */
-+(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
-/** initializes the action with amplitude, a grid and duration */
--(id)initWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
++(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d;
+-(id)initWithWaves:(int)wav amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d;
 
 @end
 
@@ -153,15 +133,11 @@
 	BOOL	horizontal;
 }
 
-/** amplitude */
 @property float amplitude;
-/** amplitude rate */
 @property float amplitudeRate;
 
-/** initializes the action with amplitude, horizontal sin, vertical sin, a grid and duration */
-+(id)actionWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(ccGridSize)gridSize duration:(ccTime)d;
-/** creates the action with amplitude, horizontal sin, vertical sin, a grid and duration */
--(id)initWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(ccGridSize)gridSize duration:(ccTime)d;
++(id)actionWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(ccGrid)gridSize duration:(ccTime)d;
+-(id)initWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(ccGrid)gridSize duration:(ccTime)d;
 
 @end
 
@@ -176,16 +152,11 @@
 	float	amplitudeRate;
 }
 
-/** twirl center */
 @property cpVect position;
-/** amplitude */
 @property float amplitude;
-/** amplitude rate */
 @property float amplitudeRate;
 
-/** creates the action with center position, number of twirls, amplitude, a grid size and duration */
-+(id)actionWithPosition:(cpVect)pos twirls:(int)t amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
-/** initializes the action with center position, number of twirls, amplitude, a grid size and duration */
--(id)initWithPosition:(cpVect)pos twirls:(int)t amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
++(id)actionWithPosition:(cpVect)pos twirls:(int)t amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d;
+-(id)initWithPosition:(cpVect)pos twirls:(int)t amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d;
 
 @end

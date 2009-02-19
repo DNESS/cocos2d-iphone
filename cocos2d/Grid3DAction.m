@@ -19,14 +19,14 @@
 @synthesize amplitude;
 @synthesize amplitudeRate;
 
-+(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d
++(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d
 {
 	return [[[self alloc] initWithWaves:wav amplitude:amp grid:gridSize duration:d] autorelease];
 }
 
--(id)initWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gSize duration:(ccTime)d
+-(id)initWithWaves:(int)wav amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d
 {
-	if ( (self = [super initWithSize:gSize duration:d]) )
+	if ( (self = [super initWithSize:gridSize duration:d]) )
 	{
 		waves = wav;
 		amplitude = amp;
@@ -40,11 +40,11 @@
 {
 	int i, j;
 	
-	for( i = 0; i < (gridSize.x+1); i++ )
+	for( i = 0; i < (grid.x+1); i++ )
 	{
-		for( j = 0; j < (gridSize.y+1); j++ )
+		for( j = 0; j < (grid.y+1); j++ )
 		{
-			ccVertex3D	v = [self originalVertex:ccg(i,j)];
+			ccVertex3D	v = [self getOriginalVertex:ccg(i,j)];
 			v.z += (sinf((cpFloat)M_PI*time*waves*2 + (v.y+v.x) * .01f) * amplitude * amplitudeRate);
 			[self setVertex:ccg(i,j) vertex:v];
 		}
@@ -56,24 +56,14 @@
 
 @implementation FlipX3D
 
-+(id) actionWithDuration:(ccTime)d
+-(id)initWithSize:(ccGrid)gridSize duration:(ccTime)d
 {
-	return [[[self alloc] initWithSize:ccg(1,1) duration:d] autorelease];
-}
-
--(id) initWithDuration:(ccTime)d
-{
-	return [super initWithSize:ccg(1,1) duration:d];
-}
-
--(id)initWithSize:(ccGridSize)gSize duration:(ccTime)d
-{
-	if ( gSize.x != 1 || gSize.y != 1 )
+	if ( gridSize.x != 1 || gridSize.y != 1 )
 	{
 		[NSException raise:@"FlipX3D" format:@"Grid size must be (1,1)"];
 	}
 	
-	return [super initWithSize:gSize duration:d];
+	return [super initWithSize:gridSize duration:d];
 }
 
 -(void)update:(ccTime)time
@@ -85,13 +75,13 @@
 	
 	ccVertex3D	v0, v1, v, diff;
 	
-	v0 = [self originalVertex:ccg(1,1)];
-	v1 = [self originalVertex:ccg(0,0)];
+	v0 = [self getOriginalVertex:ccg(1,1)];
+	v1 = [self getOriginalVertex:ccg(0,0)];
 	
 	cpFloat	x0 = v0.x;
 	cpFloat	x1 = v1.x;
 	cpFloat x;
-	ccGridSize	a, b, c, d;
+	ccGrid	a, b, c, d;
 	
 	if ( x0 > x1 )
 	{
@@ -116,25 +106,25 @@
 	diff.z = fabsf( floorf( (x * mz) / 4.0f ) );
 	
 // bottom-left
-	v = [self originalVertex:a];
+	v = [self getOriginalVertex:a];
 	v.x = diff.x;
 	v.z += diff.z;
 	[self setVertex:a vertex:v];
 	
 // upper-left
-	v = [self originalVertex:b];
+	v = [self getOriginalVertex:b];
 	v.x = diff.x;
 	v.z += diff.z;
 	[self setVertex:b vertex:v];
 	
 // bottom-right
-	v = [self originalVertex:c];
+	v = [self getOriginalVertex:c];
 	v.x -= diff.x;
 	v.z -= diff.z;
 	[self setVertex:c vertex:v];
 	
 // upper-right
-	v = [self originalVertex:d];
+	v = [self getOriginalVertex:d];
 	v.x -= diff.x;
 	v.z -= diff.z;
 	[self setVertex:d vertex:v];
@@ -146,6 +136,16 @@
 
 @implementation FlipY3D
 
+-(id)initWithSize:(ccGrid)gridSize duration:(ccTime)d
+{
+	if ( gridSize.x != 1 || gridSize.y != 1 )
+	{
+		[NSException raise:@"FlipX3D" format:@"Grid size must be (1,1)"];
+	}
+	
+	return [super initWithSize:gridSize duration:d];
+}
+
 -(void)update:(ccTime)time
 {
 	cpFloat angle = (cpFloat)M_PI * time; // 180 degrees
@@ -155,13 +155,13 @@
 	
 	ccVertex3D	v0, v1, v, diff;
 	
-	v0 = [self originalVertex:ccg(1,1)];
-	v1 = [self originalVertex:ccg(0,0)];
+	v0 = [self getOriginalVertex:ccg(1,1)];
+	v1 = [self getOriginalVertex:ccg(0,0)];
 	
 	cpFloat	y0 = v0.y;
 	cpFloat	y1 = v1.y;
 	cpFloat y;
-	ccGridSize	a, b, c, d;
+	ccGrid	a, b, c, d;
 	
 	if ( y0 > y1 )
 	{
@@ -186,25 +186,25 @@
 	diff.z = fabsf( floorf( (y * mz) / 4.0f ) );
 	
 	// bottom-left
-	v = [self originalVertex:a];
+	v = [self getOriginalVertex:a];
 	v.y = diff.y;
 	v.z += diff.z;
 	[self setVertex:a vertex:v];
 	
 	// upper-left
-	v = [self originalVertex:b];
+	v = [self getOriginalVertex:b];
 	v.y -= diff.y;
 	v.z -= diff.z;
 	[self setVertex:b vertex:v];
 	
 	// bottom-right
-	v = [self originalVertex:c];
+	v = [self getOriginalVertex:c];
 	v.y = diff.y;
 	v.z += diff.z;
 	[self setVertex:c vertex:v];
 	
 	// upper-right
-	v = [self originalVertex:d];
+	v = [self getOriginalVertex:d];
 	v.y -= diff.y;
 	v.z -= diff.z;
 	[self setVertex:d vertex:v];
@@ -219,14 +219,14 @@
 @synthesize lensEffect;
 @synthesize position;
 
-+(id)actionWithPosition:(cpVect)pos radius:(float)r grid:(ccGridSize)gridSize duration:(ccTime)d
++(id)actionWithPosition:(cpVect)pos radius:(float)r grid:(ccGrid)gridSize duration:(ccTime)d
 {
 	return [[[self alloc] initWithPosition:pos radius:r grid:gridSize duration:d] autorelease];
 }
 
--(id)initWithPosition:(cpVect)pos radius:(float)r grid:(ccGridSize)gSize duration:(ccTime)d
+-(id)initWithPosition:(cpVect)pos radius:(float)r grid:(ccGrid)gridSize duration:(ccTime)d
 {
-	if ( (self = [super initWithSize:gSize duration:d]) )
+	if ( (self = [super initWithSize:gridSize duration:d]) )
 	{
 		position = pos;
 		radius = r;
@@ -243,11 +243,11 @@
 	{
 		int i, j;
 		
-		for( i = 0; i < gridSize.x+1; i++ )
+		for( i = 0; i < grid.x+1; i++ )
 		{
-			for( j = 0; j < gridSize.y+1; j++ )
+			for( j = 0; j < grid.y+1; j++ )
 			{
-				ccVertex3D	v = [self originalVertex:ccg(i,j)];
+				ccVertex3D	v = [self getOriginalVertex:ccg(i,j)];
 				cpVect vect = cpvsub(position, cpv(v.x,v.y));
 				cpFloat r = cpvlength(vect);
 				
@@ -285,14 +285,14 @@
 @synthesize amplitude;
 @synthesize amplitudeRate;
 
-+(id)actionWithPosition:(cpVect)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d
++(id)actionWithPosition:(cpVect)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d
 {
 	return [[[self alloc] initWithPosition:pos radius:r waves:wav amplitude:amp grid:gridSize duration:d] autorelease];
 }
 
--(id)initWithPosition:(cpVect)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(ccGridSize)gSize duration:(ccTime)d
+-(id)initWithPosition:(cpVect)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d
 {
-	if ( (self = [super initWithSize:gSize duration:d]) )
+	if ( (self = [super initWithSize:gridSize duration:d]) )
 	{
 		position = pos;
 		radius = r;
@@ -308,11 +308,11 @@
 {
 	int i, j;
 	
-	for( i = 0; i < (gridSize.x+1); i++ )
+	for( i = 0; i < (grid.x+1); i++ )
 	{
-		for( j = 0; j < (gridSize.y+1); j++ )
+		for( j = 0; j < (grid.y+1); j++ )
 		{
-			ccVertex3D	v = [self originalVertex:ccg(i,j)];
+			ccVertex3D	v = [self getOriginalVertex:ccg(i,j)];
 			cpVect vect = cpvsub(position, cpv(v.x,v.y));
 			cpFloat r = cpvlength(vect);
 			
@@ -334,17 +334,16 @@
 
 @implementation Shaky3D
 
-+(id)actionWithRange:(int)range shakeZ:(BOOL)sz grid:(ccGridSize)gridSize duration:(ccTime)d
++(id)actionWithRange:(int)range grid:(ccGrid)gridSize duration:(ccTime)d
 {
-	return [[[self alloc] initWithRange:range shakeZ:sz grid:gridSize duration:d] autorelease];
+	return [[[self alloc] initWithRange:range grid:gridSize duration:d] autorelease];
 }
 
--(id)initWithRange:(int)range shakeZ:(BOOL)sz grid:(ccGridSize)gSize duration:(ccTime)d
+-(id)initWithRange:(int)range grid:(ccGrid)gridSize duration:(ccTime)d
 {
-	if ( (self = [super initWithSize:gSize duration:d]) )
+	if ( (self = [super initWithSize:gridSize duration:d]) )
 	{
 		randrange = range;
-		shakeZ = sz;
 	}
 	
 	return self;
@@ -354,15 +353,14 @@
 {
 	int i, j;
 	
-	for( i = 0; i < (gridSize.x+1); i++ )
+	for( i = 0; i < (grid.x+1); i++ )
 	{
-		for( j = 0; j < (gridSize.y+1); j++ )
+		for( j = 0; j < (grid.y+1); j++ )
 		{
-			ccVertex3D	v = [self originalVertex:ccg(i,j)];
+			ccVertex3D	v = [self getOriginalVertex:ccg(i,j)];
 			v.x += ( rand() % (randrange*2) ) - randrange;
 			v.y += ( rand() % (randrange*2) ) - randrange;
-			if( shakeZ )
-				v.z += ( rand() % (randrange*2) ) - randrange;
+			v.z += ( rand() % (randrange*2) ) - randrange;
 			
 			[self setVertex:ccg(i,j) vertex:v];
 		}
@@ -378,14 +376,14 @@
 @synthesize amplitude;
 @synthesize amplitudeRate;
 
-+(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d
++(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d
 {
 	return [[[self alloc] initWithWaves:wav amplitude:amp grid:gridSize duration:d] autorelease];
 }
 
--(id)initWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gSize duration:(ccTime)d
+-(id)initWithWaves:(int)wav amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d
 {
-	if ( (self = [super initWithSize:gSize duration:d]) )
+	if ( (self = [super initWithSize:gridSize duration:d]) )
 	{
 		waves = wav;
 		amplitude = amp;
@@ -399,11 +397,11 @@
 {
 	int i, j;
 	
-	for( i = 1; i < gridSize.x; i++ )
+	for( i = 1; i < grid.x; i++ )
 	{
-		for( j = 1; j < gridSize.y; j++ )
+		for( j = 1; j < grid.y; j++ )
 		{
-			ccVertex3D	v = [self originalVertex:ccg(i,j)];
+			ccVertex3D	v = [self getOriginalVertex:ccg(i,j)];
 			v.x = (v.x + (sinf(time*(cpFloat)M_PI*waves*2 + v.x * .01f) * amplitude * amplitudeRate));
 			v.y = (v.y + (sinf(time*(cpFloat)M_PI*waves*2 + v.y * .01f) * amplitude * amplitudeRate));
 			[self setVertex:ccg(i,j) vertex:v];
@@ -420,14 +418,14 @@
 @synthesize amplitude;
 @synthesize amplitudeRate;
 
-+(id)actionWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(ccGridSize)gridSize duration:(ccTime)d
++(id)actionWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(ccGrid)gridSize duration:(ccTime)d
 {
 	return [[[self alloc] initWithWaves:wav amplitude:amp horizontal:h vertical:v grid:gridSize duration:d] autorelease];
 }
 
--(id)initWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(ccGridSize)gSize duration:(ccTime)d
+-(id)initWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(ccGrid)gridSize duration:(ccTime)d
 {
-	if ( (self = [super initWithSize:gSize duration:d]) )
+	if ( (self = [super initWithSize:gridSize duration:d]) )
 	{
 		waves = wav;
 		amplitude = amp;
@@ -443,11 +441,11 @@
 {
 	int i, j;
 	
-	for( i = 0; i < (gridSize.x+1); i++ )
+	for( i = 0; i < (grid.x+1); i++ )
 	{
-		for( j = 0; j < (gridSize.y+1); j++ )
+		for( j = 0; j < (grid.y+1); j++ )
 		{
-			ccVertex3D	v = [self originalVertex:ccg(i,j)];
+			ccVertex3D	v = [self getOriginalVertex:ccg(i,j)];
 			
 			if ( vertical )
 				v.x = (v.x + (sinf(time*(cpFloat)M_PI*waves*2 + v.y * .01f) * amplitude * amplitudeRate));
@@ -470,14 +468,14 @@
 @synthesize amplitude;
 @synthesize amplitudeRate;
 
-+(id)actionWithPosition:(cpVect)pos twirls:(int)t amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d
++(id)actionWithPosition:(cpVect)pos twirls:(int)t amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d
 {
 	return [[[self alloc] initWithPosition:pos twirls:t amplitude:amp grid:gridSize duration:d] autorelease];
 }
 
--(id)initWithPosition:(cpVect)pos twirls:(int)t amplitude:(float)amp grid:(ccGridSize)gSize duration:(ccTime)d
+-(id)initWithPosition:(cpVect)pos twirls:(int)t amplitude:(float)amp grid:(ccGrid)gridSize duration:(ccTime)d
 {
-	if ( (self = [super initWithSize:gSize duration:d]) )
+	if ( (self = [super initWithSize:gridSize duration:d]) )
 	{
 		position = pos;
 		twirls = t;
@@ -493,13 +491,13 @@
 	int i, j;
 	cpVect		c = position;
 	
-	for( i = 0; i < (gridSize.x+1); i++ )
+	for( i = 0; i < (grid.x+1); i++ )
 	{
-		for( j = 0; j < (gridSize.y+1); j++ )
+		for( j = 0; j < (grid.y+1); j++ )
 		{
-			ccVertex3D	v = [self originalVertex:ccg(i,j)];
+			ccVertex3D	v = [self getOriginalVertex:ccg(i,j)];
 			
-			cpVect	avg = cpv(i-(gridSize.x/2.0f), j-(gridSize.y/2.0f));
+			cpVect	avg = cpv(i-(grid.x/2.0f), j-(grid.y/2.0f));
 			cpFloat r = cpvlength( avg );
 			
 			cpFloat amp = 0.1f * amplitude * amplitudeRate;

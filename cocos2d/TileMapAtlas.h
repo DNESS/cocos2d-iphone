@@ -14,7 +14,7 @@
 
 #import "TextureAtlas.h"
 #import "AtlasNode.h"
-#import "Support/TGAlib.h"
+#import "TGAlib.h"
 
 /** A TileMap that laods the font from a Texture Atlas */
 @interface TileMapAtlas : AtlasNode {
@@ -47,12 +47,12 @@
 /** returns a tile from position x,y.
  For the moment only channel R is used
  */
--(ccRGBB) tileAt: (ccGridSize) position;
+-(ccRGBB) tileAt: (ccGrid) position;
 
 /** sets a tile at position x,y.
  For the moment only channel R is used
  */
--(void) setTile:(ccRGBB)tile at:(ccGridSize)position;
+-(void) setTile:(ccRGBB)tile at:(ccGrid)position;
 /** dealloc the map from memory */
 -(void) releaseMap;
 @end

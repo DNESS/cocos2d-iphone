@@ -84,8 +84,6 @@ enum {
 -(void) onQuit: (id) sender
 {
 	[[Director sharedDirector] end];
-	if( [[UIApplication sharedApplication] respondsToSelector:@selector(terminate)] )
-		[[UIApplication sharedApplication] performSelector:@selector(terminate)];
 }
 @end
 

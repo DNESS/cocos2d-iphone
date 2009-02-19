@@ -2,7 +2,7 @@
  *
  * http://code.google.com/p/cocos2d-iphone
  *
- * Copyright (C) 2008 Ricardo Quesada
+ * Copyright (C) 2009 mark@abitofthought.com 
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the 'cocos2d for iPhone' license.
@@ -12,19 +12,13 @@
  *
  */
 
+#import "Director.h"
 
-// 0x00 HI ME LO
-// 00   00 01 00
-#define COCOSLIVE_VERSION 0x00000100
+@interface FastDirector : Director {
+	BOOL isRunning;
+}
 
-// to use localserver. DEBUG ONLY
-#define USE_LOCAL_SERVER 1
+/** returns a shared instance of the director */
++(FastDirector *)sharedDirector;
 
-// all cocos live include files
-//
-#import "ScoreServerPost.h"
-#import "ScoreServerRequest.h"
-
-
-// free functions
-NSString * cocos2dVersion(void);
+@end
