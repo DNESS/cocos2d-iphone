@@ -72,7 +72,7 @@
 -(void)setTextureRect:(CGRect) rect
 {
 	mRect = rect;
-	transformAnchor = cpv( mRect.size.width / 2, mRect.size.height /2 );
+	self.transformAnchor = cpv( mRect.size.width / 2, mRect.size.height /2 );
 
 	[self updateTextureCoords];
 	[self updateAtlas];
@@ -123,16 +123,16 @@
 	}
 	
 	// rotation ? -> update: rotation, scale, position
-	else if( rotation ) {
-		float x1 = -transformAnchor.x * scaleX;
-		float y1 = -transformAnchor.y * scaleY;
+	else if( _rotation ) {
+		float x1 = -_transformAnchor.x * _scaleX;
+		float y1 = -_transformAnchor.y * _scaleY;
 
-		float x2 = x1 + mRect.size.width * scaleX;
-		float y2 = y1 + mRect.size.height * scaleY;
-		float x = position.x;
-		float y = position.y;
+		float x2 = x1 + mRect.size.width * _scaleX;
+		float y2 = y1 + mRect.size.height * _scaleY;
+		float x = _position.x;
+		float y = _position.y;
 		
-		float r = (float)-CC_DEGREES_TO_RADIANS(rotation);
+		float r = (float)-CC_DEGREES_TO_RADIANS(_rotation);
 		float cr = cosf(r);
 		float sr = sinf(r);
 		float ax = x1 * cr - y1 * sr + x;
@@ -153,15 +153,15 @@
 	}
 	
 	// scale ? -> update: scale, position
-	else if(scaleX != 1 || scaleY != 1)
+	else if(_scaleX != 1 || _scaleY != 1)
 	{
-		float x = position.x;
-		float y = position.y;
+		float x = _position.x;
+		float y = _position.y;
 		
-		float x1 = (x- transformAnchor.x * scaleX);
-		float y1 = (y- transformAnchor.y * scaleY);
-		float x2 = (x1 + mRect.size.width * scaleX);
-		float y2 = (y1 + mRect.size.height * scaleY);
+		float x1 = (x - _transformAnchor.x * _scaleX);
+		float y1 = (y - _transformAnchor.y * _scaleY);
+		float x2 = (x1 + mRect.size.width * _scaleX);
+		float y2 = (y1 + mRect.size.height * _scaleY);
 		ccQuad3 newVertices = {
 			x1,y1,0,
 			x2,y1,0,
@@ -174,11 +174,11 @@
 	
 	// update position
 	else {
-		float x = position.x;
-		float y = position.y;
+		float x = _position.x;
+		float y = _position.y;
 		
-		float x1 = (x-transformAnchor.x);
-		float y1 = (y-transformAnchor.y);
+		float x1 = (x - _transformAnchor.x);
+		float y1 = (y - _transformAnchor.y);
 		float x2 = (x1 + mRect.size.width);
 		float y2 = (y1 + mRect.size.height);
 		ccQuad3 newVertices = {

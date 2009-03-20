@@ -17,25 +17,65 @@
 #import "Director.h"
 #import "ccMacros.h"
 
+void CGAffineToGL(const CGAffineTransform *t, GLfloat *m)
+{
+	// | m[0] m[4] m[8]  m[12] |     | m11 m21 m31 m41 |     | a c 0 tx |
+	// | m[1] m[5] m[9]  m[13] |     | m12 m22 m32 m42 |     | b d 0 ty |
+	// | m[2] m[6] m[10] m[14] | <=> | m13 m23 m33 m43 | <=> | 0 0 1  0 |
+	// | m[3] m[7] m[11] m[15] |     | m14 m24 m34 m44 |     | 0 0 0  1 |
+	
+	m[2] = m[3] = m[6] = m[7] = m[8] = m[9] = m[11] = m[14] = 0.0f;
+	m[10] = m[15] = 1.0f;
+	m[0] = t->a; m[4] = t->c; m[12] = t->tx;
+	m[1] = t->b; m[5] = t->d; m[13] = t->ty;
+}
+
+void GLToCGAffine(const GLfloat *m, CGAffineTransform *t)
+{
+	t->a = m[0]; t->c = m[4]; t->tx = m[12];
+	t->b = m[1]; t->d = m[5]; t->ty = m[13];
+}
+
 @implementation CocosNode (CocosExtrasTransforms)
+
+- (CGAffineTransform)nodeToParentTransform
+{
+	if ( isTransformDirty ) {
+	
+		transform = CGAffineTransformIdentity;
+		
+		if ( !_relativeTransformAnchor ) {
+			transform = CGAffineTransformTranslate(transform, _transformAnchor.x, _transformAnchor.y);
+		}
+		
+		transform = CGAffineTransformTranslate(transform, _position.x, _position.y);
+		transform = CGAffineTransformRotate(transform, -CC_DEGREES_TO_RADIANS(_rotation));
+		transform = CGAffineTransformScale(transform, _scaleX, _scaleY);
+		
+		transform = CGAffineTransformTranslate(transform, -_transformAnchor.x, -_transformAnchor.y);
+		
+		isTransformDirty = NO;
+	}
+	
+	return transform;
+}
+
+- (CGAffineTransform)parentToNodeTransform
+{
+	if ( isInverseDirty ) {
+		inverse = CGAffineTransformInvert([self nodeToParentTransform]);
+		isInverseDirty = NO;
+	}
+	
+	return inverse;
+}
 
 - (CGAffineTransform)nodeToWorldTransform
 {
-	CGAffineTransform t = CGAffineTransformIdentity;
+	CGAffineTransform t = [self nodeToParentTransform];
 	
-	if (parent != nil) {
-		t = [parent nodeToWorldTransform];
-	}
-	
-	if (!relativeTransformAnchor) {
-		t = CGAffineTransformTranslate(t, transformAnchor.x, transformAnchor.y);
-	}
-	
-	t = CGAffineTransformTranslate(t, position.x, position.y);
-	t = CGAffineTransformRotate(t, -CC_DEGREES_TO_RADIANS(rotation));
-	t = CGAffineTransformScale(t, scaleX, scaleY);
-	
-	t = CGAffineTransformTranslate(t, -transformAnchor.x, -transformAnchor.y);
+	for (CocosNode *p = parent; p != nil; p = p.parent)
+		t = CGAffineTransformConcat(t, [p nodeToParentTransform]);
 	
 	return t;
 }
@@ -58,15 +98,12 @@
 - (CGPoint)convertToNodeSpaceAR:(CGPoint)worldPoint
 {
 	CGPoint nodePoint = [self convertToNodeSpace:worldPoint];
-	nodePoint.x -= transformAnchor.x;
-	nodePoint.y -= transformAnchor.y;
-	return nodePoint;
+	return cpvsub(nodePoint, _transformAnchor);
 }
 
 - (CGPoint)convertToWorldSpaceAR:(CGPoint)nodePoint
 {
-	nodePoint.x += transformAnchor.x;
-	nodePoint.y += transformAnchor.y;
+	nodePoint = cpvadd(nodePoint, _transformAnchor);
 	return [self convertToWorldSpace:nodePoint];
 }
 

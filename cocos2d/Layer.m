@@ -33,10 +33,9 @@
 		return nil;
 	
 	CGSize s = [[Director sharedDirector] winSize];
-	relativeTransformAnchor = NO;
+	self.relativeTransformAnchor = NO;
 
-	transformAnchor.x = s.width / 2;
-	transformAnchor.y = s.height / 2;
+	self.transformAnchor = cpv(s.width / 2, s.height / 2);
 	
 	isTouchEnabled = NO;
 	isAccelerometerEnabled = NO;

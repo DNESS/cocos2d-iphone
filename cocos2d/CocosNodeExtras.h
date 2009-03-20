@@ -16,10 +16,16 @@
 #import <CoreGraphics/CGGeometry.h>
 #import <CoreGraphics/CGAffineTransform.h>
 
+void CGAffineToGL(const CGAffineTransform *t, GLfloat *m);
+void GLToCGAffine(const GLfloat *m, CGAffineTransform *t);
+
 /** CocosNode Extension */
 @interface CocosNode (CocosExtrasTransforms)
 
 // actual affine transforms used
+- (CGAffineTransform)nodeToParentTransform;
+- (CGAffineTransform)parentToNodeTransform;
+
 - (CGAffineTransform)nodeToWorldTransform;
 - (CGAffineTransform)worldToNodeTransform;
 

@@ -26,6 +26,7 @@ enum {
 
 @class Camera;
 @class GridBase;
+struct CGAffineTransform;
 
 /** CocosNode is the main element. Anything thats gets drawn or contains things that get drawn is a CocosNode.
  The most popular CocosNodes are: Scene, Layer, Sprite, Menu.
@@ -62,16 +63,27 @@ enum {
 @interface CocosNode : NSObject {
 	
 	// rotation angle
-	float rotation;	
+	float _rotation;	
 	
 	// scale X factor
-	float scaleX;
+	float _scaleX;
 	
 	// scale Y factor
-	float scaleY;
+	float _scaleY;
 	
 	// position of the node
-	cpVect position;
+	cpVect _position;
+	
+	// If YES the transformtions will be relative to (-transform.x, -transform.y).
+	// Sprites, Labels and any other "small" object uses it.
+	// Scenes, Layers and other "whole screen" object don't use it.
+	BOOL _relativeTransformAnchor;
+	
+	// transformation anchor point
+	cpVect _transformAnchor;
+	
+	CGAffineTransform transform, inverse;
+	BOOL isTransformDirty, isInverseDirty;
 	
 	// parallax X factor
 	float parallaxRatioX;
@@ -90,14 +102,6 @@ enum {
 	
 	// z-order value
 	int zOrder;
-	
-	// If YES the transformtions will be relative to (-transform.x, -transform.y).
-	// Sprites, Labels and any other "small" object uses it.
-	// Scenes, Layers and other "whole screen" object don't use it.
-	BOOL relativeTransformAnchor;
-	
-	// transformation anchor point
-	cpVect transformAnchor;
 	
 	// array of children
 	NSMutableArray *children;
@@ -120,20 +124,27 @@ enum {
 	NSMutableDictionary *scheduledSelectors;    
 }
 
-/** The z order of the node relative to it's "brothers": children of the same parent */
+/** The z order of the node relative to it's "siblings": children of the same parent */
 @property(readonly) int zOrder;
 /** The rotation (angle) of the node in degrees. 0 is the default rotation angle */
-@property(readwrite,assign) float rotation;
+@property(nonatomic,readwrite,assign) float rotation;
 /** The scale factor of the node. 1.0 is the default scale factor */
-@property(readwrite,assign) float scale, scaleX, scaleY;
+@property(nonatomic,readwrite,assign) float scale, scaleX, scaleY;
+/** Position (x,y) of the node in OpenGL coordinates. (0,0) is the left-bottom corner */
+@property(nonatomic,readwrite,assign) cpVect position;
+/** If YES the transformtions will be relative to (-transform.x, -transform.y).
+ * Sprites, Labels and any other sizeble object use it.
+ * Scenes, Layers and other "whole screen" object don't use it.
+ */
+@property(nonatomic,readwrite,assign) BOOL relativeTransformAnchor;
+/** The transformation anchor point. For Sprite and Label the transform anchor point is (width/2, height/2) */
+@property(nonatomic,readwrite,assign) cpVect transformAnchor;
 /** The parallax ratio of the node. 1.0 is the default ratio */
 @property(readwrite,assign) float parallaxRatio;
 /** The X parallax ratio of the node. 1.0 is the default ratio */
 @property(readwrite,assign) float parallaxRatioY;
 /** The Y parallax ratio of the node. 1.0 is the default ratio */
 @property(readwrite,assign) float parallaxRatioX;
-/** Position (x,y) of the node in OpenGL coordinates. (0,0) is the left-bottom corner */
-@property(readwrite,assign) cpVect position;
 /** A Camera object that lets you move the node using camera coordinates.
  * If you use the Camera then position, scale & rotation won't be used */
 @property(readonly) Camera* camera;
@@ -141,15 +152,8 @@ enum {
 @property(readwrite,retain) GridBase* grid;
 /** Whether of not the node is visible. Default is YES */
 @property(readwrite,assign) BOOL visible;
-/** The transformation anchor point. For Sprite and Label the transform anchor point is (width/2, height/2) */
-@property(readwrite,assign) cpVect transformAnchor;
 /** A weak reference to the parent */
 @property(readwrite,assign) CocosNode* parent;
-/** If YES the transformtions will be relative to (-transform.x, -transform.y).
- * Sprites, Labels and any other sizeble object use it.
- * Scenes, Layers and other "whole screen" object don't use it.
- */
-@property(readwrite,assign) BOOL relativeTransformAnchor;
 /** A tag used to identify the node easily */
 @property(readwrite,assign) int tag;
 /** An array with the children */

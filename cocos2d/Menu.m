@@ -61,7 +61,7 @@
 		s.height -= r.size.width;
 	else
 	    s.height -= r.size.height;
-	position = cpv(s.width/2, s.height/2);
+	self.position = cpv(s.width/2, s.height/2);
 
 	isTouchEnabled = YES;
 	selectedItem = -1;

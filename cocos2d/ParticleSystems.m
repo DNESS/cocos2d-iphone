@@ -52,8 +52,7 @@
 	speedVar = 50;
 	
 	// emitter position
-	position.x = 160;
-	position.y = 160;
+	self.position = cpv(160, 160);
 	
 	// life of particles
 	life = 3.5f;
@@ -124,8 +123,7 @@
 	radialAccelVar = 0;
 	
 	// emitter position
-	position.x = 160;
-	position.y = 60;
+	self.position = cpv(160, 60);
 	posVar.x = 40;
 	posVar.y = 20;
 	
@@ -205,8 +203,7 @@
 	radialAccelVar = 0;	
 	
 	// emitter position
-	position.x = 160;
-	position.y = 240;
+	self.position = cpv(160, 240);
 	posVar.x = 0;
 	posVar.y = 0;
 	
@@ -288,8 +285,7 @@
 	tangentialAccelVar = 0;
 	
 	// emitter position
-	position.x = 160;
-	position.y = 240;
+	self.position = cpv(160, 240);
 	posVar.x = 0;
 	posVar.y = 0;
 	
@@ -370,8 +366,7 @@
 	tangentialAccelVar = 0;
 	
 	// emitter position
-	position.x = 160;
-	position.y = 240;
+	self.position = cpv(160, 240);
 	posVar.x = 0;
 	posVar.y = 0;
 	
@@ -452,8 +447,7 @@
 	tangentialAccelVar = 0;
 	
 	// emitter position
-	position.x = 160;
-	position.y = 240;
+	self.position = cpv(160, 240);
 	posVar.x = 0;
 	posVar.y = 0;
 	
@@ -534,8 +528,7 @@
 	tangentialAccelVar = 0;
 	
 	// emitter position
-	position.x = 160;
-	position.y = 240;
+	self.position = cpv(160, 240);
 	posVar.x = 0;
 	posVar.y = 0;
 	
@@ -616,8 +609,7 @@
 	tangentialAccelVar = 0;
 	
 	// emitter position
-	position.x = 160;
-	position.y = 240;
+	self.position = cpv(160, 240);
 	posVar.x = 0;
 	posVar.y = 0;
 	
@@ -690,8 +682,7 @@
 	radialAccelVar = 0;
 	
 	// emitter position
-	position.x = 160;
-	position.y = 0;
+	self.position = cpv(160, 0);
 	posVar.x = 20;
 	posVar.y = 0;
 	
@@ -773,8 +764,11 @@
 	tangentialAccelVar = 1;
 	
 	// emitter position
-	position.x = [[Director sharedDirector] winSize].width / 2;
-	position.y = [[Director sharedDirector] winSize].height + 10;
+	CGPoint pos;
+	pos.x = [[Director sharedDirector] winSize].width / 2;
+	pos.y = [[Director sharedDirector] winSize].height + 10;
+	self.position = pos;
+	
 	posVar.x = [[Director sharedDirector] winSize].width / 2;
 	posVar.y = 0;
 	
@@ -852,8 +846,11 @@
 	tangentialAccelVar = 1;
 	
 	// emitter position
-	position.x = [[Director sharedDirector] winSize].width / 2;
-	position.y = [[Director sharedDirector] winSize].height;
+	CGPoint pos;
+	pos.x = [[Director sharedDirector] winSize].width / 2;
+	pos.y = [[Director sharedDirector] winSize].height;
+	self.position = pos;
+	
 	posVar.x = [[Director sharedDirector] winSize].width / 2;
 	posVar.y = 0;
 	

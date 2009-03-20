@@ -14,11 +14,11 @@
 
 
 #import "CocosNode.h"
+#import "CocosNodeExtras.h"
 #import "Camera.h"
 #import "Grid.h"
 #import "Scheduler.h"
 #import "ccMacros.h"
-
 
 @interface CocosNode (Private)
 -(void) step_: (ccTime) dt;
@@ -39,13 +39,87 @@
 
 @implementation CocosNode
 
-@synthesize rotation, scaleX, scaleY, position, parallaxRatioX, parallaxRatioY;
 @synthesize visible;
-@synthesize transformAnchor, relativeTransformAnchor;
 @synthesize parent, children;
 @synthesize grid;
 @synthesize zOrder;
 @synthesize tag;
+
+#pragma mark CocosNode - Transform related properties
+
+@synthesize rotation=_rotation, scaleX=_scaleX, scaleY=_scaleY, position=_position;
+@synthesize transformAnchor=_transformAnchor, relativeTransformAnchor=_relativeTransformAnchor;
+@synthesize parallaxRatioX, parallaxRatioY;
+
+// Compiler will synthesize only getters if it finds setters
+-(void) setRotation: (float)newRotation
+{
+	_rotation = newRotation;
+	isTransformDirty = isInverseDirty = YES;
+}
+
+-(void) setScaleX: (float)newScaleX
+{
+	_scaleX = newScaleX;
+	isTransformDirty = isInverseDirty = YES;
+}
+
+-(void) setScaleY: (float)newScaleY
+{
+	_scaleY = newScaleY;
+	isTransformDirty = isInverseDirty = YES;
+}
+
+-(void) setPosition: (CGPoint)newPosition
+{
+	_position = newPosition;
+	isTransformDirty = isInverseDirty = YES;
+}
+
+-(void) setTransformAnchor: (CGPoint)newTransformAnchor
+{
+	_transformAnchor = newTransformAnchor;
+	isTransformDirty = isInverseDirty = YES;
+}
+
+-(void) setRelativeTransformAnchor: (BOOL)newValue
+{
+	_relativeTransformAnchor = newValue;
+	isTransformDirty = isInverseDirty = YES;
+}
+
+-(float) scale
+{
+	if( _scaleX == _scaleY)
+		return _scaleX;
+	else
+		[NSException raise:@"CocosNode scale:" format:@"scaleX is different from scaleY"];
+	
+	return 0;
+}
+
+-(void) setScale:(float) s
+{
+	_scaleX = _scaleY = s;
+	isTransformDirty = isInverseDirty = YES;
+}
+
+-(float) parallaxRatio
+{
+	if( parallaxRatioX == parallaxRatioY)
+		return parallaxRatioX;
+	else
+		[NSException raise:@"CocosNode parallaxRatio:" format:@"parallaxRatioX is different from parallaxRatioY"];
+	
+	return 0;
+}
+
+-(void) setParallaxRatio:(float) p
+{
+	parallaxRatioX = parallaxRatioY = p;
+}
+
+#pragma mark CocosNode - Init & cleanup
 
 +(id) node
 {
@@ -59,20 +133,22 @@
 	
 	isRunning = NO;
 	
-	position = cpvzero;
 	
-	rotation = 0.0f;		// 0 degrees	
-	scaleX = 1.0f;			// scale factor
-	scaleY = 1.0f;
-	parallaxRatioX = 1.0f;
-	parallaxRatioY = 1.0f;
-
+	_rotation = 0.0f;
+	_scaleX = _scaleY = 1.0f;
+	_position = cpvzero;
+	_transformAnchor = cpvzero;
+	_relativeTransformAnchor = YES; // "whole screen" objects should set it to NO, like Scenes and Layers
+	
+	isTransformDirty = isInverseDirty = YES;
+	
+	parallaxRatioX = parallaxRatioY = 1.0f;
+	
+	
 	grid = nil;
 	
 	visible = YES;
 
-	transformAnchor = cpvzero;
-	
 	tag = kCocosNodeTagInvalid;
 	
 	zOrder = 0;
@@ -91,10 +167,6 @@
 	// scheduled selectors (lazy allocs)
 	scheduledSelectors = nil;
 	
-	// default.
-	// "whole screen" objects should set it to NO, like Scenes and Layers
-	relativeTransformAnchor = YES;
-
 	return self;
 }
 
@@ -318,7 +390,7 @@
 
 -(cpVect) absolutePosition
 {
-	cpVect ret = position;
+	cpVect ret = _position;
 	
 	CocosNode *cn = self;
 	
@@ -430,6 +502,9 @@
 	if ( !(grid && grid.active) )
 		[camera locate];
 	
+	//
+	// BEGIN original implementation
+	// 
 	float parallaxOffsetX = 0;
 	float parallaxOffsetY = 0;
 	
@@ -441,58 +516,47 @@
 	
 	// transformations
 	
-	// transalte
-	if ( relativeTransformAnchor && (transformAnchor.x != 0 || transformAnchor.y != 0 ) )
-		glTranslatef( -transformAnchor.x + parallaxOffsetX, -transformAnchor.y + parallaxOffsetY, 0);
+	// translate
+	if ( _relativeTransformAnchor && (_transformAnchor.x != 0 || _transformAnchor.y != 0 ) )
+		glTranslatef( -_transformAnchor.x + parallaxOffsetX, -_transformAnchor.y + parallaxOffsetY, 0);
 	
-	if (transformAnchor.x != 0 || transformAnchor.y != 0 )
-		glTranslatef( position.x + transformAnchor.x + parallaxOffsetX, position.y + transformAnchor.y + parallaxOffsetY, 0);
-	else if ( position.x !=0 || position.y !=0 || parallaxOffsetX != 0 || parallaxOffsetY != 0)
-		glTranslatef( position.x + parallaxOffsetX, position.y + parallaxOffsetY, 0 );
+	if (_transformAnchor.x != 0 || _transformAnchor.y != 0 )
+		glTranslatef( _position.x + _transformAnchor.x + parallaxOffsetX, _position.y + _transformAnchor.y + parallaxOffsetY, 0);
+	else if ( _position.x !=0 || _position.y !=0 || parallaxOffsetX != 0 || parallaxOffsetY != 0)
+		glTranslatef( _position.x + parallaxOffsetX, _position.y + parallaxOffsetY, 0 );
 	
 	// rotate
-	if (rotation != 0.0f )
-		glRotatef( -rotation, 0.0f, 0.0f, 1.0f );
+	if (_rotation != 0.0f )
+		glRotatef( -_rotation, 0.0f, 0.0f, 1.0f );
 	
 	// scale
-	if (scaleX != 1.0f || scaleY != 1.0f)
-		glScalef( scaleX, scaleY, 1.0f );
+	if (_scaleX != 1.0f || _scaleY != 1.0f)
+		glScalef( _scaleX, _scaleY, 1.0f );
 	
 	// restore and re-position point
-	if (transformAnchor.x != 0.0f || transformAnchor.y != 0.0f)
-		glTranslatef(-transformAnchor.x + parallaxOffsetX, -transformAnchor.y + parallaxOffsetY, 0);
-}
-
--(float) scale
-{
-	if( scaleX == scaleY)
-		return scaleX;
-	else
-		[NSException raise:@"CocosNode scale:" format:@"scaleX is different from scaleY"];
+	if (_transformAnchor.x != 0.0f || _transformAnchor.y != 0.0f)
+		glTranslatef(-_transformAnchor.x + parallaxOffsetX, -_transformAnchor.y + parallaxOffsetY, 0);
+	//
+	// END original implementation
+	//
 	
-	return 0;
+	// alternative -- using cached transform
+	/*
+	 static GLfloat m[16];
+	 CGAffineTransform t = [self nodeToParentTransform];
+	 CGAffineToGL(&t, m);
+	 glMultMatrixf(m);
+	 */
+	// for reference -- equivalent GL calls
+	/*
+	 if ( !_relativeTransformAnchor )
+	   glTranslatef( _transformAnchor.x, _transformAnchor.y, 0 );
+	 glTranslatef( _position.x, _position.y, 0 );
+	 glRotatef( -_rotation, 0, 0, 1 );
+	 glScalef( _scaleX, _scaleY, 1 );
+	 glTranslatef( -_transformAnchor.x, -_transformAnchor.y, 0 );
+	 */
 }
-
--(void) setScale:(float) s
-{
-	scaleX = scaleY = s;
-}
-
--(float) parallaxRatio
-{
-	if( parallaxRatioX == parallaxRatioY)
-		return parallaxRatioX;
-	else
-		[NSException raise:@"CocosNode parallaxRatio:" format:@"parallaxRatioX is different from parallaxRatioY"];
-	
-	return 0;
-}
-
--(void) setParallaxRatio:(float) p
-{
-	parallaxRatioX = parallaxRatioY = p;
-}
-
 
 #pragma mark CocosNode SceneManagement
 

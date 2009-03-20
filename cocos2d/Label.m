@@ -81,7 +81,7 @@
 	else
 		texture = [[Texture2D alloc] initWithString:string dimensions:_dimensions alignment:_alignment fontName:_fontName fontSize:_fontSize];
 	CGSize s = texture.contentSize;
-	transformAnchor = cpv( s.width/2, s.height/2);
+	self.transformAnchor = cpv( s.width/2, s.height/2);
 }
 
 - (void) dealloc
