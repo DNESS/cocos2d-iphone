@@ -27,8 +27,8 @@
  */
 
 // 0x00 HI ME LO
-// 00   00 08 00
-#define COCOS2D_VERSION 0x00000800
+// 00   00 07 02
+#define COCOS2D_VERSION 0x00000702
 
 //
 // all cocos2d include files
@@ -38,7 +38,6 @@
 #import "CameraAction.h"
 #import "CocosNode.h"
 #import "Director.h"
-#import "TouchDispatcher.h"
 #import "InstantAction.h"
 #import "IntervalAction.h"
 #import "EaseAction.h"
@@ -46,9 +45,8 @@
 #import "Layer.h"
 #import "Menu.h"
 #import "MenuItem.h"
-#import "ParticleSystem.h"
-#import "BigParticleSystem.h"
-#import "ParticleExamples.h"
+#import "Particle.h"
+#import "ParticleSystems.h"
 #import "Primitives.h"
 #import "Scene.h"
 #import "Scheduler.h"
@@ -68,7 +66,6 @@
 #import "GridAction.h"
 #import "AtlasSprite.h"
 #import "AtlasSpriteManager.h"
-#import "BitmapFontAtlas.h"
 
 //
 // cocos2d macros

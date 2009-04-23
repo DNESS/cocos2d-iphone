@@ -24,7 +24,7 @@
 #import <OpenGLES/ES1/gl.h>
 
 // cocos2d
-#import "ParticleSystem.h"
+#import "Particle.h"
 #import "Primitives.h"
 #import "TextureMgr.h"
 #import "ccMacros.h"
@@ -49,7 +49,6 @@
 @synthesize size, sizeVar;
 @synthesize gravity;
 @synthesize texture;
-@synthesize blendAdditive;
 
 -(id) init {
 	NSException* myException = [NSException
@@ -322,5 +321,3 @@
 	return (particleCount == totalParticles);
 }
 @end
-
-

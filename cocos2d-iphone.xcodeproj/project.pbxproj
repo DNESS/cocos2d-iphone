@@ -237,11 +237,11 @@
 		50379A780F913F9E00986724 /* libChipmunk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50B2C4D10E100AEA00AE9530 /* libChipmunk.a */; };
 		5037AF1E0F49B980004DCA1F /* logo-mipmap.pvr in Resources */ = {isa = PBXBuildFile; fileRef = 5037AF1C0F49B980004DCA1F /* logo-mipmap.pvr */; };
 		5037AF1F0F49B980004DCA1F /* logo-nomipmap.pvr in Resources */ = {isa = PBXBuildFile; fileRef = 5037AF1D0F49B980004DCA1F /* logo-nomipmap.pvr */; };
-		5038B6B20E196CD8009A621E /* ParticleSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 5038B6B00E196CD8009A621E /* ParticleSystem.h */; };
-		5038B6B30E196CD8009A621E /* ParticleSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5038B6B10E196CD8009A621E /* ParticleSystem.m */; };
+		5038B6B20E196CD8009A621E /* Particle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5038B6B00E196CD8009A621E /* Particle.h */; };
+		5038B6B30E196CD8009A621E /* Particle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5038B6B10E196CD8009A621E /* Particle.m */; };
 		503A2B070F64B26D00E436AB /* grossini_dance_atlas.pvr in Resources */ = {isa = PBXBuildFile; fileRef = 503A2B060F64B26D00E436AB /* grossini_dance_atlas.pvr */; };
-		504055B00E3230BD00213FEF /* ParticleExamples.h in Headers */ = {isa = PBXBuildFile; fileRef = 504055AE0E3230BD00213FEF /* ParticleExamples.h */; };
-		504055B10E3230BD00213FEF /* ParticleExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = 504055AF0E3230BD00213FEF /* ParticleExamples.m */; };
+		504055B00E3230BD00213FEF /* ParticleSystems.h in Headers */ = {isa = PBXBuildFile; fileRef = 504055AE0E3230BD00213FEF /* ParticleSystems.h */; };
+		504055B10E3230BD00213FEF /* ParticleSystems.m in Sources */ = {isa = PBXBuildFile; fileRef = 504055AF0E3230BD00213FEF /* ParticleSystems.m */; };
 		50405A140E3296AC00213FEF /* stars.png in Resources */ = {isa = PBXBuildFile; fileRef = 50405A130E3296AC00213FEF /* stars.png */; };
 		50405A200E32A15500213FEF /* smoke.png in Resources */ = {isa = PBXBuildFile; fileRef = 50405A1F0E32A15500213FEF /* smoke.png */; };
 		504828920F45AF3600A30CEF /* libcocos2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5018F24D0DFDEAC400C013A5 /* libcocos2d.a */; };
@@ -324,6 +324,9 @@
 		505B639E0F2F4210001B4104 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D500B990D5A79CF00DBA0E3 /* QuartzCore.framework */; };
 		505B639F0F2F4210001B4104 /* libcocos2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5018F24D0DFDEAC400C013A5 /* libcocos2d.a */; };
 		505B63A80F2F4295001B4104 /* EaseActionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 505B63A70F2F4295001B4104 /* EaseActionsTest.m */; };
+		505CC1840F62BB7A000EDF26 /* CocosNodePerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 505CC17D0F62BB7A000EDF26 /* CocosNodePerformance.m */; };
+		505CC1850F62BB7A000EDF26 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 505CC17F0F62BB7A000EDF26 /* AppController.m */; };
+		505CC1860F62BB7A000EDF26 /* MainScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 505CC1810F62BB7A000EDF26 /* MainScene.m */; };
 		505CC1B20F62BC6F000EDF26 /* b1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5001659D0E72DB470085673F /* b1.png */; };
 		505CC1B30F62BC6F000EDF26 /* b2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5001659E0E72DB470085673F /* b2.png */; };
 		505CC1B40F62BC6F000EDF26 /* f1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5001659F0E72DB470085673F /* f1.png */; };
@@ -377,12 +380,6 @@
 		506144030E589A2E003CCDB7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D500B990D5A79CF00DBA0E3 /* QuartzCore.framework */; };
 		506144040E589A2E003CCDB7 /* libcocos2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5018F24D0DFDEAC400C013A5 /* libcocos2d.a */; };
 		5061440D0E589A7B003CCDB7 /* cocosnodeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5061440C0E589A7B003CCDB7 /* cocosnodeTest.m */; };
-		506414ED0F9C7021007A7B24 /* BitmapFontAtlas.h in Headers */ = {isa = PBXBuildFile; fileRef = 506414EB0F9C7021007A7B24 /* BitmapFontAtlas.h */; };
-		506414EE0F9C7021007A7B24 /* BitmapFontAtlas.m in Sources */ = {isa = PBXBuildFile; fileRef = 506414EC0F9C7021007A7B24 /* BitmapFontAtlas.m */; };
-		5064164B0F9C9B24007A7B24 /* bitmapFontTest.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 506416490F9C9B24007A7B24 /* bitmapFontTest.fnt */; };
-		5064164C0F9C9B24007A7B24 /* bitmapFontTest.png in Resources */ = {isa = PBXBuildFile; fileRef = 5064164A0F9C9B24007A7B24 /* bitmapFontTest.png */; };
-		506417F00F9CBA72007A7B24 /* bitmapFontTest2.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 506417EE0F9CBA72007A7B24 /* bitmapFontTest2.fnt */; };
-		506417F10F9CBA72007A7B24 /* bitmapFontTest2.png in Resources */ = {isa = PBXBuildFile; fileRef = 506417EF0F9CBA72007A7B24 /* bitmapFontTest2.png */; };
 		506602110E38A70D000B500E /* Scheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = 5066020F0E38A70D000B500E /* Scheduler.h */; };
 		506602120E38A70D000B500E /* Scheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 506602100E38A70D000B500E /* Scheduler.m */; };
 		506881F80E95761200F943E5 /* b1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5001659D0E72DB470085673F /* b1.png */; };
@@ -665,8 +662,6 @@
 		50C93AA70E0BF6E000517B01 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D500B990D5A79CF00DBA0E3 /* QuartzCore.framework */; };
 		50C93AA80E0BF6E000517B01 /* libcocos2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5018F24D0DFDEAC400C013A5 /* libcocos2d.a */; };
 		50C93AC50E0BF8FC00517B01 /* SpritesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C93AC40E0BF8FC00517B01 /* SpritesTest.m */; };
-		50D413260F9A3FE00040C3C8 /* BigParticleSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 50D413240F9A3FE00040C3C8 /* BigParticleSystem.h */; };
-		50D413270F9A3FE00040C3C8 /* BigParticleSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D413250F9A3FE00040C3C8 /* BigParticleSystem.m */; };
 		50D56FAA0F3FABEC007CD6B9 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 50C1959C0EE4B90800829067 /* background.png */; };
 		50D56FAB0F3FABEC007CD6B9 /* r1.png in Resources */ = {isa = PBXBuildFile; fileRef = 500165990E72DB0E0085673F /* r1.png */; };
 		50D56FAC0F3FABEC007CD6B9 /* r2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5001659A0E72DB0E0085673F /* r2.png */; };
@@ -785,37 +780,7 @@
 		50E676A70F658B68003DAA90 /* grossinis_sister1.pvr in Resources */ = {isa = PBXBuildFile; fileRef = 50E676A60F658B68003DAA90 /* grossinis_sister1.pvr */; };
 		50F7B2780F28DE7C00057537 /* EaseAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 50F7B2760F28DE7C00057537 /* EaseAction.h */; };
 		50F7B2790F28DE7C00057537 /* EaseAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F7B2770F28DE7C00057537 /* EaseAction.m */; };
-		50F9924A0F9F183500767ABC /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F992450F9F183500767ABC /* AppController.m */; };
-		50F9924B0F9F183500767ABC /* CocosNodePerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F992470F9F183500767ABC /* CocosNodePerformance.m */; };
-		50F9924C0F9F183500767ABC /* MainScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F992490F9F183500767ABC /* MainScene.m */; };
-		50F992640F9F188700767ABC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B2CB250E10EE4A00AE9530 /* Icon.png */; };
-		50F992650F9F188700767ABC /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = 501CD16A0E99873000B86F68 /* fps_images.png */; };
-		50F992690F9F188700767ABC /* b1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5001659D0E72DB470085673F /* b1.png */; };
-		50F9926A0F9F188700767ABC /* b2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5001659E0E72DB470085673F /* b2.png */; };
-		50F9926B0F9F188700767ABC /* f1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5001659F0E72DB470085673F /* f1.png */; };
-		50F9926C0F9F188700767ABC /* f2.png in Resources */ = {isa = PBXBuildFile; fileRef = 500165A00E72DB470085673F /* f2.png */; };
-		50F9926D0F9F188700767ABC /* r1.png in Resources */ = {isa = PBXBuildFile; fileRef = 500165990E72DB0E0085673F /* r1.png */; };
-		50F9926E0F9F188700767ABC /* r2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5001659A0E72DB0E0085673F /* r2.png */; };
-		50F9926F0F9F188700767ABC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B2CB240E10EE4A00AE9530 /* Default.png */; };
-		50F992B40F9F188700767ABC /* fire.pvr in Resources */ = {isa = PBXBuildFile; fileRef = 502AACF20F79715D001E3F87 /* fire.pvr */; };
-		50F992B60F9F188700767ABC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B2CB170E10EE0800AE9530 /* main.m */; };
-		50F992BB0F9F188700767ABC /* libcocos2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5018F24D0DFDEAC400C013A5 /* libcocos2d.a */; };
-		50F992BC0F9F188700767ABC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 505CC1CB0F62BCEF000EDF26 /* CoreGraphics.framework */; };
-		50F992BD0F9F188700767ABC /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 505CC1CD0F62BCEF000EDF26 /* OpenGLES.framework */; };
-		50F992BE0F9F188700767ABC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 505CC1CF0F62BD1C000EDF26 /* Foundation.framework */; };
-		50F992BF0F9F188700767ABC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 505CC1D10F62BD24000EDF26 /* UIKit.framework */; };
-		50F992C00F9F188700767ABC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 505CC1D30F62BD2B000EDF26 /* QuartzCore.framework */; };
-		50F998E90F9F273600767ABC /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 50F9EA8F0E1AE87E000E7616 /* fire.png */; };
-		50F998EA0F9F273600767ABC /* stars.png in Resources */ = {isa = PBXBuildFile; fileRef = 50405A130E3296AC00213FEF /* stars.png */; };
-		50F998EB0F9F273600767ABC /* smoke.png in Resources */ = {isa = PBXBuildFile; fileRef = 50405A1F0E32A15500213FEF /* smoke.png */; };
-		50F998F30F9F277D00767ABC /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F998EE0F9F277D00767ABC /* AppController.m */; };
-		50F998F50F9F277D00767ABC /* MainScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F998F20F9F277D00767ABC /* MainScene.m */; };
 		50F9E8170E1AA34E000E7616 /* ccTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 50F9E8160E1AA34E000E7616 /* ccTypes.h */; };
-		6F167CBD0F9EF1D800843D49 /* TargetedTouchDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F167CB80F9EF1D800843D49 /* TargetedTouchDelegate.h */; };
-		6F167CBE0F9EF1D800843D49 /* TouchDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F167CB90F9EF1D800843D49 /* TouchDispatcher.h */; };
-		6F167CBF0F9EF1D800843D49 /* TouchDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F167CBA0F9EF1D800843D49 /* TouchDispatcher.m */; };
-		6F167CC00F9EF1D800843D49 /* TouchHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F167CBB0F9EF1D800843D49 /* TouchHandler.h */; };
-		6F167CC10F9EF1D800843D49 /* TouchHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F167CBC0F9EF1D800843D49 /* TouchHandler.m */; };
 		6F8321EF0F8BD08E00CBAD06 /* ccArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8321EE0F8BD08E00CBAD06 /* ccArray.h */; };
 		8E3FC8920F7B8BE900B3E5DE /* trance-loop.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 8E3FC8910F7B8BE900B3E5DE /* trance-loop.ogg */; };
 		8E3FC8950F7B8C0600B3E5DE /* ATTRIBUTION in Resources */ = {isa = PBXBuildFile; fileRef = 8E3FC8940F7B8C0600B3E5DE /* ATTRIBUTION */; };
@@ -1090,13 +1055,6 @@
 			remoteGlobalIDString = 5018F24C0DFDEAC400C013A5;
 			remoteInfo = cocos2d;
 		};
-		50F992540F9F188700767ABC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5018F24C0DFDEAC400C013A5;
-			remoteInfo = cocos2d;
-		};
 		8E6CBF310F7A78F800D47B3A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -1250,11 +1208,11 @@
 		503798C50F912C2000986724 /* CGPointExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGPointExtension.m; sourceTree = "<group>"; };
 		5037AF1C0F49B980004DCA1F /* logo-mipmap.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = "logo-mipmap.pvr"; sourceTree = "<group>"; };
 		5037AF1D0F49B980004DCA1F /* logo-nomipmap.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = "logo-nomipmap.pvr"; sourceTree = "<group>"; };
-		5038B6B00E196CD8009A621E /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleSystem.h; sourceTree = "<group>"; };
-		5038B6B10E196CD8009A621E /* ParticleSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticleSystem.m; sourceTree = "<group>"; };
+		5038B6B00E196CD8009A621E /* Particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Particle.h; sourceTree = "<group>"; };
+		5038B6B10E196CD8009A621E /* Particle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Particle.m; sourceTree = "<group>"; };
 		503A2B060F64B26D00E436AB /* grossini_dance_atlas.pvr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grossini_dance_atlas.pvr; sourceTree = "<group>"; };
-		504055AE0E3230BD00213FEF /* ParticleExamples.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleExamples.h; sourceTree = "<group>"; };
-		504055AF0E3230BD00213FEF /* ParticleExamples.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticleExamples.m; sourceTree = "<group>"; };
+		504055AE0E3230BD00213FEF /* ParticleSystems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleSystems.h; sourceTree = "<group>"; };
+		504055AF0E3230BD00213FEF /* ParticleSystems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticleSystems.m; sourceTree = "<group>"; };
 		50405A130E3296AC00213FEF /* stars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stars.png; sourceTree = "<group>"; };
 		50405A1F0E32A15500213FEF /* smoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smoke.png; sourceTree = "<group>"; };
 		504828800F45AED700A30CEF /* AttachTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AttachTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1274,7 +1232,13 @@
 		505B63A30F2F4210001B4104 /* EaseActionsTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EaseActionsTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		505B63A60F2F4295001B4104 /* EaseActionsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EaseActionsTest.h; path = tests/EaseActionsTest.h; sourceTree = "<group>"; };
 		505B63A70F2F4295001B4104 /* EaseActionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EaseActionsTest.m; path = tests/EaseActionsTest.m; sourceTree = "<group>"; };
-		505CC1590F62BB03000EDF26 /* PerformanceSpriteTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PerformanceSpriteTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		505CC1590F62BB03000EDF26 /* PerformanceTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PerformanceTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		505CC17C0F62BB7A000EDF26 /* CocosNodePerformance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocosNodePerformance.h; sourceTree = "<group>"; };
+		505CC17D0F62BB7A000EDF26 /* CocosNodePerformance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CocosNodePerformance.m; sourceTree = "<group>"; };
+		505CC17E0F62BB7A000EDF26 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
+		505CC17F0F62BB7A000EDF26 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
+		505CC1800F62BB7A000EDF26 /* MainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScene.h; sourceTree = "<group>"; };
+		505CC1810F62BB7A000EDF26 /* MainScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScene.m; sourceTree = "<group>"; };
 		505CC1C90F62BCEE000EDF26 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		505CC1CB0F62BCEF000EDF26 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		505CC1CD0F62BCEF000EDF26 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1286,12 +1250,6 @@
 		5061440C0E589A7B003CCDB7 /* cocosnodeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = cocosnodeTest.m; path = tests/cocosnodeTest.m; sourceTree = "<group>"; };
 		50637A150E95397A000C9182 /* TextureAtlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureAtlas.h; sourceTree = "<group>"; };
 		50637A160E95397A000C9182 /* TextureAtlas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureAtlas.m; sourceTree = "<group>"; };
-		506414EB0F9C7021007A7B24 /* BitmapFontAtlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitmapFontAtlas.h; sourceTree = "<group>"; };
-		506414EC0F9C7021007A7B24 /* BitmapFontAtlas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BitmapFontAtlas.m; sourceTree = "<group>"; };
-		506416490F9C9B24007A7B24 /* bitmapFontTest.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bitmapFontTest.fnt; sourceTree = "<group>"; };
-		5064164A0F9C9B24007A7B24 /* bitmapFontTest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bitmapFontTest.png; sourceTree = "<group>"; };
-		506417EE0F9CBA72007A7B24 /* bitmapFontTest2.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bitmapFontTest2.fnt; sourceTree = "<group>"; };
-		506417EF0F9CBA72007A7B24 /* bitmapFontTest2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bitmapFontTest2.png; sourceTree = "<group>"; };
 		5066020F0E38A70D000B500E /* Scheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scheduler.h; sourceTree = "<group>"; };
 		506602100E38A70D000B500E /* Scheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scheduler.m; sourceTree = "<group>"; };
 		506881E60E9575E100F943E5 /* AtlasTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AtlasTest.h; path = tests/AtlasTest.h; sourceTree = "<group>"; };
@@ -1427,8 +1385,6 @@
 		50C93AAD0E0BF6E000517B01 /* SpritesTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpritesTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50C93AC30E0BF8FC00517B01 /* SpritesTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpritesTest.h; path = tests/SpritesTest.h; sourceTree = "<group>"; };
 		50C93AC40E0BF8FC00517B01 /* SpritesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpritesTest.m; path = tests/SpritesTest.m; sourceTree = "<group>"; };
-		50D413240F9A3FE00040C3C8 /* BigParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigParticleSystem.h; sourceTree = "<group>"; };
-		50D413250F9A3FE00040C3C8 /* BigParticleSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigParticleSystem.m; sourceTree = "<group>"; };
 		50D56FD20F3FABEC007CD6B9 /* EffectsAdvancedTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EffectsAdvancedTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D5700D0F3FAD3C007CD6B9 /* EffectsAdvancedTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectsAdvancedTest.h; path = tests/EffectsAdvancedTest.h; sourceTree = "<group>"; };
 		50D5700E0F3FAD3C007CD6B9 /* EffectsAdvancedTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EffectsAdvancedTest.m; path = tests/EffectsAdvancedTest.m; sourceTree = "<group>"; };
@@ -1504,24 +1460,8 @@
 		50E676A60F658B68003DAA90 /* grossinis_sister1.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = grossinis_sister1.pvr; sourceTree = "<group>"; };
 		50F7B2760F28DE7C00057537 /* EaseAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseAction.h; sourceTree = "<group>"; };
 		50F7B2770F28DE7C00057537 /* EaseAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseAction.m; sourceTree = "<group>"; };
-		50F992440F9F183500767ABC /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
-		50F992450F9F183500767ABC /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
-		50F992460F9F183500767ABC /* CocosNodePerformance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocosNodePerformance.h; sourceTree = "<group>"; };
-		50F992470F9F183500767ABC /* CocosNodePerformance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CocosNodePerformance.m; sourceTree = "<group>"; };
-		50F992480F9F183500767ABC /* MainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScene.h; sourceTree = "<group>"; };
-		50F992490F9F183500767ABC /* MainScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScene.m; sourceTree = "<group>"; };
-		50F992C40F9F188700767ABC /* PerformanceParticleTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PerformanceParticleTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		50F998ED0F9F277D00767ABC /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
-		50F998EE0F9F277D00767ABC /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
-		50F998F10F9F277D00767ABC /* MainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScene.h; sourceTree = "<group>"; };
-		50F998F20F9F277D00767ABC /* MainScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScene.m; sourceTree = "<group>"; };
 		50F9E8160E1AA34E000E7616 /* ccTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccTypes.h; sourceTree = "<group>"; };
 		50F9EA8F0E1AE87E000E7616 /* fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fire.png; sourceTree = "<group>"; };
-		6F167CB80F9EF1D800843D49 /* TargetedTouchDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TargetedTouchDelegate.h; sourceTree = "<group>"; };
-		6F167CB90F9EF1D800843D49 /* TouchDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDispatcher.h; sourceTree = "<group>"; };
-		6F167CBA0F9EF1D800843D49 /* TouchDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDispatcher.m; sourceTree = "<group>"; };
-		6F167CBB0F9EF1D800843D49 /* TouchHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchHandler.h; sourceTree = "<group>"; };
-		6F167CBC0F9EF1D800843D49 /* TouchHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchHandler.m; sourceTree = "<group>"; };
 		6F8321EE0F8BD08E00CBAD06 /* ccArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccArray.h; sourceTree = "<group>"; };
 		8E3FC8910F7B8BE900B3E5DE /* trance-loop.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = "trance-loop.ogg"; sourceTree = "<group>"; };
 		8E3FC8940F7B8C0600B3E5DE /* ATTRIBUTION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ATTRIBUTION; sourceTree = "<group>"; };
@@ -1940,19 +1880,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		50F992BA0F9F188700767ABC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				50F992BB0F9F188700767ABC /* libcocos2d.a in Frameworks */,
-				50F992BC0F9F188700767ABC /* CoreGraphics.framework in Frameworks */,
-				50F992BD0F9F188700767ABC /* OpenGLES.framework in Frameworks */,
-				50F992BE0F9F188700767ABC /* Foundation.framework in Frameworks */,
-				50F992BF0F9F188700767ABC /* UIKit.framework in Frameworks */,
-				50F992C00F9F188700767ABC /* QuartzCore.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8E6CBEED0F7A758000D47B3A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2008,12 +1935,11 @@
 				50A783C40F3AFCE500104C45 /* StreakTest.app */,
 				50D56FD20F3FABEC007CD6B9 /* EffectsAdvancedTest.app */,
 				504828800F45AED700A30CEF /* AttachTest.app */,
-				505CC1590F62BB03000EDF26 /* PerformanceSpriteTest.app */,
+				505CC1590F62BB03000EDF26 /* PerformanceTest.app */,
 				8EDF3ED80F6BDA0000F54643 /* SoundEngineTest.app */,
 				8E6CBEEF0F7A758000D47B3A /* libvorbis.a */,
 				501C7C910F91EFFF0024A296 /* AtlasSpriteTest.app */,
 				501945740F964C620059CE7C /* drawPrimitivesTest.app */,
-				50F992C40F9F188700767ABC /* PerformanceParticleTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2202,13 +2128,8 @@
 		5018F2510DFDEAFF00C013A5 /* cocos2d */ = {
 			isa = PBXGroup;
 			children = (
-				6F167CC20F9EF1DC00843D49 /* Touch Dispatcher */,
-				50A24F010F3788C6007CAEB0 /* Base Nodes */,
-				506414C50F9C67C0007A7B24 /* Labels and Tiles Nodes */,
-				506414C40F9C6792007A7B24 /* Sprite Nodes */,
-				506414C60F9C6A3D007A7B24 /* Menu Nodes */,
-				506414C30F9C6769007A7B24 /* Scene Nodes */,
-				50A24E890F378119007CAEB0 /* Particle Nodes */,
+				50A24F010F3788C6007CAEB0 /* Nodes */,
+				50A24E890F378119007CAEB0 /* Particles */,
 				50A24E770F3780A2007CAEB0 /* Actions */,
 				50A24E760F378092007CAEB0 /* Effects */,
 				50305AF30E40E33200F63373 /* cocos2d.h */,
@@ -2286,56 +2207,18 @@
 			path = tests/attachDemo;
 			sourceTree = "<group>";
 		};
-		506414C30F9C6769007A7B24 /* Scene Nodes */ = {
+		505CC17B0F62BB7A000EDF26 /* PerformanceTest */ = {
 			isa = PBXGroup;
 			children = (
-				5018F2600DFDEAFF00C013A5 /* Scene.h */,
-				5018F2610DFDEAFF00C013A5 /* Scene.m */,
-				502B3E980E09A59500886982 /* Transition.h */,
-				502B3E990E09A59500886982 /* Transition.m */,
+				505CC17C0F62BB7A000EDF26 /* CocosNodePerformance.h */,
+				505CC17D0F62BB7A000EDF26 /* CocosNodePerformance.m */,
+				505CC17E0F62BB7A000EDF26 /* AppController.h */,
+				505CC17F0F62BB7A000EDF26 /* AppController.m */,
+				505CC1800F62BB7A000EDF26 /* MainScene.h */,
+				505CC1810F62BB7A000EDF26 /* MainScene.m */,
 			);
-			name = "Scene Nodes";
-			sourceTree = "<group>";
-		};
-		506414C40F9C6792007A7B24 /* Sprite Nodes */ = {
-			isa = PBXGroup;
-			children = (
-				5018F2620DFDEAFF00C013A5 /* Sprite.h */,
-				5018F2630DFDEAFF00C013A5 /* Sprite.m */,
-				509A79990F6188500032F449 /* AtlasSpriteManager.h */,
-				509A799A0F6188500032F449 /* AtlasSpriteManager.m */,
-				509A79950F6188420032F449 /* AtlasSprite.h */,
-				509A79960F6188420032F449 /* AtlasSprite.m */,
-			);
-			name = "Sprite Nodes";
-			sourceTree = "<group>";
-		};
-		506414C50F9C67C0007A7B24 /* Labels and Tiles Nodes */ = {
-			isa = PBXGroup;
-			children = (
-				5018F25C0DFDEAFF00C013A5 /* Label.h */,
-				5018F25D0DFDEAFF00C013A5 /* Label.m */,
-				506887D70E96C90000F943E5 /* AtlasNode.h */,
-				506887D80E96C90000F943E5 /* AtlasNode.m */,
-				506414EB0F9C7021007A7B24 /* BitmapFontAtlas.h */,
-				506414EC0F9C7021007A7B24 /* BitmapFontAtlas.m */,
-				506884700E96734A00F943E5 /* LabelAtlas.h */,
-				506884710E96734A00F943E5 /* LabelAtlas.m */,
-				506886540E96C6CC00F943E5 /* TileMapAtlas.h */,
-				506886550E96C6CC00F943E5 /* TileMapAtlas.m */,
-			);
-			name = "Labels and Tiles Nodes";
-			sourceTree = "<group>";
-		};
-		506414C60F9C6A3D007A7B24 /* Menu Nodes */ = {
-			isa = PBXGroup;
-			children = (
-				506C78EA0E0178FD00B48100 /* MenuItem.h */,
-				506C78EB0E0178FD00B48100 /* MenuItem.m */,
-				506C78A50E016A7300B48100 /* Menu.h */,
-				506C78A60E016A7300B48100 /* Menu.m */,
-			);
-			name = "Menu Nodes";
+			name = PerformanceTest;
+			path = tests/PerformanceTest;
 			sourceTree = "<group>";
 		};
 		509B3A100F31027600F2FB95 /* cocoslive */ = {
@@ -2385,30 +2268,50 @@
 			name = Actions;
 			sourceTree = "<group>";
 		};
-		50A24E890F378119007CAEB0 /* Particle Nodes */ = {
+		50A24E890F378119007CAEB0 /* Particles */ = {
 			isa = PBXGroup;
 			children = (
-				5038B6B00E196CD8009A621E /* ParticleSystem.h */,
-				5038B6B10E196CD8009A621E /* ParticleSystem.m */,
-				50D413240F9A3FE00040C3C8 /* BigParticleSystem.h */,
-				50D413250F9A3FE00040C3C8 /* BigParticleSystem.m */,
-				504055AE0E3230BD00213FEF /* ParticleExamples.h */,
-				504055AF0E3230BD00213FEF /* ParticleExamples.m */,
+				504055AE0E3230BD00213FEF /* ParticleSystems.h */,
+				504055AF0E3230BD00213FEF /* ParticleSystems.m */,
+				5038B6B00E196CD8009A621E /* Particle.h */,
+				5038B6B10E196CD8009A621E /* Particle.m */,
 			);
-			name = "Particle Nodes";
+			name = Particles;
 			sourceTree = "<group>";
 		};
-		50A24F010F3788C6007CAEB0 /* Base Nodes */ = {
+		50A24F010F3788C6007CAEB0 /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
 				5018F2540DFDEAFF00C013A5 /* CocosNode.h */,
 				5018F2550DFDEAFF00C013A5 /* CocosNode.m */,
+				509A79990F6188500032F449 /* AtlasSpriteManager.h */,
+				509A799A0F6188500032F449 /* AtlasSpriteManager.m */,
+				509A79950F6188420032F449 /* AtlasSprite.h */,
+				509A79960F6188420032F449 /* AtlasSprite.m */,
+				506884700E96734A00F943E5 /* LabelAtlas.h */,
+				506884710E96734A00F943E5 /* LabelAtlas.m */,
+				506886540E96C6CC00F943E5 /* TileMapAtlas.h */,
+				506886550E96C6CC00F943E5 /* TileMapAtlas.m */,
+				506887D70E96C90000F943E5 /* AtlasNode.h */,
+				506887D80E96C90000F943E5 /* AtlasNode.m */,
+				502B3E980E09A59500886982 /* Transition.h */,
+				502B3E990E09A59500886982 /* Transition.m */,
 				509E574A0E36234300BD7F09 /* TextureNode.h */,
 				509E574B0E36234300BD7F09 /* TextureNode.m */,
+				506C78EA0E0178FD00B48100 /* MenuItem.h */,
+				506C78EB0E0178FD00B48100 /* MenuItem.m */,
+				506C78A50E016A7300B48100 /* Menu.h */,
+				506C78A60E016A7300B48100 /* Menu.m */,
+				5018F25C0DFDEAFF00C013A5 /* Label.h */,
+				5018F25D0DFDEAFF00C013A5 /* Label.m */,
 				5018F25E0DFDEAFF00C013A5 /* Layer.h */,
 				5018F25F0DFDEAFF00C013A5 /* Layer.m */,
+				5018F2600DFDEAFF00C013A5 /* Scene.h */,
+				5018F2610DFDEAFF00C013A5 /* Scene.m */,
+				5018F2620DFDEAFF00C013A5 /* Sprite.h */,
+				5018F2630DFDEAFF00C013A5 /* Sprite.m */,
 			);
-			name = "Base Nodes";
+			name = Nodes;
 			sourceTree = "<group>";
 		};
 		50A783D30F3AFDB300104C45 /* experimental */ = {
@@ -2428,10 +2331,9 @@
 		50B130FC0DFE0923003BAB56 /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				505CC17B0F62BB7A000EDF26 /* PerformanceTest */,
 				504828C70F45B15700A30CEF /* attachDemo */,
 				50175B240F33B22300624901 /* cocosLiveDemo */,
-				50F992430F9F183500767ABC /* PerformanceSpriteTest */,
-				50F998EC0F9F277D00767ABC /* PerformanceParticleTest */,
 				317070360E29409E00DD3360 /* AccelViewportTest.h */,
 				317070350E29409E00DD3360 /* AccelViewportTest.m */,
 				506881E60E9575E100F943E5 /* AtlasTest.h */,
@@ -2480,10 +2382,6 @@
 			isa = PBXGroup;
 			children = (
 				50E675CD0F65857D003DAA90 /* sprites_test */,
-				506417EE0F9CBA72007A7B24 /* bitmapFontTest2.fnt */,
-				506417EF0F9CBA72007A7B24 /* bitmapFontTest2.png */,
-				506416490F9C9B24007A7B24 /* bitmapFontTest.fnt */,
-				5064164A0F9C9B24007A7B24 /* bitmapFontTest.png */,
 				5085BFAD0F7D67FF008DBA21 /* snow.png */,
 				502AACF20F79715D001E3F87 /* fire.pvr */,
 				8EDF3FD90F6BE3F400F54643 /* listener-marker.png */,
@@ -2623,44 +2521,6 @@
 			path = sprites_test;
 			sourceTree = "<group>";
 		};
-		50F992430F9F183500767ABC /* PerformanceSpriteTest */ = {
-			isa = PBXGroup;
-			children = (
-				50F992440F9F183500767ABC /* AppController.h */,
-				50F992450F9F183500767ABC /* AppController.m */,
-				50F992460F9F183500767ABC /* CocosNodePerformance.h */,
-				50F992470F9F183500767ABC /* CocosNodePerformance.m */,
-				50F992480F9F183500767ABC /* MainScene.h */,
-				50F992490F9F183500767ABC /* MainScene.m */,
-			);
-			name = PerformanceSpriteTest;
-			path = tests/PerformanceSpriteTest;
-			sourceTree = "<group>";
-		};
-		50F998EC0F9F277D00767ABC /* PerformanceParticleTest */ = {
-			isa = PBXGroup;
-			children = (
-				50F998ED0F9F277D00767ABC /* AppController.h */,
-				50F998EE0F9F277D00767ABC /* AppController.m */,
-				50F998F10F9F277D00767ABC /* MainScene.h */,
-				50F998F20F9F277D00767ABC /* MainScene.m */,
-			);
-			name = PerformanceParticleTest;
-			path = tests/PerformanceParticleTest;
-			sourceTree = "<group>";
-		};
-		6F167CC20F9EF1DC00843D49 /* Touch Dispatcher */ = {
-			isa = PBXGroup;
-			children = (
-				6F167CB80F9EF1D800843D49 /* TargetedTouchDelegate.h */,
-				6F167CB90F9EF1D800843D49 /* TouchDispatcher.h */,
-				6F167CBA0F9EF1D800843D49 /* TouchDispatcher.m */,
-				6F167CBB0F9EF1D800843D49 /* TouchHandler.h */,
-				6F167CBC0F9EF1D800843D49 /* TouchHandler.m */,
-			);
-			name = "Touch Dispatcher";
-			sourceTree = "<group>";
-		};
 		8E6CBE5F0F7A5A3E00D47B3A /* Tremor */ = {
 			isa = PBXGroup;
 			children = (
@@ -2766,9 +2626,9 @@
 				509E66F00E06E1360050992C /* CameraAction.h in Headers */,
 				502B3E9A0E09A59500886982 /* Transition.h in Headers */,
 				50B2CCCE0E119B8E00AE9530 /* Primitives.h in Headers */,
-				5038B6B20E196CD8009A621E /* ParticleSystem.h in Headers */,
+				5038B6B20E196CD8009A621E /* Particle.h in Headers */,
 				50F9E8170E1AA34E000E7616 /* ccTypes.h in Headers */,
-				504055B00E3230BD00213FEF /* ParticleExamples.h in Headers */,
+				504055B00E3230BD00213FEF /* ParticleSystems.h in Headers */,
 				509E574C0E36234300BD7F09 /* TextureNode.h in Headers */,
 				506602110E38A70D000B500E /* Scheduler.h in Headers */,
 				50305AF40E40E33200F63373 /* cocos2d.h in Headers */,
@@ -2792,11 +2652,6 @@
 				50C508C60F7C194400799124 /* FileUtils.h in Headers */,
 				6F8321EF0F8BD08E00CBAD06 /* ccArray.h in Headers */,
 				503798C60F912C2000986724 /* CGPointExtension.h in Headers */,
-				50D413260F9A3FE00040C3C8 /* BigParticleSystem.h in Headers */,
-				506414ED0F9C7021007A7B24 /* BitmapFontAtlas.h in Headers */,
-				6F167CBD0F9EF1D800843D49 /* TargetedTouchDelegate.h in Headers */,
-				6F167CBE0F9EF1D800843D49 /* TouchDispatcher.h in Headers */,
-				6F167CC00F9EF1D800843D49 /* TouchHandler.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3048,9 +2903,9 @@
 			productReference = 505B63A30F2F4210001B4104 /* EaseActionsTest.app */;
 			productType = "com.apple.product-type.application";
 		};
-		505CC1580F62BB03000EDF26 /* PerformanceSpriteTest */ = {
+		505CC1580F62BB03000EDF26 /* PerformanceTest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 505CC15E0F62BB05000EDF26 /* Build configuration list for PBXNativeTarget "PerformanceSpriteTest" */;
+			buildConfigurationList = 505CC15E0F62BB05000EDF26 /* Build configuration list for PBXNativeTarget "PerformanceTest" */;
 			buildPhases = (
 				505CC1550F62BB03000EDF26 /* Resources */,
 				505CC1560F62BB03000EDF26 /* Sources */,
@@ -3061,9 +2916,9 @@
 			dependencies = (
 				505CC1C40F62BCCB000EDF26 /* PBXTargetDependency */,
 			);
-			name = PerformanceSpriteTest;
+			name = PerformanceTest;
 			productName = PerformanceTest;
-			productReference = 505CC1590F62BB03000EDF26 /* PerformanceSpriteTest.app */;
+			productReference = 505CC1590F62BB03000EDF26 /* PerformanceTest.app */;
 			productType = "com.apple.product-type.application";
 		};
 		506143F10E589A2E003CCDB7 /* cocosnodeTest */ = {
@@ -3408,24 +3263,6 @@
 			productReference = 50DB1BCA0E1C1E5900A89DFF /* ParticleTest.app */;
 			productType = "com.apple.product-type.application";
 		};
-		50F992520F9F188700767ABC /* PerformanceParticleTest */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 50F992C10F9F188700767ABC /* Build configuration list for PBXNativeTarget "PerformanceParticleTest" */;
-			buildPhases = (
-				50F992550F9F188700767ABC /* Resources */,
-				50F992B50F9F188700767ABC /* Sources */,
-				50F992BA0F9F188700767ABC /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				50F992530F9F188700767ABC /* PBXTargetDependency */,
-			);
-			name = PerformanceParticleTest;
-			productName = PerformanceTest;
-			productReference = 50F992C40F9F188700767ABC /* PerformanceParticleTest.app */;
-			productType = "com.apple.product-type.application";
-		};
 		8E6CBEEE0F7A758000D47B3A /* vorbis */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8E6CBEF20F7A759F00D47B3A /* Build configuration list for PBXNativeTarget "vorbis" */;
@@ -3497,8 +3334,7 @@
 				506C79F20E01C73A00B48100 /* MenuTest */,
 				50C1953E0EE4B57E00829067 /* ParallaxTest */,
 				50DB1BB10E1C1E5900A89DFF /* ParticleTest */,
-				50F992520F9F188700767ABC /* PerformanceParticleTest */,
-				505CC1580F62BB03000EDF26 /* PerformanceSpriteTest */,
+				505CC1580F62BB03000EDF26 /* PerformanceTest */,
 				502C66170DFEFCCA00E4107D /* RotateWorldTest */,
 				506C7FF70E041C9300B48100 /* SceneTest */,
 				8EDF3EA90F6BDA0000F54643 /* SoundEngineTest (experimental) */,
@@ -3820,10 +3656,6 @@
 				501CD1760E99873000B86F68 /* fps_images.png in Resources */,
 				509A7A980F61A2400032F449 /* grossini_dance_atlas.png in Resources */,
 				502AACF50F79715E001E3F87 /* fire.pvr in Resources */,
-				5064164B0F9C9B24007A7B24 /* bitmapFontTest.fnt in Resources */,
-				5064164C0F9C9B24007A7B24 /* bitmapFontTest.png in Resources */,
-				506417F00F9CBA72007A7B24 /* bitmapFontTest2.fnt in Resources */,
-				506417F10F9CBA72007A7B24 /* bitmapFontTest2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4113,26 +3945,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		50F992550F9F188700767ABC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				50F992640F9F188700767ABC /* Icon.png in Resources */,
-				50F992650F9F188700767ABC /* fps_images.png in Resources */,
-				50F992690F9F188700767ABC /* b1.png in Resources */,
-				50F9926A0F9F188700767ABC /* b2.png in Resources */,
-				50F9926B0F9F188700767ABC /* f1.png in Resources */,
-				50F9926C0F9F188700767ABC /* f2.png in Resources */,
-				50F9926D0F9F188700767ABC /* r1.png in Resources */,
-				50F9926E0F9F188700767ABC /* r2.png in Resources */,
-				50F998E90F9F273600767ABC /* fire.png in Resources */,
-				50F998EA0F9F273600767ABC /* stars.png in Resources */,
-				50F998EB0F9F273600767ABC /* smoke.png in Resources */,
-				50F9926F0F9F188700767ABC /* Default.png in Resources */,
-				50F992B40F9F188700767ABC /* fire.pvr in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8EDF3F0D0F6BDCF800F54643 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4210,8 +4022,8 @@
 				509E66F10E06E1360050992C /* CameraAction.m in Sources */,
 				502B3E9B0E09A59500886982 /* Transition.m in Sources */,
 				50B2CCCF0E119B8E00AE9530 /* Primitives.m in Sources */,
-				5038B6B30E196CD8009A621E /* ParticleSystem.m in Sources */,
-				504055B10E3230BD00213FEF /* ParticleExamples.m in Sources */,
+				5038B6B30E196CD8009A621E /* Particle.m in Sources */,
+				504055B10E3230BD00213FEF /* ParticleSystems.m in Sources */,
 				509E574D0E36234300BD7F09 /* TextureNode.m in Sources */,
 				506602120E38A70D000B500E /* Scheduler.m in Sources */,
 				50A07B7B0E4CBCD300AAF0BB /* cocos2d.m in Sources */,
@@ -4231,10 +4043,6 @@
 				509A799C0F6188500032F449 /* AtlasSpriteManager.m in Sources */,
 				50C508C70F7C194400799124 /* FileUtils.m in Sources */,
 				503798C70F912C2000986724 /* CGPointExtension.m in Sources */,
-				50D413270F9A3FE00040C3C8 /* BigParticleSystem.m in Sources */,
-				506414EE0F9C7021007A7B24 /* BitmapFontAtlas.m in Sources */,
-				6F167CBF0F9EF1D800843D49 /* TouchDispatcher.m in Sources */,
-				6F167CC10F9EF1D800843D49 /* TouchHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4304,9 +4112,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				505CC1D70F62BD59000EDF26 /* main.m in Sources */,
-				50F9924A0F9F183500767ABC /* AppController.m in Sources */,
-				50F9924B0F9F183500767ABC /* CocosNodePerformance.m in Sources */,
-				50F9924C0F9F183500767ABC /* MainScene.m in Sources */,
+				505CC1840F62BB7A000EDF26 /* CocosNodePerformance.m in Sources */,
+				505CC1850F62BB7A000EDF26 /* AppController.m in Sources */,
+				505CC1860F62BB7A000EDF26 /* MainScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4512,16 +4320,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		50F992B50F9F188700767ABC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				50F992B60F9F188700767ABC /* main.m in Sources */,
-				50F998F30F9F277D00767ABC /* AppController.m in Sources */,
-				50F998F50F9F277D00767ABC /* MainScene.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8E6CBEEC0F7A758000D47B3A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4700,11 +4498,6 @@
 			target = 5018F24C0DFDEAC400C013A5 /* cocos2d */;
 			targetProxy = 50DB1BB30E1C1E5900A89DFF /* PBXContainerItemProxy */;
 		};
-		50F992530F9F188700767ABC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5018F24C0DFDEAC400C013A5 /* cocos2d */;
-			targetProxy = 50F992540F9F188700767ABC /* PBXContainerItemProxy */;
-		};
 		8E6CBF320F7A78F800D47B3A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8E6CBEEE0F7A758000D47B3A /* vorbis */;
@@ -4782,10 +4575,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				GCC_THUMB_SUPPORT = NO;
-				GCC_WARN_PEDANTIC = NO;
-				GCC_WARN_SHADOW = NO;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_PARAMETER = NO;
 				PREBINDING = NO;
 				PRODUCT_NAME = cocos2d;
 			};
@@ -4800,10 +4589,6 @@
 				DOXYGEN_PATH = /Applications/Doxygen.app/Contents/Resources/doxygen;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_THUMB_SUPPORT = NO;
-				GCC_WARN_PEDANTIC = NO;
-				GCC_WARN_SHADOW = NO;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_PARAMETER = NO;
 				PREBINDING = NO;
 				PRODUCT_NAME = cocos2d;
 				ZERO_LINK = NO;
@@ -5176,7 +4961,7 @@
 					UIKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = PerformanceSpriteTest;
+				PRODUCT_NAME = PerformanceTest;
 				SDKROOT = iphoneos2.2.1;
 			};
 			name = Debug;
@@ -5201,7 +4986,7 @@
 					UIKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = PerformanceSpriteTest;
+				PRODUCT_NAME = PerformanceTest;
 				SDKROOT = iphoneos2.2.1;
 				ZERO_LINK = NO;
 			};
@@ -5650,6 +5435,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -6160,57 +5946,6 @@
 			};
 			name = Release;
 		};
-		50F992C20F9F188700767ABC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
-				INFOPLIST_FILE = Resources/Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-framework",
-					Foundation,
-					"-framework",
-					UIKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = PerformanceParticleTest;
-				SDKROOT = iphoneos2.2.1;
-			};
-			name = Debug;
-		};
-		50F992C30F9F188700767ABC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
-				INFOPLIST_FILE = Resources/Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-framework",
-					Foundation,
-					"-framework",
-					UIKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = PerformanceParticleTest;
-				SDKROOT = iphoneos2.2.1;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		8E6CBEF00F7A758100D47B3A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -6255,6 +5990,7 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LD_GENERATE_MAP_FILE = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -6282,6 +6018,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LD_GENERATE_MAP_FILE = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -6451,7 +6188,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		505CC15E0F62BB05000EDF26 /* Build configuration list for PBXNativeTarget "PerformanceSpriteTest" */ = {
+		505CC15E0F62BB05000EDF26 /* Build configuration list for PBXNativeTarget "PerformanceTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				505CC15C0F62BB04000EDF26 /* Debug */,
@@ -6627,15 +6364,6 @@
 			buildConfigurations = (
 				50DB1BC80E1C1E5900A89DFF /* Debug */,
 				50DB1BC90E1C1E5900A89DFF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		50F992C10F9F188700767ABC /* Build configuration list for PBXNativeTarget "PerformanceParticleTest" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				50F992C20F9F188700767ABC /* Debug */,
-				50F992C30F9F188700767ABC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

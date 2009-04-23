@@ -28,22 +28,9 @@
 @end
 
 @interface Atlas3 : AtlasDemo
-{
-	ccTime		time;
-}
+{}
 @end
 
 @interface Atlas4 : AtlasDemo
-{
-	ccTime		time;
-}
-@end
-
-@interface Atlas5 : AtlasDemo
 {}
 @end
-
-@interface Atlas6 : AtlasDemo
-{}
-@end
-

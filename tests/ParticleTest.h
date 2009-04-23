@@ -11,17 +11,11 @@
 @end
 
 @class Emitter;
-
 @interface ParticleDemo : Layer
 {
 }
 
 -(NSString*) title;
-@end
-
-@interface BigParticleDemo : ParticleDemo
-{
-}
 @end
 
 @interface DemoFirework : ParticleDemo
@@ -41,10 +35,6 @@
 @end
 
 @interface DemoFlower : ParticleDemo
-{}
-@end
-
-@interface DemoBigParticle : ParticleDemo
 {}
 @end
 

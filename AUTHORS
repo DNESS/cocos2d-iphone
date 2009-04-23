@@ -58,7 +58,6 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 	* kasatani: AtlasSprite index 0 is not overwritten
 	* kermidt.zed: patches for absolutePosition in CocosNode
 		patches for Labels in Texture2D
-	*Leonardo Kasperavičius: author of BigParticleSystem class
 	* lukeman: patches for MenuItem
 	* Maarten Billemont (lhunath): author of ParticleRain
 		added suport for particles' source
@@ -107,8 +106,6 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 		AtlasSpriteManager#removeChild fixes
 		CocosNode#runAction doesn't run an already running action
 		Added improvements, fixes and documentation in CGPointExtension
-		Author of the TouchDispatcher/TouchHandler
-		CocosNode#runAction: patch that doesn't retain the target
 	* yarrington: patches for Director
 
 
