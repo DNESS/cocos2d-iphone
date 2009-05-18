@@ -25,9 +25,6 @@ static NSString *transitions[] = {
 		@"DemoExplosion",
 		@"DemoSnow",
 		@"DemoRain",
-		@"DemoBigFlower",
-		@"DemoRotFlower",
-		@"DemoModernArt",
 };
 
 Class nextAction()
@@ -111,9 +108,8 @@ Class restartAction()
 	
 	ParticleSystem *s = (ParticleSystem*) [self getChildByTag:kTagEmitter];
 	
-//	CGPoint source = ccpSub( convertedLocation, s.position );
-//	s.source = source;
-	s.position = convertedLocation;
+	CGPoint source = ccpSub( convertedLocation, s.position );
+	s.source = source;
 	
 	return kEventHandled;
 }
@@ -158,54 +154,6 @@ Class restartAction()
 }
 
 @end
-
-@implementation BigParticleDemo
-
--(id) init
-{
-	if( (self=[super init]) ) {
-		
-		isTouchEnabled = YES;
-		
-		CGSize s = [[Director sharedDirector] winSize];
-		Label* label = [Label labelWithString:[self title] fontName:@"Arial" fontSize:32];
-		[self addChild: label];
-		[label setPosition: CGPointMake(s.width/2, s.height-50)];
-		
-		Label *tapScreen = [Label labelWithString:@"(Tap the Screen)" fontName:@"Arial" fontSize:20];
-		[tapScreen setPosition: CGPointMake(s.width/2, s.height-80)];
-		[self addChild:tapScreen];
-		
-		MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-		MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-		MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
-		
-		Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
-		
-		menu.position = CGPointZero;
-		item1.position = CGPointMake( s.width/2 - 100,30);
-		item2.position = CGPointMake( s.width/2, 30);
-		item3.position = CGPointMake( s.width/2 + 100,30);
-		[self addChild: menu z:-1];	
-		
-		LabelAtlas *labelAtlas = [LabelAtlas labelAtlasWithString:@"0000" charMapFile:@"fps_images.png" itemWidth:16 itemHeight:24 startCharMap:'.'];
-		[self addChild:labelAtlas z:0 tag:kTagLabelAtlas];
-		labelAtlas.position = CGPointMake(254,50);
-		
-		[self schedule:@selector(step:)];
-	}
-	
-	return self;
-}
-
--(void) restartCallback: (id) sender
-{
-	ParticleSystem *emitter = (ParticleSystem*) [self getChildByTag:kTagEmitter];
-	[emitter resetSystem];
-}
-
-@end
-
 
 @implementation DemoFirework
 -(void) onEnter
@@ -284,158 +232,6 @@ Class restartAction()
 }
 @end
 
-@implementation DemoBigFlower
--(void) onEnter
-{
-	[super onEnter];
-	ParticleSystem *emitter = [[QuadParticleSystem alloc] initWithTotalParticles:50];
-	[self addChild: emitter z:0 tag:kTagEmitter];
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"stars.png"];
-	
-	// duration
-	emitter.duration = -1;
-	
-	// gravity
-	emitter.gravity = CGPointZero;
-	
-	// angle
-	emitter.angle = 90;
-	emitter.angleVar = 360;
-	
-	// speed of particles
-	emitter.speed = 160;
-	emitter.speedVar = 20;
-	
-	// radial
-	emitter.radialAccel = -120;
-	emitter.radialAccelVar = 0;
-	
-	// tagential
-	emitter.tangentialAccel = 30;
-	emitter.tangentialAccelVar = 0;
-	
-	// emitter position
-	emitter.position = ccp(160,240);
-	emitter.posVar = CGPointZero;
-	
-	// life of particles
-	emitter.life = 4;
-	emitter.lifeVar = 1;
-	
-	// spin of particles
-	emitter.startSpin = 0;
-	emitter.startSpinVar = 0;
-	emitter.endSpin = 0;
-	emitter.endSpinVar = 0;
-	
-	// color of particles
-	ccColor4F startColor = {0.5f, 0.5f, 0.5f, 1.0f};
-	emitter.startColor = startColor;
-	
-	ccColor4F startColorVar = {0.5f, 0.5f, 0.5f, 1.0f};
-	emitter.startColorVar = startColorVar;
-	
-	ccColor4F endColor = {0.1f, 0.1f, 0.1f, 0.2f};
-	emitter.endColor = endColor;
-	
-	ccColor4F endColorVar = {0.1f, 0.1f, 0.1f, 0.2f};	
-	emitter.endColorVar = endColorVar;
-	
-	// size, in pixels
-	emitter.startSize = 80.0f;
-	emitter.startSizeVar = 40.0f;
-	emitter.endSize = kParticleStartSizeEqualToEndSize;
-	
-	// emits per second
-	emitter.emissionRate = emitter.totalParticles/emitter.life;
-	
-	// additive
-	emitter.blendAdditive = YES;
-	
-}
--(NSString *) title
-{
-	return @"Big Particles";
-}
-@end
-
-@implementation DemoRotFlower
--(void) onEnter
-{
-	[super onEnter];
-	ParticleSystem *emitter = [[QuadParticleSystem alloc] initWithTotalParticles:300];
-	[self addChild: emitter z:0 tag:kTagEmitter];
-	[emitter release];
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"stars2.png"];
-	
-	// duration
-	emitter.duration = -1;
-	
-	// gravity
-	emitter.gravity = CGPointZero;
-	
-	// angle
-	emitter.angle = 90;
-	emitter.angleVar = 360;
-	
-	// speed of particles
-	emitter.speed = 160;
-	emitter.speedVar = 20;
-	
-	// radial
-	emitter.radialAccel = -120;
-	emitter.radialAccelVar = 0;
-	
-	// tagential
-	emitter.tangentialAccel = 30;
-	emitter.tangentialAccelVar = 0;
-	
-	// emitter position
-	emitter.position = ccp(160,240);
-	emitter.posVar = CGPointZero;
-	
-	// life of particles
-	emitter.life = 3;
-	emitter.lifeVar = 1;
-
-	// spin of particles
-	emitter.startSpin = 0;
-	emitter.startSpinVar = 0;
-	emitter.endSpin = 0;
-	emitter.endSpinVar = 2000;
-	
-	// color of particles
-	ccColor4F startColor = {0.5f, 0.5f, 0.5f, 1.0f};
-	emitter.startColor = startColor;
-	
-	ccColor4F startColorVar = {0.5f, 0.5f, 0.5f, 1.0f};
-	emitter.startColorVar = startColorVar;
-	
-	ccColor4F endColor = {0.1f, 0.1f, 0.1f, 0.2f};
-	emitter.endColor = endColor;
-	
-	ccColor4F endColorVar = {0.1f, 0.1f, 0.1f, 0.2f};	
-	emitter.endColorVar = endColorVar;
-
-	// size, in pixels
-	emitter.startSize = 30.0f;
-	emitter.startSizeVar = 00.0f;
-	emitter.endSize = kParticleStartSizeEqualToEndSize;
-	
-	// emits per second
-	emitter.emissionRate = emitter.totalParticles/emitter.life;
-
-	// additive
-	emitter.blendAdditive = NO;
-	
-}
--(NSString *) title
-{
-	return @"Spinning Particles";
-}
-@end
-
-
 @implementation DemoMeteor
 -(void) onEnter
 {
@@ -506,28 +302,28 @@ Class restartAction()
 	
 	CGPoint p = emitter.position;
 	emitter.position = ccp( p.x, p.y-110);
-	emitter.life = 3;
-	emitter.lifeVar = 1;
+	emitter.life = 25;
 	
-	// gravity
-	emitter.gravity = ccp(0,-10);
-		
-	// speed of particles
-	emitter.speed = 130;
-	emitter.speedVar = 30;
-	
-	
-	ccColor4F startColor = emitter.startColor;
+	ccColorF startColor = emitter.startColor;
 	startColor.r = 0.9f;
 	startColor.g = 0.9f;
 	startColor.b = 0.9f;
 	emitter.startColor = startColor;
 	
-	ccColor4F startColorVar = emitter.startColorVar;
+	ccColorF startColorVar = emitter.startColorVar;
 	startColorVar.b = 0.1f;
 	emitter.startColorVar = startColorVar;
 	
-	emitter.emissionRate = emitter.totalParticles/emitter.life;
+	ccColorF endColor = emitter.endColor;
+	endColor.r = 0.9f;
+	endColor.g = 0.9f;
+	endColor.b = 0.9f;
+	emitter.endColor = endColor;
+	
+	ccColorF endColorVar = emitter.endColorVar;
+	endColorVar.b = 0.1f;
+	endColorVar.a = 0.5f;
+	emitter.endColorVar = endColorVar;
 	
 	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"snow.png"];
 
@@ -547,7 +343,7 @@ Class restartAction()
 	
 	CGPoint p = emitter.position;
 	emitter.position = ccp( p.x, p.y-100);
-	emitter.life = 4;
+	emitter.life = 25;	
 	
 	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.pvr"];
 
@@ -558,82 +354,7 @@ Class restartAction()
 }
 @end
 
-@implementation DemoModernArt
--(void) onEnter
-{
-	[super onEnter];
-	ParticleSystem *particleSystem = [[PointParticleSystem alloc] initWithTotalParticles:1000];
-	[self addChild: particleSystem z:0 tag:kTagEmitter];
-	[particleSystem release];
-	
-	CGSize s = [[Director sharedDirector] winSize];
-	
-	// duration
-	particleSystem.duration = -1;
-	
-	// gravity
-	particleSystem.gravity = ccp(0,0);
-	
-	// angle
-	particleSystem.angle = 0;
-	particleSystem.angleVar = 360;
-	
-	// radial
-	particleSystem.radialAccel = 70;
-	particleSystem.radialAccelVar = 10;
-	
-	// tagential
-	particleSystem.tangentialAccel = 80;
-	particleSystem.tangentialAccelVar = 0;
-	
-	// speed of particles
-	particleSystem.speed = 50;
-	particleSystem.speedVar = 10;
-	
-	// emitter position
-	particleSystem.position = ccp( s.width/2, s.height/2);
-	particleSystem.posVar = CGPointZero;
-	
-	// life of particles
-	particleSystem.life = 2.0f;
-	particleSystem.lifeVar = 0.3f;
-	
-	// emits per frame
-	particleSystem.emissionRate = particleSystem.totalParticles/particleSystem.life;
-	
-	// color of particles
-	ccColor4F startColor = {0.5f, 0.5f, 0.5f, 1.0f};
-	particleSystem.startColor = startColor;
-	
-	ccColor4F startColorVar = {0.5f, 0.5f, 0.5f, 1.0f};
-	particleSystem.startColorVar = startColorVar;
-	
-	ccColor4F endColor = {0.1f, 0.1f, 0.1f, 0.2f};
-	particleSystem.endColor = endColor;
-	
-	ccColor4F endColorVar = {0.1f, 0.1f, 0.1f, 0.2f};	
-	particleSystem.endColorVar = endColorVar;
-	
-	// size, in pixels
-	particleSystem.startSize = 1.0f;
-	particleSystem.startSizeVar = 1.0f;
-	particleSystem.endSize = 32.0f;
-	particleSystem.endSizeVar = 8.0f;
-	
-	// texture
-//	particleSystem.texture = [[TextureMgr sharedTextureMgr] addImage:@"fire.png"];
-	
-	// additive
-	particleSystem.blendAdditive = NO;	
-}
--(NSString *) title
-{
-	return @"Varying size";
-}
-@end
 
-#pragma mark -
-#pragma mark App Delegate
 
 // CLASS IMPLEMENTATIONS
 @implementation AppController
@@ -651,7 +372,7 @@ Class restartAction()
 	[Director useFastDirector];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationPortrait];
+	[[Director sharedDirector] setLandscape: NO];
 	[[Director sharedDirector] setDisplayFPS: YES];
 
 	// AnimationInterval doesn't work with FastDirector, yet

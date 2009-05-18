@@ -153,12 +153,13 @@ enum {
 -(void) onEnter
 {
 	[super onEnter];
+	CGSize s = [[Director sharedDirector] winSize];
 	
 	[inScene setScale:0.001f];
 	[outScene setScale:1.0f];
 	
-	[inScene setAnchorPoint:ccp(0.5f, 0.5f)];
-	[outScene setAnchorPoint:ccp(0.5f, 0.5f)];
+	[inScene setTransformAnchor: ccp( s.width/2, s.height/2) ];
+	[outScene setTransformAnchor: ccp( s.width/2, s.height/2) ];
 	
 	IntervalAction *rotozoom = [Sequence actions: [Spawn actions:
 								   [ScaleBy actionWithDuration:duration/2 scale:0.001f],
@@ -187,9 +188,9 @@ enum {
 	
 	[inScene setScale:0.5f];
 	[inScene setPosition:ccp( s.width,0 )];
-
-	[inScene setAnchorPoint:ccp(0.5f, 0.5f)];
-	[outScene setAnchorPoint:ccp(0.5f, 0.5f)];
+	
+	[inScene setTransformAnchor: ccp( s.width/2, s.height/2) ];
+	[outScene setTransformAnchor: ccp( s.width/2, s.height/2) ];
 
 	IntervalAction *jump = [JumpBy actionWithDuration:duration/4 position:ccp(-s.width,0) height:s.width/4 jumps:2];
 	IntervalAction *scaleIn = [ScaleTo actionWithDuration:duration/4 scale:1.0f];
@@ -367,11 +368,14 @@ enum {
 {
 	[super onEnter];
 	
+	CGSize s = [[Director sharedDirector] winSize];
+	
 	[inScene setScale:0.001f];
 	[outScene setScale:1.0f];
-
-	[inScene setAnchorPoint:ccp(2/3.0f,0.5f)];
-	[outScene setAnchorPoint:ccp(1/3.0f,0.5f)];	
+	
+	[inScene setTransformAnchor:ccp(2*s.width/3,s.height/2) ];
+	[outScene setTransformAnchor:ccp(s.width/3,s.height/2) ];
+	
 	
 	IntervalAction *scaleOut = [ScaleTo actionWithDuration:duration scale:0.01f];
 	IntervalAction *scaleIn = [ScaleTo actionWithDuration:duration scale:1.0f];

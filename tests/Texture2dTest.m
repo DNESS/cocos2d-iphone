@@ -8,9 +8,6 @@
 #import "cocos2d.h"
 #import "Texture2dTest.h"
 
-enum {
-	kTagLabel = 1,
-};
 
 static int sceneIdx=-1;
 static NSString *transitions[] = {
@@ -25,8 +22,6 @@ static NSString *transitions[] = {
 						@"TextureJPEG",
 						@"TextureTIFF",
 						@"TextureGIF",
-						@"TexturePixelFormat",
-						@"TextureBlend",
 };
 
 #pragma mark Callbacks
@@ -63,11 +58,11 @@ Class restartAction()
 @implementation TextureDemo
 -(id) init
 {
-	if( (self = [super init]) ) {
+	if( (self = [super initWithColor:0x202020FF]) ) {
 
 		CGSize s = [[Director sharedDirector] winSize];	
 		Label* label = [Label labelWithString:[self title] fontName:@"Arial" fontSize:32];
-		[self addChild:label z:0 tag:kTagLabel];
+		[self addChild: label];
 		[label setPosition: ccp(s.width/2, s.height-50)];
 
 		MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
@@ -88,12 +83,6 @@ Class restartAction()
 -(void) dealloc
 {
 	[super dealloc];
-}
-
--(void) onEnter
-{
-	[super onEnter];
-	[[TextureMgr sharedTextureMgr] removeUnusedTextures];
 }
 
 
@@ -131,7 +120,7 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-
+	
 	Label *left = [Label labelWithString:@"alignment left" dimensions:CGSizeMake(480,50) alignment:UITextAlignmentLeft fontName:@"Marker Felt" fontSize:32];
 	Label *center = [Label labelWithString:@"alignment center" dimensions:CGSizeMake(480,50) alignment:UITextAlignmentCenter fontName:@"Marker Felt" fontSize:32];
 	Label *right = [Label labelWithString:@"alignment right" dimensions:CGSizeMake(480,50) alignment:UITextAlignmentRight fontName:@"Marker Felt" fontSize:32];
@@ -143,11 +132,6 @@ Class restartAction()
 	[[[self addChild:left z:0]
 			addChild:right z:0]
 			addChild:center z:0];
-	
-//	id s = [Sprite spriteWithFile:@"grossini_indexed.png"];
-//	id s2 = [Sprite spriteWithFile:@"grossini_indexed.gif"];
-//	[self addChild:s];
-//	[self addChild:s2];
 }
 
 -(NSString *) title
@@ -183,8 +167,7 @@ Class restartAction()
 @implementation TexturePNG
 -(void) onEnter
 {
-	[super onEnter];	
-
+	[super onEnter];
 	CGSize s = [[Director sharedDirector] winSize];
 
 	Sprite *img = [Sprite spriteWithFile:@"test_image.png"];
@@ -278,14 +261,18 @@ Class restartAction()
 {
 	[super onEnter];
 	CGSize s = [[Director sharedDirector] winSize];
-
+	
+	[Texture2D saveTexParameters];
+	ccTexParams params = [Texture2D texParameters];
+	params.minFilter = GL_LINEAR_MIPMAP_LINEAR;
+	[Texture2D setTexParameters:&params];
+	
 	Sprite *imgMipMap = [Sprite spriteWithFile:@"logo-mipmap.pvr"];
 	imgMipMap.position = ccp( s.width/2.0f-100, s.height/2.0f);
 	[self addChild:imgMipMap];
+	
+	[Texture2D restoreTexParameters];
 
-	// support mipmap filtering
-	ccTexParams texParams = { GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE };	
-	[imgMipMap.texture setTexParameters:&texParams];
 	Sprite *img = [Sprite spriteWithFile:@"logo-nomipmap.pvr"];
 	img.position = ccp( s.width/2.0f+100, s.height/2.0f);
 	[self addChild:img];
@@ -334,8 +321,7 @@ Class restartAction()
 	[super onEnter];
 	CGSize s = [[Director sharedDirector] winSize];
 	
-	Texture2D *tex = [[TextureMgr sharedTextureMgr] addPVRTCImage:@"test_image.pvrraw" bpp:4 hasAlpha:YES width:128];
-	Sprite *img = [Sprite spriteWithTexture:tex];
+	Sprite *img = [Sprite spriteWithPVRTCFile:@"test_image.pvrraw" bpp:4 hasAlpha:YES width:128];
 	img.position = ccp( s.width/2.0f, s.height/2.0f);
 	[self addChild:img];
 	
@@ -357,26 +343,28 @@ Class restartAction()
 	// Sprite 1: GL_LINEAR
 	//
 	// Default filter is GL_LINEAR
+	[Texture2D saveTexParameters];
+	[Texture2D setAntiAliasTexParameters];
 	
 	Sprite *sprite = [Sprite spriteWithFile:@"grossinis_sister1.png"];
 	sprite.position = ccp( s.width/3.0f, s.height/2.0f);
 	[self addChild:sprite];
 	
-	// this is the default filterting
-	[sprite.texture setAntiAliasTexParameters];
+	[Texture2D restoreTexParameters];
 	
 	//
 	// Sprite 1: GL_NEAREST
 	//	
+	// Use Nearest in this one
+	[Texture2D saveTexParameters];
+	[Texture2D setAliasTexParameters];
 	
 	Sprite *sprite2 = [Sprite spriteWithFile:@"grossinis_sister2.png"];
 	sprite2.position = ccp( 2*s.width/3.0f, s.height/2.0f);
 	[self addChild:sprite2];
 	
-	// Use Nearest in this one
-	[sprite2.texture setAliasTexParameters];
-
-		
+	[Texture2D restoreTexParameters];
+	
 	// scale them to show
 	id sc = [ScaleBy actionWithDuration:3 scale:8.0f];
 	id sc_back = [sc reverse];
@@ -392,117 +380,6 @@ Class restartAction()
 }
 @end
 
-#pragma mark TexturePixelFormat
-@implementation TexturePixelFormat
--(void) onEnter
-{
-	//
-	// This example displays 1 png images 4 times.
-	// Each time the image is generated using:
-	// 1- 32-bit RGBA8
-	// 2- 16-bit RGBA4
-	// 3- 16-bit RGB5A1
-	// 4- 16-bit RGB565
-	[super onEnter];
-	
-	Label *label = (Label*) [self getChildByTag:kTagLabel];
-	[label setRGB:16 :16 :255];
-	
-	CGSize s = [[Director sharedDirector] winSize];
-	
-	Sprite *background = [Sprite spriteWithFile:@"background1.jpg"];
-	background.position = ccp(240,160);
-	[self addChild:background z:-1];
-	
-	// RGBA 8888 image (32-bit)
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
-	Sprite *sprite1 = [Sprite spriteWithFile:@"test-rgba1.png"];
-	sprite1.position = ccp(64, s.height/2);
-	[self addChild:sprite1 z:0];
-	
-	// remove texture from texture manager	
-	[[TextureMgr sharedTextureMgr] removeTexture:sprite1.texture];
-
-	// RGBA 4444 image (16-bit)
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA4444];
-	Sprite *sprite2 = [Sprite spriteWithFile:@"test-rgba1.png"];
-	sprite2.position = ccp(64+128, s.height/2);
-	[self addChild:sprite2 z:0];
-
-	// remove texture from texture manager	
-	[[TextureMgr sharedTextureMgr] removeTexture:sprite2.texture];
-
-	// RGB5A1 image (16-bit)
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGB5A1];
-	Sprite *sprite3 = [Sprite spriteWithFile:@"test-rgba1.png"];
-	sprite3.position = ccp(64+128*2, s.height/2);
-	[self addChild:sprite3 z:0];
-
-	// remove texture from texture manager	
-	[[TextureMgr sharedTextureMgr] removeTexture:sprite3.texture];
-
-	// RGB565 image (16-bit)
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGB565];
-	Sprite *sprite4 = [Sprite spriteWithFile:@"test-rgba1.png"];
-	sprite4.position = ccp(64+128*3, s.height/2);
-	[self addChild:sprite4 z:0];
-
-	// remove texture from texture manager	
-	[[TextureMgr sharedTextureMgr] removeTexture:sprite4.texture];
-
-	
-	id fadeout = [FadeOut actionWithDuration:2];
-	id fadein = [FadeIn actionWithDuration:2];
-	id seq = [Sequence actions: [DelayTime actionWithDuration:2], fadeout, fadein, nil];
-	id seq_4ever = [RepeatForever actionWithAction:seq];
-	
-	[sprite1 runAction:seq_4ever];
-	[sprite2 runAction: [[seq_4ever copy] autorelease]];
-	[sprite3 runAction: [[seq_4ever copy] autorelease]];
-	[sprite4 runAction: [[seq_4ever copy] autorelease]];
-
-	// restore default
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_Default];
-}
-
--(NSString *) title
-{
-	return @"Texture Pixel Formats";
-}
-@end
-#pragma mark TextureBlend
-@implementation TextureBlend
--(id) init
-{
-	if( (self=[super init]) ) {
-		
-		for( int i=0;i < 15;i++ ) {
-			
-			// lower sprites have alpha pre-multiplied
-			// they use GL_ONE, GL_ONE_MINUS_SRC_ALPHA
-			Sprite *cloud = [Sprite spriteWithFile:@"test_blend.png"];
-			[self addChild:cloud z:i+1 tag:100+i];
-			cloud.position = ccp(50+25*i, 100);
-			if( ! cloud.texture.hasPremultipliedAlpha )
-				NSLog(@"Texture Blend failed. Test it on the device, not simulator");
-
-			// upper sprites don't have alpha pre-multiplied
-			// they use GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA
-			cloud = [Sprite spriteWithFile:@"test_blend.bmp"];
-			[self addChild:cloud z:i+1 tag:200+i];
-			cloud.position = ccp(50+25*i, 200);
-			if( cloud.texture.hasPremultipliedAlpha )
-				NSLog(@"Texture Blend failed. Test it on the device, not simulator");
-		}
-	}
-	return self;
-}
-
--(NSString *) title
-{
-	return @"Texture Blending";
-}
-@end
 
 
 #pragma mark -
@@ -523,12 +400,9 @@ Class restartAction()
 	
 	// must be called before any othe call to the director
 //	[Director useFastDirector];
-
-	//
-//	[[Director sharedDirector] setPixelFormat:kRGBA8];
-
+	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
+	[[Director sharedDirector] setLandscape: YES];
 	[[Director sharedDirector] setAnimationInterval:1.0/60];
 	[[Director sharedDirector] setDisplayFPS:YES];
 

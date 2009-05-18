@@ -37,9 +37,7 @@ enum {
 	// in this case:
 	//     Lens3D is Grid3D and it's size is (15,10)
 	//     Waves3D is Grid3D and it's size is (15,10)
-	
-	CGSize size = [[Director sharedDirector] winSize];
-	id lens = [Lens3D actionWithPosition:ccp(size.width/2,size.height/2) radius:240 grid:ccg(15,10) duration:0.0f];
+	id lens = [Lens3D actionWithPosition:ccp(240,160) radius:240 grid:ccg(15,10) duration:0.0f];
 	id waves = [Waves3D actionWithWaves:18 amplitude:15 grid:ccg(15,10) duration:10];
 
 	id reuse = [ReuseGrid actionWithTimes:1];
@@ -178,7 +176,7 @@ Class restartAction()
 		
 		Sprite *bg = [Sprite spriteWithFile:@"background.png"];
 		[self addChild: bg z:0 tag:kTagBackground];
-		bg.anchorPoint = CGPointZero;
+		bg.transformAnchor = CGPointZero;
 //		bg.position = ccp(x/2,y/2);
 		
 		Sprite *grossini = [Sprite spriteWithFile:@"grossinis_sister2.png"];
@@ -277,7 +275,7 @@ Class restartAction()
 	[[Director sharedDirector] setDepthBufferFormat:kDepthBuffer16];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation: CCDeviceOrientationLandscapeRight];
+	[[Director sharedDirector] setLandscape: YES];
 	[[Director sharedDirector] setDisplayFPS:YES];
 	
 	// create an openGL view inside a window

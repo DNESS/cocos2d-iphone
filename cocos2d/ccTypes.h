@@ -17,85 +17,63 @@
  cocos2d (cc) types
 */
 
-/** RGB color composed of bytes 3 bytes
-@since v0.8
- */
-typedef struct _ccColor3B
+//! RGB color composed of bytes. 3 chars
+typedef struct _ccRGBB
 {
 	unsigned char	r;
 	unsigned char	g;
 	unsigned char	b;
-} ccColor3B;
+} ccRGBB;
 
-/** RGBA color composed of 4 bytes
-@since v0.8
-*/
-typedef struct _ccColor4B
+//! RGBA color composed of bytes. 4 chars
+typedef struct _ccColorB
 {
 	unsigned char r;
 	unsigned char g;
 	unsigned char b;
 	unsigned char a;
-} ccColor4B;
+} ccColorB;
 
-/** RGBA color composed of 4 floats
-@since v0.8
-*/
-typedef struct _ccColor4F {
+//! RGBA color composed of floats. 4 floats
+typedef struct _ccColorF {
 	float r;
 	float g;
 	float b;
 	float a;
-} ccColor4F;
+} ccColorF;
 
-/** A vertex composed of 2 floats: x, y
- @since v0.8
- */
-#define ccVertex2F CGPoint
-
-/** A vertex composed of 2 floats: x, y
- @since v0.8
- */
-typedef struct _ccVertex3F
-{
-		float x;
-		float y;
-		float z;
-} ccVertex3F;
-		
-/** A texcoord composed of 2 floats: u, y
- @since v0.8
- */
-typedef struct _ccTex2F {
-	 float u;
-	 float v;
-} ccTex2F;
-
- 
-//! Point Sprite component
+//! Point Sprite attributes
 typedef struct _ccPointSprite
 {
-	ccVertex2F	pos;		// 8 bytes
-	ccColor4F	colors;		// 16 bytes
-	float		size;		// 4 bytes
+	float x;
+	float y;
+	float size;
+	ccColorF colors;
 } ccPointSprite;
 
-//!	A 2D Quad. 4 * 2 floats
+//!	A 2D Quad. 8 floats
 typedef struct _ccQuad2 {
-	ccVertex2F		tl;
-	ccVertex2F		tr;
-	ccVertex2F		bl;
-	ccVertex2F		br;
+	float	tl_x, tl_y;
+	float	tr_x, tr_y;
+	float	bl_x, bl_y;
+	float	br_x, br_y;
 } ccQuad2;
 
-
-//!	A 3D Quad. 4 * 3 floats
+//!	A 3D Quad. 12 floats
 typedef struct _ccQuad3 {
-	ccVertex3F		bl;
-	ccVertex3F		br;
-	ccVertex3F		tl;
-	ccVertex3F		tr;
+	float	bl_x, bl_y, bl_z;
+	float	br_x, br_y, br_z;
+	float	tl_x, tl_y, tl_z;
+	float	tr_x, tr_y, tr_z;
 } ccQuad3;
+
+//! A 3D vertex
+typedef struct _ccVertex3D
+{
+	float x;
+	float y;
+	float z;
+} ccVertex3D;
 
 //! A 2D grid size
 typedef struct _ccGridSize
@@ -112,60 +90,8 @@ ccg(const int x, const int y)
 	return v;
 }
 
-//! a Point with a vertex point, a tex coord point and a color 4F
-typedef struct _ccV2F_C4F_T2F
-{
-	//! vertices (2F)
-	ccVertex2F		vertices;
-	//! colors (4F)
-	ccColor4F		colors;
-	//! tex coords (2F)
-	ccTex2F			texCoords;
-} ccV2F_C4F_T2F;
-
-//! a Point with a vertex point, a tex coord point and a color 4B
-typedef struct _ccV3F_C4B_T2F
-{
-	//! vertices (3F)
-	ccVertex3F		vertices;			// 12 bytes
-//	char __padding__[4];
-
-	//! colors (4B)
-	ccColor4B		colors;				// 4 bytes
-//	char __padding2__[4];
-
-	// tex coords (2F)
-	ccTex2F			texCoords;			// 8 byts
-} ccV3F_C4B_T2F;
-
-//! 4 ccVertex3FTex2FColor4B
-typedef struct _ccV3F_C4B_T2F_Quad
-{
-	//! top left
-	ccV3F_C4B_T2F	tl;
-	//! bottom left
-	ccV3F_C4B_T2F	bl;
-	//! top right
-	ccV3F_C4B_T2F	tr;
-	//! bottom right
-	ccV3F_C4B_T2F	br;
-} ccV3F_C4B_T2F_Quad;
-
-//! 4 ccVertex2FTex2FColor4F Quad
-typedef struct _ccV2F_C4F_T2F_Quad
-{
-	//! bottom left
-	ccV2F_C4F_T2F	bl;
-	//! bottom right
-	ccV2F_C4F_T2F	br;
-	//! top left
-	ccV2F_C4F_T2F	tl;
-	//! top right
-	ccV2F_C4F_T2F	tr;
-} ccV2F_C4F_T2F_Quad;
-
-
 //! delta time type
 //! if you want more resolution redefine it as a double
 typedef float ccTime;
 //typedef double ccTime;
+

@@ -16,11 +16,8 @@ static NSString *transitions[] = {
 			@"Atlas2",
 			@"Atlas3",
 			@"Atlas4",
-			@"AtlasZVertex",
 			@"Atlas5",
 			@"Atlas6",
-			@"Atlas7",
-			@"Atlas8",
 };
 
 enum {
@@ -73,27 +70,27 @@ Class restartAction()
 @implementation AtlasDemo
 -(id) init
 {
-	if( (self = [super init]) ) {
+	[super init];
 
 
-		CGSize s = [[Director sharedDirector] winSize];
-			
-		Label* label = [Label labelWithString:[self title] fontName:@"Arial" fontSize:32];
-		[self addChild: label z:1];
-		[label setPosition: ccp(s.width/2, s.height-50)];
+	CGSize s = [[Director sharedDirector] winSize];
 		
-		MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-		MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-		MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
-		
-		Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
-		
-		menu.position = CGPointZero;
-		item1.position = ccp( s.width/2 - 100,30);
-		item2.position = ccp( s.width/2, 30);
-		item3.position = ccp( s.width/2 + 100,30);
-		[self addChild: menu z:1];	
-	}
+	Label* label = [Label labelWithString:[self title] fontName:@"Arial" fontSize:32];
+	[self addChild: label z:1];
+	[label setPosition: ccp(s.width/2, s.height-50)];
+	
+	MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
+	MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
+	MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
+	
+	Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
+	
+	menu.position = CGPointZero;
+	item1.position = ccp( s.width/2 - 100,30);
+	item2.position = ccp( s.width/2, 30);
+	item3.position = ccp( s.width/2 + 100,30);
+	[self addChild: menu z:1];	
+
 	return self;
 }
 
@@ -142,8 +139,7 @@ Class restartAction()
 		AtlasSpriteManager *mgr = [AtlasSpriteManager spriteManagerWithFile:@"grossini_dance_atlas.png" capacity:50];
 		[self addChild:mgr z:0 tag:kTagSpriteManager];
 		
-		CGSize s = [[Director sharedDirector] winSize];
-		[self addNewSpriteWithCoords:ccp(s.width/2, s.height/2)];
+		[self addNewSpriteWithCoords:ccp(480/2, 320/2)];
 		
 	}	
 	return self;
@@ -164,18 +160,14 @@ Class restartAction()
 	sprite.position = ccp( p.x, p.y);
 
 	id action;
-	float rand = CCRANDOM_0_1();
+	float r = CCRANDOM_0_1();
 	
-	if( rand < 0.20 )
+	if( r < 0.33 )
 		action = [ScaleBy actionWithDuration:3 scale:2];
-	else if(rand < 0.40)
+	else if(r < 0.66)
 		action = [RotateBy actionWithDuration:3 angle:360];
-	else if( rand < 0.60)
+	else
 		action = [Blink actionWithDuration:1 blinks:3];
-	else if( rand < 0.8 )
-		action = [TintBy actionWithDuration:2 red:0 green:-255 blue:-255];
-	else 
-		action = [FadeOut actionWithDuration:2];
 	id action_back = [action reverse];
 	id seq = [Sequence actions:action, action_back, nil];
 	
@@ -208,8 +200,12 @@ Class restartAction()
 {
 	if( (self=[super init]) ) {
 		
+		[Texture2D saveTexParameters];
+		[Texture2D setAliasTexParameters];
 		AtlasSpriteManager *mgr = [AtlasSpriteManager spriteManagerWithFile:@"grossini_dance_atlas.png" capacity:50];
-		[self addChild:mgr z:0 tag:kTagSpriteManager];		
+		[self addChild:mgr z:0 tag:kTagSpriteManager];
+		
+		[Texture2D restoreTexParameters];
 		
 		AtlasSprite *sprite = [AtlasSprite spriteWithRect:CGRectMake(0, 0, 85, 121) spriteManager: mgr];
 		AtlasSprite *sprite2 = [AtlasSprite spriteWithRect:CGRectMake(0, 0, 85, 121) spriteManager: mgr];
@@ -411,60 +407,6 @@ Class restartAction()
 }
 @end
 
-#pragma mark Example AtlasZVertex
-
-@implementation AtlasZVertex
-
--(id) init
-{
-	if( (self=[super init]) ) {
-		
-		//
-		// This test tests z-order
-		// If you are going to use it is better to use a 2D projection
-		//
-		// WARNING:
-		// The developer is resposible for ordering it's sprites according to it's Z if the sprite has
-		// transparent parts.
-		//
-		
-		dir = 1;
-		time = 0;
-
-		CGSize s = [[Director sharedDirector] winSize];
-		
-		// small capacity. Testing resizing.
-		// Don't use capacity=1 in your real game. It is expensive to resize the capacity
-		AtlasSpriteManager *mgr = [AtlasSpriteManager spriteManagerWithFile:@"grossini_dance_atlas.png" capacity:1];
-		[self addChild:mgr z:0 tag:kTagSpriteManager];		
-		
-		for(int i=0;i<5;i++) {
-			AtlasSprite *sprite = [AtlasSprite spriteWithRect:CGRectMake(85*0, 121*1, 85, 121) spriteManager: mgr];
-			sprite.position = ccp( 50 + i*40, s.height/2);
-			sprite.vertexZ = 10 + i*40;
-			[mgr addChild:sprite z:0];
-			
-		}
-		
-		for(int i=5;i<11;i++) {
-			AtlasSprite *sprite = [AtlasSprite spriteWithRect:CGRectMake(85*1, 121*0, 85, 121) spriteManager: mgr];
-			sprite.position = ccp( 50 + i*40, s.height/2);
-			sprite.vertexZ = 10 + (10-i)*40;
-			[mgr addChild:sprite z:0];
-		}
-
-		[self runAction:[OrbitCamera actionWithDuration:10 radius: 1 deltaRadius:0 angleZ:0 deltaAngleZ:360 angleX:0 deltaAngleX:0]];
-	}	
-	return self;
-}
-
--(NSString *) title
-{
-	return @"AtlasSprite: openGL Z vertex";
-}
-@end
-
-
 #pragma mark Example Atlas 5
 
 @implementation Atlas5
@@ -495,13 +437,12 @@ Class restartAction()
 
 			switch(i) {
 				case 0:
-					sprite.anchorPoint = CGPointZero;
+					sprite.transformAnchor = CGPointZero;
 					break;
 				case 1:
-					sprite.anchorPoint = ccp(0.5f, 0.5f);
 					break;
 				case 2:
-					sprite.anchorPoint = ccp(1,1);
+					sprite.transformAnchor = ccp(85,121);
 					break;
 			}
 
@@ -536,8 +477,7 @@ Class restartAction()
 		CGSize s = [[Director sharedDirector] winSize];
 
 		mgr.relativeTransformAnchor = NO;
-		mgr.anchorPoint = ccp(0.5f, 0.5f);
-		mgr.contentSize = CGSizeMake(s.width, s.height);
+		mgr.transformAnchor = ccp( s.width / 2.0f, s.height / 2.0f );		
 		
 		
 		// AtlasSprite actions
@@ -574,102 +514,6 @@ Class restartAction()
 }
 @end
 
-#pragma mark Example Atlas 7
-
-@implementation Atlas7
--(id) init
-{
-	if( (self=[super init]) ) {
-		
-		AtlasSpriteManager *mgr = [AtlasSpriteManager spriteManagerWithFile:@"grossini_dance_atlas.png" capacity:10];
-		[self addChild:mgr z:0 tag:kTagSpriteManager];
-		
-		CGSize s = [[Director sharedDirector] winSize];
-		
-		AtlasSprite *sprite1 = [AtlasSprite spriteWithRect:CGRectMake(85*1, 121*1, 85, 121) spriteManager: mgr];
-		sprite1.position = ccp( s.width/2 - 100, s.height/2 );
-		[mgr addChild:sprite1 z:0 tag:kTagSprite1];
-		
-		AtlasSprite *sprite2 = [AtlasSprite spriteWithRect:CGRectMake(85*1, 121*1, 85, 121) spriteManager: mgr];
-		sprite2.position = ccp( s.width/2 + 100, s.height/2 );
-		[mgr addChild:sprite2 z:0 tag:kTagSprite2];
-		
-		[self schedule:@selector(flipSprites:) interval:1];
-	}	
-	return self;
-}
--(void) flipSprites:(ccTime)dt
-{
-	id mgr = [self getChildByTag:kTagSpriteManager];
-	id sprite1 = [mgr getChildByTag:kTagSprite1];
-	id sprite2 = [mgr getChildByTag:kTagSprite2];
-	
-	BOOL x = [sprite1 flipX];
-	BOOL y = [sprite2 flipY];
-	
-	[sprite1 setFlipX: !x];
-	[sprite2 setFlipY: !y];
-}
--(NSString*) title
-{
-	return @"AtlasSprite Flip X & Y";
-}
-@end
-
-#pragma mark Example Atlas 8
-
-@implementation Atlas8
--(id) init
-{
-	if( (self=[super init]) ) {
-		
-		AtlasSpriteManager *mgr = [AtlasSpriteManager spriteManagerWithFile:@"grossini_dance_atlas.png" capacity:10];
-		[self addChild:mgr z:0 tag:kTagSpriteManager];
-		
-		CGSize s = [[Director sharedDirector] winSize];
-	
-		AtlasSprite *sprite1 = [AtlasSprite spriteWithRect:CGRectMake(85*1, 121*1, 85, 121) spriteManager: mgr];
-		sprite1.position = ccp( s.width/2 - 100, s.height/2 );
-		[mgr addChild:sprite1 z:0 tag:kTagSprite1];
-		
-		AtlasSprite *sprite2 = [AtlasSprite spriteWithRect:CGRectMake(85*1, 121*1, 85, 121) spriteManager: mgr];
-		sprite2.position = ccp( s.width/2 + 100, s.height/2 );
-		[mgr addChild:sprite2 z:0 tag:kTagSprite2];
-		
-		id scale = [ScaleBy actionWithDuration:2 scale:5];
-		id scale_back = [scale reverse];
-		id seq = [Sequence actions: scale, scale_back, nil];
-		id repeat = [RepeatForever actionWithAction:seq];
-		
-		id repeat2 = [[repeat copy] autorelease];
-		
-		[sprite1 runAction:repeat];
-		[sprite2 runAction:repeat2];
-		
-	}	
-	return self;
-}
--(void) onEnter
-{
-	[super onEnter];
-	AtlasSpriteManager *mgr = (AtlasSpriteManager*) [self getChildByTag:kTagSpriteManager];
-	[mgr.texture setAliasTexParameters];
-}
-
--(void) onExit
-{
-	// restore the tex parameter to AntiAliased.
-	AtlasSpriteManager *mgr = (AtlasSpriteManager*) [self getChildByTag:kTagSpriteManager];
-	[mgr.texture setAntiAliasTexParameters];
-	[super onExit];
-}
-
--(NSString*) title
-{
-	return @"Aliased AtlasSprite";
-}
-@end
-
 
 #pragma mark AppDelegate
 
@@ -685,23 +529,13 @@ Class restartAction()
 	[window setUserInteractionEnabled:YES];	
 	[window setMultipleTouchEnabled:NO];
 	
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA4444];
-
 	// must be called before any othe call to the director
 //	[Director useFastDirector];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
+	[[Director sharedDirector] setLandscape: YES];
 	[[Director sharedDirector] setAnimationInterval:1.0/60];
 	[[Director sharedDirector] setDisplayFPS:YES];
-
-	// Use this pixel format to have transparent buffers
-	[[Director sharedDirector] setPixelFormat:kRGBA8];
-	
-	// Create a depth buffer of 24 bits
-	// These means that openGL z-order will be taken into account
-	[[Director sharedDirector] setDepthBufferFormat:kDepthBuffer24];
-	
 
 	// create an openGL view inside a window
 	[[Director sharedDirector] attachInView:window];	

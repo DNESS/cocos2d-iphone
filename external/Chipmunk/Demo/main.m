@@ -203,6 +203,8 @@ void drawCollisions(void *ptr, void *data)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrthof(-320/factor, 320/factor, -480/factor, 480/factor, -1.0f, 1.0f);
+	if( [[Director sharedDirector] landscape] )
+		glTranslatef(0.5f, -480.5f, 0.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 

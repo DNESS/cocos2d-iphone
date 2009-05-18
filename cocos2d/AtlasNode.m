@@ -13,7 +13,6 @@
  */
 
 #import "AtlasNode.h"
-#import "ccMacros.h"
 
 
 @interface AtlasNode (Private)
@@ -23,8 +22,7 @@
 
 @implementation AtlasNode
 
-@synthesize opacity=opacity_, r=r_, g=g_, b=b_;
-@synthesize textureAtlas = textureAtlas_;
+@synthesize	opacity, r, g, b;
 
 #pragma mark AtlasNode - Creation & Init
 +(id) atlasWithTileFile:(NSString*)tile tileWidth:(int)w tileHeight:(int)h itemsToRender: (int) c
@@ -38,14 +36,13 @@
 	if( ! (self=[super init]) )
 		return nil;
 	
-	// retained
-	self.textureAtlas = [TextureAtlas textureAtlasWithFile:tile capacity:c];
+	textureAtlas = [[TextureAtlas textureAtlasWithFile:tile capacity:c] retain];
 	
 	itemWidth = w;
 	itemHeight = h;
 
-	opacity_ = 255;
-	r_ = g_ = b_ = 255;
+	opacity = 255;
+	r = g = b = 255;
 		
 	[self calculateMaxItems];
 	[self calculateTexCoordsSteps];
@@ -55,7 +52,7 @@
 
 -(void) dealloc
 {
-	[textureAtlas_ release];
+	[textureAtlas release];
 	
 	[super dealloc];
 }
@@ -64,15 +61,15 @@
 
 -(void) calculateMaxItems
 {
-	CGSize s = [[textureAtlas_ texture] contentSize];
+	CGSize s = [[textureAtlas texture] contentSize];
 	itemsPerColumn = s.height / itemHeight;
 	itemsPerRow = s.width / itemWidth;
 }
 
 -(void) calculateTexCoordsSteps
 {
-	texStepX = itemWidth / (float) [[textureAtlas_ texture] pixelsWide];
-	texStepY = itemHeight / (float) [[textureAtlas_ texture] pixelsHigh]; 	
+	texStepX = itemWidth / (float) [[textureAtlas texture] pixelsWide];
+	texStepY = itemHeight / (float) [[textureAtlas texture] pixelsHigh]; 	
 }
 
 -(void) updateAtlasValues
@@ -88,16 +85,10 @@
 	
 	glEnable( GL_TEXTURE_2D);
 
-	glColor4ub( r_, g_, b_, opacity_);
 
-	BOOL preMulti = [[textureAtlas_ texture] hasPremultipliedAlpha];
-	if( ! preMulti )
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
-	[textureAtlas_ drawQuads];
-		
-	if( !preMulti )
-		glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+	glColor4ub( r, g, b, opacity);
+
+	[textureAtlas drawQuads];
 	
 	// is this chepear than saving/restoring color state ?
 	glColor4ub( 255, 255, 255, 255);
@@ -108,21 +99,13 @@
 	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
 }
 
-#pragma mark AtlasNode - RGBA protocol
+#pragma mark AtlasNode - protocol related
 
 -(void) setRGB: (GLubyte) rr :(GLubyte) gg :(GLubyte)bb
 {
-	r_=rr;
-	g_=gg;
-	b_=bb;
-}
-
--(void) setOpacity:(GLubyte)opacity
-{
-	// special opacity for premultiplied textures
-	opacity_ = opacity;
-	if( [[textureAtlas_ texture] hasPremultipliedAlpha] )
-		r_ = g_ = b_ = opacity_;	
+	r=rr;
+	g=gg;
+	b=bb;
 }
 
 -(CGSize) contentSize
@@ -130,17 +113,5 @@
 	[NSException raise:@"ContentSizeAbstract" format:@"ContentSize was not overriden"];
 	return CGSizeMake(0,0);
 }
-
-#pragma mark AtlasNode - CocosNodeTexture protocol
--(void) setTexture:(Texture2D*)texture
-{
-	textureAtlas_.texture = texture;
-}
-
--(Texture2D*) texture
-{
-	return textureAtlas_.texture;
-}
-
 
 @end

@@ -79,28 +79,11 @@ Class restartAction()
 	[super dealloc];
 }
 
--(void) newOrientation
-{
-	ccDeviceOrientation orientation = [[Director sharedDirector] deviceOrientation];
-	switch (orientation) {
-		case CCDeviceOrientationLandscapeLeft:
-			orientation = CCDeviceOrientationPortrait;
-			break;
-		case CCDeviceOrientationPortrait:
-			orientation = CCDeviceOrientationLandscapeRight;
-			break;						
-		case CCDeviceOrientationLandscapeRight:
-			orientation = CCDeviceOrientationPortraitUpsideDown;
-			break;
-		case CCDeviceOrientationPortraitUpsideDown:
-			orientation = CCDeviceOrientationLandscapeLeft;
-			break;
-	}
-	[[Director sharedDirector] setDeviceOrientation:orientation];
-}
 -(void) restartCallback: (id) sender
 {
-	[self newOrientation];
+	BOOL landscape = [[Director sharedDirector] landscape];
+	[[Director sharedDirector] setLandscape: !landscape];
+
 	Scene *s = [Scene node];
 	[s addChild: [restartAction() node]];	
 
@@ -109,7 +92,8 @@ Class restartAction()
 
 -(void) nextCallback: (id) sender
 {
-	[self newOrientation];
+	BOOL landscape = [[Director sharedDirector] landscape];
+	[[Director sharedDirector] setLandscape: !landscape];
 
 	Scene *s = [Scene node];
 	[s addChild: [nextAction() node]];
@@ -118,7 +102,8 @@ Class restartAction()
 
 -(void) backCallback: (id) sender
 {
-	[self newOrientation];
+	BOOL landscape = [[Director sharedDirector] landscape];
+	[[Director sharedDirector] setLandscape: !landscape];
 
 	Scene *s = [Scene node];
 	[s addChild: [backAction() node]];
@@ -245,7 +230,7 @@ Class restartAction()
 //	[Director useFastDirector];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
+	[[Director sharedDirector] setLandscape: YES];
 	[[Director sharedDirector] setAnimationInterval:1.0/60];
 	[[Director sharedDirector] setDisplayFPS:YES];
 

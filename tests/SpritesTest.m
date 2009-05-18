@@ -222,7 +222,9 @@ Class restartAction()
 	
 	id actionTo = [ScaleTo actionWithDuration: 2 scale:0.5f];
 	id actionBy = [ScaleBy actionWithDuration:2  scale: 2];
-
+	
+//	grossini.transformAnchor = ccp( [grossini transformAnchor].x, 0 );
+	
 	[tamara runAction: actionTo];
 	[grossini runAction:actionBy];
 }
@@ -607,7 +609,7 @@ Class restartAction()
 	[[Director sharedDirector] attachInWindow:window];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
+	[[Director sharedDirector] setLandscape: YES];
 	
 	// display FPS (useful when debugging)
 	[[Director sharedDirector] setDisplayFPS:YES];

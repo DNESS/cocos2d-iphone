@@ -29,7 +29,7 @@
  * 
  * @since v0.7.1
  */
-@interface AtlasSpriteManager : CocosNode <CocosNodeTexture>
+@interface AtlasSpriteManager : CocosNode
 {
 @private
 	unsigned int totalSprites_;
@@ -37,7 +37,7 @@
 }
 
 /** returns the TextureAtlas that is used */
-@property (readwrite,retain) TextureAtlas * textureAtlas;
+@property (readonly) TextureAtlas * atlas;
 
 /** creates an AtlasSpriteManager with a texture2d */
 +(id)spriteManagerWithTexture:(Texture2D *)tex;

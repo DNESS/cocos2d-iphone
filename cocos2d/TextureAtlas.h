@@ -23,15 +23,19 @@
    * Quads can be removed in runtime
    * Quads can be re-ordered in runtime
    * The TextureAtlas capacity can be increased or decreased in runtime
-   * OpenGL component: V3F, C4B, T2F.
- The quads are rendered using an OpenGL ES an interleaved vertex array list
+   * Color array created on demand
+ The quads are rendered using an OpenGL ES vertex array list
  */
 @interface TextureAtlas : NSObject {
 	NSUInteger			totalQuads_;
 	NSUInteger			capacity_;
-	ccV3F_C4B_T2F_Quad	*quads;	// quads to be rendered
-	GLushort			*indices;
-	Texture2D			*texture_;	
+	ccQuad2		*texCoordinates;
+	ccQuad3		*vertexCoordinates;
+	ccColorB	*colors;			// RGBA for each vertex
+	GLushort	*indices;
+	Texture2D	*texture;
+	
+	BOOL		withColorArray_;
 }
 
 /** quantity of quads that are going to be drawn */
@@ -40,6 +44,8 @@
 @property (readonly) NSUInteger capacity;
 /** Texture of the texture atlas */
 @property (nonatomic,retain) Texture2D *texture;
+/** whether or not the TextureAtlas object is using a color array */
+@property (readonly) BOOL withColorArray;
 
 /** creates a TextureAtlas with an filename and with an initial capacity for Quads.
  * The TextureAtlas capacity can be increased in runtime.
@@ -63,17 +69,26 @@
  */
 -(id) initWithTexture:(Texture2D *)tex capacity:(NSUInteger)capacity;
 
-/** updates a Quad (texture, vertex and color) at a certain index
+/** updates a certain texture coordinate & vertex with new Quads.
  * index must be between 0 and the atlas capacity - 1
- @since v0.8
  */
--(void) updateQuad:(ccV3F_C4B_T2F_Quad*)quad atIndex:(NSUInteger)index;
+-(void) updateQuadWithTexture: (ccQuad2*) quadT vertexQuad:(ccQuad3*) quadV atIndex:(NSUInteger)index;
 
-/** Inserts a Quad (texture, vertex and color) at a certain index
- index must be between 0 and the atlas capacity - 1
- @since v0.8
+/** updates the color (RGBA) for a certain quad
+ * The 4 vertices of the Quad will be updated with this new quad color
  */
--(void) insertQuad:(ccV3F_C4B_T2F_Quad*)quad atIndex:(NSUInteger)index;
+-(void) updateColorWithColorQuad:(ccColorB*)color atIndex:(NSUInteger)n;
+
+/** updates a certain texture coordinate & vertex with new Quads.
+ * index must be between 0 and the atlas capacity - 1
+ */
+-(void) updateQuadWithTexture:(ccQuad2*)texCoords vertexQuad:(ccQuad3*)vertexCoords atIndex:(NSUInteger)index;
+
+/** Inserts a Quad with texture coordinate & vertex coords at a certain index.
+ index must be between 0 and the atlas capacity - 1
+ @since v0.7.2
+ */
+-(void) insertQuadWithTexture:(ccQuad2*)texCoords vertexQuad:(ccQuad3*)vertexCoords atIndex:(NSUInteger)index;
 
 /** Removes the quad that is located at a certain index and inserts it at a new index
  This operation is faster than remove and insert in 2 different steps.

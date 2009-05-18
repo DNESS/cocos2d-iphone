@@ -26,15 +26,11 @@ enum {
 	MenuItem *item2 = [MenuItemImage itemFromNormalImage:@"SendScoreButton.png" selectedImage:@"SendScoreButtonPressed.png" target:self selector:@selector(menuCallback2:)];
 	MenuItem *item3 = [MenuItemFont itemFromString: @"Disabled Item" target: self selector:@selector(menuCallbackDisabled:)];
 	MenuItem *item4 = [MenuItemFont itemFromString: @"I toggle enable items" target: self selector:@selector(menuCallbackEnable:)];
-	BitmapFontAtlas *label = [BitmapFontAtlas bitmapFontAtlasWithString:@"configuration" fntFile:@"bitmapFontTest3.fnt"];
-	MenuItemLabel *item5 = [MenuItemLabel itemWithLabel:label target:self selector:@selector(menuCallbackConfig:)];
+	MenuItem *item5 = [MenuItemFont itemFromString: @"Configuration" target: self selector:@selector(menuCallbackConfig:)];
 	
 	MenuItemFont *item6 = [MenuItemFont itemFromString: @"Quit" target:self selector:@selector(onQuit:)];
 	
-	id color_action = [TintBy actionWithDuration:0.5f red:0 green:-255 blue:-255];
-	id color_back = [color_action reverse];
-	id seq = [Sequence actions:color_action, color_back, nil];
-	[item6 runAction:[RepeatForever actionWithAction:seq]];
+	[[item6 label] setRGB:255:0:32];
 
 	Menu *menu = [Menu menuWithItems: item1, item2, item3, item4, item5, item6, nil];
 	[menu alignItemsVertically];
@@ -78,9 +74,6 @@ enum {
 -(void) onQuit: (id) sender
 {
 	[[Director sharedDirector] end];
-	
-	// HA HA... no more terminate on sdk v3.0
-	// http://developer.apple.com/iphone/library/qa/qa2008/qa1561.html
 	if( [[UIApplication sharedApplication] respondsToSelector:@selector(terminate)] )
 		[[UIApplication sharedApplication] performSelector:@selector(terminate)];
 }
@@ -186,6 +179,14 @@ enum {
 		[self alignMenusV];
 }
 
+-(BOOL) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	// you will only receive this message if Menu doesn't handle the touchesBegan event
+	// new in v0.6
+	NSLog(@"touches received");
+	return kEventHandled;
+}
+
 @end
 
 @implementation Layer3
@@ -195,8 +196,7 @@ enum {
 	[MenuItemFont setFontName: @"Marker Felt"];
 	[MenuItemFont setFontSize:28];
 
-	BitmapFontAtlas *label = [BitmapFontAtlas bitmapFontAtlasWithString:@"another option" fntFile:@"bitmapFontTest3.fnt"];
-	MenuItemLabel *item1 = [MenuItemLabel itemWithLabel:label target:self selector:@selector(menuCallback2:)];
+	MenuItemFont *item1 = [MenuItemFont itemFromString: @"Another option" target:self selector:@selector(menuCallback2:)];
 	MenuItemFont *item2 = [MenuItemFont itemFromString: @"--- Go Back ---" target:self selector:@selector(menuCallback:)];
 	
 	Menu *menu = [Menu menuWithItems: item1, item2, nil];	
@@ -279,7 +279,7 @@ enum {
     
 	[MenuItemFont setFontName: @"American Typewriter"];
 	[MenuItemFont setFontSize:18];
-	MenuItemFont *title4 = [MenuItemFont itemFromString: @"Orientation"];
+	MenuItemFont *title4 = [MenuItemFont itemFromString: @"Volume"];
     [title4 setIsEnabled:NO];
 	[MenuItemFont setFontName: @"Marker Felt"];
 	[MenuItemFont setFontSize:34];
@@ -299,9 +299,8 @@ enum {
     
     [MenuItemFont setFontName: @"Marker Felt"];
 	[MenuItemFont setFontSize:34];
-	
-	BitmapFontAtlas *label = [BitmapFontAtlas bitmapFontAtlasWithString:@"go back" fntFile:@"bitmapFontTest3.fnt"];
-	MenuItemLabel *back = [MenuItemLabel itemWithLabel:label target:self selector:@selector(backCallback:)];
+	MenuItemFont *back = [MenuItemFont itemFromString: @"Go Back" target:self selector:@selector(backCallback:)];
+
     
 	Menu *menu = [Menu menuWithItems:
                   title1, title2,
@@ -354,7 +353,7 @@ enum {
 //	[Director useFastDirector];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation: CCDeviceOrientationLandscapeRight];
+	[[Director sharedDirector] setLandscape: YES];
 
 	// show FPS
 	[[Director sharedDirector] setDisplayFPS:YES];

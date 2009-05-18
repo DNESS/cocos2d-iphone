@@ -17,7 +17,6 @@
 
 #import "Action.h"
 #import "cctypes.h"
-#import "Support/Texture2D.h"
 
 enum {
 	kCocosNodeTagInvalid = -1,
@@ -48,10 +47,9 @@ enum {
  - Camera ( using spherical coordinates )
  - GridBase (to do mesh transformations)
  - anchor point
- - size
  - visible
  - z-order
- - openGL z position
+ - parallax ratio
  
  Limitations:
  - A CocosNode is a "void" object. It doesn't have a texture
@@ -62,32 +60,22 @@ enum {
 @interface CocosNode : NSObject {
 	
 	// rotation angle
-	float rotation_;	
+	float rotation;	
 	
-	// scaling factors
-	float scaleX_, scaleY_;
+	// scale X factor
+	float scaleX;
+	
+	// scale Y factor
+	float scaleY;
 	
 	// position of the node
-	CGPoint position_;
+	CGPoint position;
 	
-	// If YES the transformtions will be relative to (-transform.x, -transform.y).
-	// Sprites, Labels and any other "small" object uses it.
-	// Scenes, Layers and other "whole screen" object don't use it.
-	BOOL relativeTransformAnchor_;
+	// parallax X factor
+	float parallaxRatioX;
 	
-	// transformation anchor point
-	CGPoint transformAnchor_;
-	
-	// anchor point
-	CGPoint anchorPoint_;
-	// untransformed size of the node
-	CGSize	contentSize_;
-	
-	CGAffineTransform transform_, inverse_;
-	BOOL isTransformDirty_, isInverseDirty_;
-	
-	// openGL real Z vertex
-	float vertexZ_;
+	// parallax Y factor
+	float parallaxRatioY;
 	
 	// is visible
 	BOOL visible;
@@ -100,6 +88,14 @@ enum {
 	
 	// z-order value
 	int zOrder;
+	
+	// If YES the transformtions will be relative to (-transform.x, -transform.y).
+	// Sprites, Labels and any other "small" object uses it.
+	// Scenes, Layers and other "whole screen" object don't use it.
+	BOOL relativeTransformAnchor;
+	
+	// transformation anchor point
+	CGPoint transformAnchor;
 	
 	// array of children
 	NSMutableArray *children;
@@ -114,10 +110,9 @@ enum {
 	int tag;
 	
 	// actions
-	struct ccArray *actions;
-	int actionIndex;
-	Action *currentAction;
-	BOOL currentActionSalvaged;
+	NSMutableArray *actions;
+	NSMutableArray *actionsToRemove;
+	NSMutableArray *actionsToAdd;
 	
 	// scheduled selectors
 	NSMutableDictionary *scheduledSelectors;    
@@ -125,19 +120,16 @@ enum {
 
 /** The z order of the node relative to it's "brothers": children of the same parent */
 @property(readonly) int zOrder;
-/** The real openGL Z vertex.
- Differences between openGL Z vertex and cocos2d Z order:
-   - OpenGL Z modifies the Z vertex, and not the Z order in the relation between parent-children
-   - OpenGL Z might require to set 2D projection
-   - cocos2d Z order works OK if all the nodes uses the same openGL Z vertex. eg: vertexZ = 0
- @warning: Use it at your own risk since it might break the cocos2d parent-children z order
- @since v0.8
- */
-@property (readwrite) float vertexZ;
 /** The rotation (angle) of the node in degrees. 0 is the default rotation angle */
 @property(readwrite,assign) float rotation;
 /** The scale factor of the node. 1.0 is the default scale factor */
 @property(readwrite,assign) float scale, scaleX, scaleY;
+/** The parallax ratio of the node. 1.0 is the default ratio */
+@property(readwrite,assign) float parallaxRatio;
+/** The X parallax ratio of the node. 1.0 is the default ratio */
+@property(readwrite,assign) float parallaxRatioY;
+/** The Y parallax ratio of the node. 1.0 is the default ratio */
+@property(readwrite,assign) float parallaxRatioX;
 /** Position (x,y) of the node in OpenGL coordinates. (0,0) is the left-bottom corner */
 @property(readwrite,assign) CGPoint position;
 /** A Camera object that lets you move the node using camera coordinates.
@@ -147,21 +139,8 @@ enum {
 @property(readwrite,retain) GridBase* grid;
 /** Whether of not the node is visible. Default is YES */
 @property(readwrite,assign) BOOL visible;
-/** The transformation anchor point in absolute pixels.
- since v0.8 you can only read it. If you wish to modify it, use anchorPoint instead
- */
-@property(readonly) CGPoint transformAnchor;
-/** Anchor point. (0,0) means bottom-left corner, (1,1) means top-right corner, (0.5, 0.5) means center
- Sprites and other "textured" Nodes have a default anchorPoint of (0.5f, 0.5f)
- @since v0.8
- */
-@property(readwrite) CGPoint anchorPoint;
-/** The untransformed size of the node.
- The contentSize remains the same no matter the node is scaled or rotated.
- All nodes has a size. Layer and Scene has the same size of the screen.
- @since v0.8
- */
-@property (readwrite) CGSize contentSize;
+/** The transformation anchor point. For Sprite and Label the transform anchor point is (width/2, height/2) */
+@property(readwrite,assign) CGPoint transformAnchor;
 /** A weak reference to the parent */
 @property(readwrite,assign) CocosNode* parent;
 /** If YES the transformtions will be relative to (-transform.x, -transform.y).
@@ -209,6 +188,31 @@ enum {
  */
 -(id) addChild: (CocosNode*)node z:(int)z tag:(int)tag;
 
+/** Adds a child to the container with a z-order and a parallax ratio
+ It returns self, so you can chain several addChilds.
+ @since v0.7.1
+ */
+-(id) addChild: (CocosNode*)node z:(int)z parallaxRatio:(CGPoint)c;
+
+// composition: ADD (deprecated)
+
+/** Adds a child to the container with z-order as 0 
+ @deprecated Will be removed in v0.8. Use addChild instead
+ */
+-(id) add: (CocosNode*)node __attribute__ ((deprecated));
+/** Adds a child to the container with a z-order
+ @deprecated Will be removed in v0.8. Use addChild:z instead
+ */
+-(id) add: (CocosNode*)node z:(int)z __attribute__ ((deprecated));
+/** Adds a child to the container with z order and tag
+ @deprecated Will be removed in v0.8. Use addChild:z:tag instead
+ */
+-(id) add: (CocosNode*)node z:(int)z tag:(int)tag __attribute__ ((deprecated));
+/** Adds a child to the container with a z-order and a parallax ratio
+ @deprecated Will be removed in v0.8. Use addChild:z:tag:paralalxRatio instead
+ */
+-(id) add: (CocosNode*)node z:(int)z parallaxRatio:(CGPoint)c __attribute__ ((deprecated));
+
 // composition: REMOVE
 
 /** Removes a child from the container. It will also cleanup all running actions depending on the cleanup parameter.
@@ -226,12 +230,57 @@ enum {
  */
 -(void) removeAllChildrenWithCleanup:(BOOL)cleanup;
 
+// composition: REMOVE (deprecated)
+
+/** Removes a child from the container
+ @deprecated Will be removed in v0.8. Use removeChild:cleanup:NO instead
+ @warning It DOESN'T stop all running actions from the removed object and it DOESN'T unschedules all scheduled selectors 
+ */
+-(void) remove: (CocosNode*)node __attribute__ ((deprecated));
+/** Removes a child from the container given its tag
+ @deprecated Will be removed in v0.8. Use removeChildByTag:cleanup:NO instead
+ @warning It DOESN'T stop all running actions from the removed object and it DOESN'T unschedules all scheduled selectors 
+ */
+-(void) removeByTag:(int) tag __attribute__ ((deprecated));
+/** Removes all children from the container.
+ @deprecated Will be removed in v0.8. Use removeAllChildrenWithCleanup:NO instead
+ @warning It DOESN'T stop all running actions from the removed object and it DOESN'T unschedules all scheduled selectors 
+ */
+-(void) removeAll __attribute__ ((deprecated));
+/** Removes a child from the container by reference and stops all running actions and scheduled functions
+ @deprecated Will be removed in v0.8. Use removeChild:cleanup:YES instead
+ */
+-(void) removeAndStop: (CocosNode*)node __attribute__ ((deprecated));
+/** Removes a child from the container by tag and stops all running actions and scheduled functions
+ @deprecated Will be removed in v0.8. Use removeChildByTag:cleanup:YES instead
+ */
+-(void) removeAndStopByTag:(int) tag __attribute__ ((deprecated));
+/** Removes all children from the container.
+ It stops all running actions from the removed objects and unschedules all scheduled selectors
+ @deprecated Will be removed in v0.8. Use removeAllChildrenWithCleanup:YES instead
+ */
+-(void) removeAndStopAll __attribute__ ((deprecated));
+
 // composition: GET
 /** Gets a child from the container given its tag
  @return returns a CocosNode object
  @since v0.7.1
  */
 -(CocosNode*) getChildByTag:(int) tag;
+
+// composition: GET (deprecated)
+
+/** Gets a child from the container given its tag
+ @deprecated Will be removed in v0.8. Use getChildByTag instead
+ @return returns a CocosNode object
+ */
+-(CocosNode*) getByTag:(int) tag __attribute__ ((deprecated));
+
+/** Returns the absolute position of the CocosNode
+ @deprecated Use convertToWorldSpace:CGPointZero instead. Will be removed in v0.8
+ @return a CGPoint value
+ */
+-(CGPoint) absolutePosition __attribute__ ((deprecated));
 
 /** Reorders a child according to a new z value.
  * The child MUST be already added.
@@ -261,9 +310,13 @@ enum {
 
 // actions
 
+/** Executes an action, and returns the action that is executed
+ @deprecated Will be removed in v0.8. Use runAction instead
+ */
+-(Action*) do: (Action*) action __attribute__ ((deprecated));
 /** Executes an action, and returns the action that is executed.
- The node becomes the action's target.
- @warning Starting from v0.8 actions don't retain their target anymore.
+ The target will be retained.
+ @warning in v0.8 the target won't be retained anymore
  @since v0.7.1
  @return An Action pointer
  */
@@ -309,12 +362,6 @@ enum {
 /// actual affine transforms used
 /// XXX: needs documentation
 /// @since v0.7.1
-- (CGAffineTransform)nodeToParentTransform;
-/// XXX: needs documentation
-/// @since v0.7.1
-- (CGAffineTransform)parentToNodeTransform;
-/// XXX: needs documentation
-/// @since v0.7.1
 - (CGAffineTransform)nodeToWorldTransform;
 /// XXX: needs documentation
 /// @since v0.7.1
@@ -350,9 +397,25 @@ enum {
 // protocols
 //
 
-/// CocosNode RGBA protocol
-@protocol CocosNodeRGBA <NSObject>
-/** set the color of the node
+/// CocosNode opacity protocol
+@protocol CocosNodeOpacity <NSObject>
+/// returns the opacity
+-(GLubyte) opacity;
+/// sets the opacity
+-(void) setOpacity: (GLubyte) opacity;
+@end
+
+
+/// Size CocosNode protocol
+@protocol CocosNodeSize <NSObject>
+/// returns the size in pixels of the un-tranformted texture.
+-(CGSize) contentSize;
+@end
+
+
+/// Size CocosNode protocol
+@protocol CocosNodeRGB <NSObject>
+/** set the color of the node.
  * example:  [node setRGB: 255:128:24];  or  [node setRGB:0xff:0x88:0x22];
  @since v0.7.1
  */
@@ -363,31 +426,7 @@ enum {
 -(GLubyte) g;
 /// The blue component of the node's color.
 -(GLubyte) b;
-/// returns the opacity
--(GLubyte) opacity;
-/** sets the opacity.
- @warning If the the texture has premultiplied colors then R = G = B = Opacity
- */
--(void) setOpacity: (GLubyte) opacity;
 @end
-
-
-/** CocosNodes that uses a Texture2D to render the images.
- @since v0.8
- */
-@protocol CocosNodeTexture <NSObject>
-/** returns the used texture */
--(Texture2D*) texture;
-/** sets a new texture. it will be retained */
--(void) setTexture:(Texture2D*)texture;
-@end
-
-/** Common interface for Labels */
-@protocol CocosNodeLabel <NSObject>
-/** sets a new label using an NSString */
--(void) setString:(NSString*)label;
-@end
-
 
 
 /// Objects that supports the Animation protocol
@@ -400,6 +439,7 @@ enum {
 /** name of the animation */
 -(NSString*) name;
 @end
+
 
 /// Nodes supports frames protocol
 /// @since v0.7.1
@@ -416,5 +456,10 @@ enum {
 -(id<CocosAnimation>)animationByName: (NSString*) animationName;
 /** adds an Animation to the Sprite */
 -(void) addAnimation: (id<CocosAnimation>) animation;
+/** whether or not the method 'setDisplayFrame' will auto center the frames or not
+ @deprecated Added only to fix issue #281. v0.8 will use relative transformAnchor point.
+ @since v0.7.2
+ */
+-(void) setAutoCenterFrames:(BOOL) autoCenterFrames;
 @end
 

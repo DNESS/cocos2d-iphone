@@ -66,41 +66,24 @@
 -(void) locate
 {
 	if( dirty ) {
-		ccDeviceOrientation orientation = [[Director sharedDirector] deviceOrientation];
+		BOOL landscape = [[Director sharedDirector] landscape];
 
 		glLoadIdentity();
 
-		switch( orientation ) {
-			case CCDeviceOrientationPortrait:
-				break;
-			case CCDeviceOrientationPortraitUpsideDown:
-				glRotatef(-180,0,0,1);
-				break;
-			case CCDeviceOrientationLandscapeLeft:
-				glRotatef(-90,0,0,1);
-				break;
-			case CCDeviceOrientationLandscapeRight:
-				glRotatef(90,0,0,1);
-				break;	
-		}
+		if( landscape )
+			glRotatef(-90,0,0,1);
 		
 		gluLookAt( eyeX, eyeY, eyeZ,
 				centerX, centerY, centerZ,
 				upX, upY, upZ
 				);
 		
-		switch( orientation ) {
-			case CCDeviceOrientationPortrait:
-			case CCDeviceOrientationPortraitUpsideDown:
-				// none
-				break;
-			case CCDeviceOrientationLandscapeLeft:
-				glTranslatef(-80,80,0);
-				break;
-			case CCDeviceOrientationLandscapeRight:
-				glTranslatef(-80,80,0);
-				break;	
-		}
+		if( landscape )
+#ifdef LANDSCAPE_LEFT
+			glTranslatef(-80,80,0);
+#else
+#error "FIX ME"
+#endif // LANDSCAPE_LEFT
 	}
 }
 

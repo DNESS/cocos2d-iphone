@@ -66,7 +66,7 @@
  - RGB colors
  - contentSize
  */
-@interface ColorLayer : Layer <CocosNodeRGBA>
+@interface ColorLayer : Layer <CocosNodeOpacity, CocosNodeRGB, CocosNodeSize>
 {
 	GLubyte r,g,b,opacity;
 	GLfloat squareVertices[4 * 2];

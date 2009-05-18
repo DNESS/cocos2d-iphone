@@ -22,15 +22,15 @@
 
 @interface TextureAtlas (Private)
 -(void) initIndices;
+-(BOOL) initColorArray;
 @end
 
-//According to some tests GL_TRIANGLE_STRIP is slower, MUCH slower. Probably I'm doing something very wrong
-//#define USE_TRIANGLE_STRIP 1
 
 @implementation TextureAtlas
 
 @synthesize totalQuads = totalQuads_, capacity = capacity_;
-@synthesize texture = texture_;
+@synthesize texture;
+@synthesize withColorArray = withColorArray_;
 
 #pragma mark TextureAtlas - alloc & init
 
@@ -54,27 +54,32 @@
 
 -(id) initWithTexture:(Texture2D*)tex capacity:(NSUInteger)n
 {
-	if( (self=[super init]) ) {
+	if( ! (self=[super init]) )
+		return nil;
 	
-		capacity_ = n;
-		
-		// retained in property
-		self.texture = tex;
+	capacity_ = n;
+	
+	// retained in property
+	self.texture = tex;
 
-		quads = malloc( sizeof(quads[0]) * capacity_ );
-		indices = malloc( sizeof(indices[0]) * capacity_ * 6 );
-		
-		if( ! ( quads && indices) ) {
-			NSLog(@"TextureAtlas: not enough memory");
-			if( quads )
-				free(quads);
-			if( indices )
-				free(indices);
-			return nil;
-		}
+	withColorArray_ = NO;
 
-		[self initIndices];
+	texCoordinates = malloc( sizeof(texCoordinates[0]) * capacity_ );
+	vertexCoordinates = malloc( sizeof(vertexCoordinates[0]) * capacity_ );
+	indices = malloc( sizeof(indices[0]) * capacity_ * 6 );
+	
+	if( ! ( texCoordinates && vertexCoordinates && indices) ) {
+		NSLog(@"TextureAtlas: not enough memory");
+		if( texCoordinates )
+			free(texCoordinates);
+		if( vertexCoordinates )
+			free(vertexCoordinates);
+		if( indices )
+			free(indices);
+		return nil;
 	}
+
+	[self initIndices];
 	
 	return self;
 }
@@ -88,54 +93,84 @@
 {
 	CCLOG(@"deallocing %@",self);
 
-	free(quads);
+	free(vertexCoordinates);
+	free(texCoordinates);
 	free(indices);
+	if(withColorArray_)
+		free(colors);
 	
-	[texture_ release];
+	[texture release];
 
 	[super dealloc];
+}
+
+-(BOOL) initColorArray
+{
+	if( !withColorArray_ ) {
+		colors = malloc( sizeof(colors[0]) * capacity_ * 4 );
+		if(!colors) {
+			CCLOG(@"TextureAtlas#initColorArray: not enough memory");
+			// XXX: These kind of events should raise an exception instead of returning BOOL. 
+			// XXX: For the moment lets continue handling like these.
+			// XXX: But an exception hierarchy should be created
+			// XXX: And the library should work with try() catch().
+			return NO;
+		} else {
+			// default color: 255,255,255,255
+			memset(colors, 0xFF,  capacity_ * 4 * sizeof(colors[0]));
+			withColorArray_ = YES;
+		}
+	}
+	
+	return YES;
 }
 
 -(void) initIndices
 {
 	for( NSUInteger i=0;i< capacity_;i++) {
-#ifdef USE_TRIANGLE_STRIP
-		indices[i*6+0] = i*4+0;
-		indices[i*6+1] = i*4+0;
-		indices[i*6+2] = i*4+2;		
-		indices[i*6+3] = i*4+1;
-		indices[i*6+4] = i*4+3;
-		indices[i*6+5] = i*4+3;
-#else
 		indices[i*6+0] = i*4+0;
 		indices[i*6+1] = i*4+1;
 		indices[i*6+2] = i*4+2;
-		
+
 		// inverted index. issue #179
-		indices[i*6+3] = i*4+3;
+		indices[i*6+5] = i*4+1;
 		indices[i*6+4] = i*4+2;
-		indices[i*6+5] = i*4+1;		
-//		indices[i*6+3] = i*4+2;
-//		indices[i*6+4] = i*4+3;
-//		indices[i*6+5] = i*4+1;	
-#endif	
+		indices[i*6+3] = i*4+3;
+		
 	}
 }
 
 #pragma mark TextureAtlas - Update, Insert, Move & Remove
 
--(void) updateQuad:(ccV3F_C4B_T2F_Quad*)quad atIndex:(NSUInteger) n
+-(void) updateQuadWithTexture: (ccQuad2*) quadT vertexQuad:(ccQuad3*) quadV atIndex:(NSUInteger) n
 {
 	
 	NSAssert( n >= 0 && n < capacity_, @"updateQuadWithTexture: Invalid index");
 
 	totalQuads_ =  MAX( n+1, totalQuads_);
 
-	quads[n] = *quad;
+	texCoordinates[n] = *quadT;
+	vertexCoordinates[n] = *quadV;
 }
 
+-(void) updateColorWithColorQuad:(ccColorB*)color atIndex:(NSUInteger)n
+{
+	NSAssert( n >= 0 && n < capacity_, @"updateColorWithQuadColor: Invalid index");
 
--(void) insertQuad:(ccV3F_C4B_T2F_Quad*)quad atIndex:(NSUInteger)index
+	totalQuads_ =  MAX( n+1, totalQuads_);
+	
+	if( ! withColorArray_ )
+		[self initColorArray];
+	
+	// initColorArray might fail
+
+	if( withColorArray_ ) {
+		for( int i=0;i<4;i++)
+			colors[n*4+i] = *color;
+	}
+}
+
+-(void) insertQuadWithTexture:(ccQuad2*)texCoords vertexQuad:(ccQuad3*)vertexCoords atIndex:(NSUInteger)index
 {
 	NSAssert( index >= 0 && index < capacity_, @"updateQuadWithTexture: Invalid index");
 	
@@ -146,10 +181,16 @@
 	// last object doesn't need to be moved
 	if( remaining ) {
 		// tex coordinates
-		memmove( &quads[index+1],&quads[index], sizeof(quads[0]) * remaining );
+		memmove( &texCoordinates[index+1],&texCoordinates[index], sizeof(texCoordinates[0]) * remaining );
+		// vertexCoordinates
+		memmove( &vertexCoordinates[index+1], &vertexCoordinates[index], sizeof(vertexCoordinates[0]) * remaining );
+		// colors
+		if(withColorArray_)
+			memmove(&colors[(index+1)*4], &colors[index*4], sizeof(colors[0]) * remaining * 4);
 	}
 	
-	quads[index] = *quad;
+	texCoordinates[index] = *texCoords;
+	vertexCoordinates[index] = *vertexCoords;
 }
 
 
@@ -170,9 +211,27 @@
 	}
 
 	// tex coordinates
-	ccV3F_C4B_T2F_Quad quadsBackup = quads[oldIndex];
-	memmove( &quads[dst],&quads[src], sizeof(quads[0]) * howMany );
-	quads[newIndex] = quadsBackup;
+	ccQuad2 texCoordsBackup = texCoordinates[oldIndex];
+	memmove( &texCoordinates[dst],&texCoordinates[src], sizeof(texCoordinates[0]) * howMany );
+	texCoordinates[newIndex] = texCoordsBackup;
+
+	// vertexCoordinates coordinates
+	ccQuad3 vertexQuadBackup = vertexCoordinates[oldIndex];
+	memmove( &vertexCoordinates[dst], &vertexCoordinates[src], sizeof(vertexCoordinates[0]) * howMany );
+	vertexCoordinates[newIndex] = vertexQuadBackup;
+
+	// colors
+	if( withColorArray_ ) {
+		ccColorB colorsBackup[4];
+
+		for(int i=0;i<4;i++)
+			colorsBackup[i] = colors[oldIndex*4+i];
+		
+		memmove(&colors[dst*4], &colors[(src)*4], sizeof(colors[0]) * howMany * 4);
+
+		for(int i=0;i<4;i++)
+			colors[newIndex*4+i] = colorsBackup[i];
+	}	
 }
 
 -(void) removeQuadAtIndex:(NSUInteger) index
@@ -184,7 +243,12 @@
 	// last object doesn't need to be moved
 	if( remaining ) {
 		// tex coordinates
-		memmove( &quads[index],&quads[index+1], sizeof(quads[0]) * remaining );
+		memmove( &texCoordinates[index],&texCoordinates[index+1], sizeof(texCoordinates[0]) * remaining );
+		// vertexCoordinates
+		memmove( &vertexCoordinates[index], &vertexCoordinates[index+1], sizeof(vertexCoordinates[0]) * remaining );
+		// colors
+		if(withColorArray_)
+			memmove(&colors[index*4], &colors[(index+1)*4], sizeof(colors[0]) * remaining * 4);
 	}
 	
 	totalQuads_--;
@@ -201,34 +265,61 @@
 {
 	if( newCapacity == capacity_ )
 		return YES;
+	
+	void * tmpColors = nil;
 
 	// update capacity and totolQuads
 	totalQuads_ = MIN(totalQuads_,newCapacity);
 	capacity_ = newCapacity;
 
-	void * tmpQuads = realloc( quads, sizeof(quads[0]) * capacity_ );
+	void * tmpTexCoords = realloc( texCoordinates, sizeof(texCoordinates[0]) * capacity_ );
+	void * tmpVertexCoords = realloc( vertexCoordinates, sizeof(vertexCoordinates[0]) * capacity_ );
 	void * tmpIndices = realloc( indices, sizeof(indices[0]) * capacity_ * 6 );
 	
-	if( ! ( tmpQuads && tmpIndices) ) {
+	if( withColorArray_ )
+		tmpColors = realloc( colors, sizeof(colors[0]) * capacity_ * 4 );
+	else
+		tmpColors = (void*) 1;
+	
+	if( ! ( tmpTexCoords && tmpVertexCoords && tmpIndices && tmpColors) ) {
 		NSLog(@"TextureAtlas: not enough memory");
-		if( tmpQuads )
-			free(tmpQuads);
+		if( tmpTexCoords )
+			free(tmpTexCoords);
 		else
-			free(quads);
+			free(texCoordinates);
+		
+		if( tmpVertexCoords )
+			free(tmpVertexCoords);
+		else
+			free(vertexCoordinates);
 		
 		if( tmpIndices )
 			free(tmpIndices);
 		else
 			free(indices);
+
+		if( withColorArray_) {
+			if( tmpColors )
+				free( tmpColors );
+			else
+				free( colors);
+		}
 		
+		texCoordinates = nil;
+		vertexCoordinates = nil;
 		indices = nil;
-		quads = nil;
+		colors = nil;
+		
 		capacity_ = totalQuads_ = 0;
+
 		return NO;
 	}
-		
-	quads = tmpQuads;
+	
+	texCoordinates = tmpTexCoords;
+	vertexCoordinates = tmpVertexCoords;
 	indices = tmpIndices;
+	if( withColorArray_ )
+		colors = tmpColors;
 
 	[self initIndices];	
 
@@ -243,29 +334,13 @@
 }
 
 -(void) drawNumberOfQuads: (NSUInteger) n
-{	
-#define kPointSize sizeof(quads[0].bl)
-	glBindTexture(GL_TEXTURE_2D, [texture_ name]);
-	
-	int offset = (int)quads;
-
-	// vertex
-	int diff = offsetof( ccV3F_C4B_T2F, vertices);
-	glVertexPointer(3, GL_FLOAT, kPointSize, (void*) (offset + diff) );
-
-	// color
-	diff = offsetof( ccV3F_C4B_T2F, colors);
-	glColorPointer(4, GL_UNSIGNED_BYTE, kPointSize, (void*)(offset + diff));
-	
-	// tex coords
-	diff = offsetof( ccV3F_C4B_T2F, texCoords);
-	glTexCoordPointer(2, GL_FLOAT, kPointSize, (void*)(offset + diff));
-	
-#ifdef USE_TRIANGLE_STRIP
-	glDrawElements(GL_TRIANGLE_STRIP, n*6, GL_UNSIGNED_SHORT, indices);	
-#else
+{		
+	glBindTexture(GL_TEXTURE_2D, [texture name]);
+	glVertexPointer(3, GL_FLOAT, 0, vertexCoordinates);
+	glTexCoordPointer(2, GL_FLOAT, 0, texCoordinates);
+	if( withColorArray_ )
+		glColorPointer(4, GL_UNSIGNED_BYTE, 0, colors);
 	glDrawElements(GL_TRIANGLES, n*6, GL_UNSIGNED_SHORT, indices);	
-#endif
 }
 
 @end

@@ -15,47 +15,46 @@
 #import "TextureAtlas.h"
 #import "CocosNode.h"
 
-/** AtlasNode is a subclass of CocosNode that implements the CocosNodeRGBA and
- CocosNodeTexture protocol
+/** AtlasNode is a subclass of CocosNode that implements CocosNodeOpacity, CocosNodeRGB and
+ CocosNodeSize protocols.
  
  It knows how to render a TextureAtlas object.
- If you are going to render a TextureAtlas consider subclassing AtlasNode (or a subclass of AtlasNode)
  
  All features from CocosNode are valid, plus the following features:
- - opacity and RGB colors
+ - opacity
+ - color (setRGB:::)
+ - contentSize
  */
-@interface AtlasNode : CocosNode <CocosNodeRGBA, CocosNodeTexture> {
+@interface AtlasNode : CocosNode <CocosNodeOpacity, CocosNodeRGB, CocosNodeSize> {
 	
-	// texture atlas
-	TextureAtlas	*textureAtlas_;
-	// chars per row
+	/// texture atlas
+	TextureAtlas	*textureAtlas;
+	/// chars per row
 	int				itemsPerRow;
-	// chars per column
+	/// chars per column
 	int				itemsPerColumn;
 	
-	// texture coordinate x increment
+	/// texture coordinate x increment
 	float			texStepX;
-	// texture coordinate y increment
+	/// texture coordinate y increment
 	float			texStepY;
 	
-	// width of each char
+	/// width of each char
 	int				itemWidth;
-	// height of each char
+	/// height of each char
 	int				itemHeight;
 	
-	// texture opacity
-	GLubyte opacity_;
+	/// texture opacity
+	GLubyte opacity;
 	
-	// texture color
-	GLubyte	r_,g_,b_;
+	/// texture color
+	GLubyte	r,g,b;
 	
 }
 
-/** conforms to CocosNodeTexture protocol */
-@property (readwrite,retain) TextureAtlas *textureAtlas;
+/// Conforms to CocosNodeOpacity and CocosNodeRGB protocol
+@property (readwrite,assign) GLubyte opacity, r, g, b;
 
-/** conforms to CocosNodeRGBA protocol */
-@property (readonly) GLubyte r, g, b, opacity;
 
 /** creates an AtlasNode  with an Atlas file the width and height of each item and the quantity of items to render*/
 +(id) atlasWithTileFile:(NSString*)tile tileWidth:(int)w tileHeight:(int)h itemsToRender: (int) c;

@@ -121,15 +121,13 @@ enum {
 @implementation Lens3DDemo
 +(id) actionWithDuration:(ccTime)t
 {
-	CGSize size = [[Director sharedDirector] winSize];
-	return [self actionWithPosition:ccp(size.width/2,size.height/2) radius:240 grid:ccg(15,10) duration:t];
+	return [self actionWithPosition:ccp(240,160) radius:240 grid:ccg(15,10) duration:t];
 }
 @end
 @implementation Ripple3DDemo
 +(id) actionWithDuration:(ccTime)t
 {
-	CGSize size = [[Director sharedDirector] winSize];
-	return [self actionWithPosition:ccp(size.width/2,size.height/2) radius:240 waves:4 amplitude:160 grid:ccg(32,24) duration:t];
+	return [self actionWithPosition:ccp(240,160) radius:240 waves:4 amplitude:160 grid:ccg(32,24) duration:t];
 }
 @end
 @implementation LiquidDemo
@@ -147,8 +145,7 @@ enum {
 @implementation TwirlDemo
 +(id) actionWithDuration:(ccTime)t
 {
-	CGSize size = [[Director sharedDirector] winSize];
-	return [self actionWithPosition:ccp(size.width/2, size.height/2) twirls:1 amplitude:2.5f grid:ccg(12,8) duration:t];
+	return [self actionWithPosition:ccp(240,160) twirls:1 amplitude:2.5f grid:ccg(12,8) duration:t];
 }
 @end
 @implementation ShakyTiles3DDemo
@@ -345,8 +342,8 @@ Class restartAction()
 	
 	Sprite *bg = [Sprite spriteWithFile:@"background.png"];
 	[node addChild: bg z:0];
-	bg.anchorPoint = CGPointZero;
-//	bg.position = ccp(-100,-100);
+	bg.transformAnchor = CGPointZero;
+	bg.position = ccp(-100,-100);
 	
 	Sprite *grossini = [Sprite spriteWithFile:@"grossinis_sister2.png"];
 	[node addChild:grossini z:1];
@@ -375,9 +372,9 @@ Class restartAction()
 	MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
 	Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
 	menu.position = CGPointZero;
-	item1.position = ccp(size.width/2-100,30);
-	item2.position = ccp(size.width/2, 30);
-	item3.position = ccp(size.width/2+100,30);
+	item1.position = ccp(480/2-100,30);
+	item2.position = ccp(480/2, 30);
+	item3.position = ccp(480/2+100,30);
 	[self addChild: menu z:1];
 	
 	[self performSelector:@selector(restartCallback:) withObject:self afterDelay:0.1];
@@ -445,7 +442,7 @@ Class restartAction()
 //	[Director useFastDirector];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeRight];
+	[[Director sharedDirector] setLandscape: YES];
 	[[Director sharedDirector] setAnimationInterval:1.0/60];
 	[[Director sharedDirector] setDisplayFPS:YES];
 	

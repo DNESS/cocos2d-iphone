@@ -35,26 +35,13 @@
 - (void)setPosition:(CGPoint)pos {
     position = pos;
     float x,y;
-	switch ( [[Director sharedDirector] deviceOrientation] ) {
-		case CCDeviceOrientationLandscapeLeft:
-			x = pos.x - 240.0f;
-			y = 160.0f - pos.y;
-			break;		
-		case CCDeviceOrientationLandscapeRight:
-			// XXX: set correct orientation
-			x = pos.x - 240.0f;
-			y = 160.0f - pos.y;
-			break;		
-		case CCDeviceOrientationPortrait:
-			x = pos.x;
-			y = pos.y;
-			break;		
-		case CCDeviceOrientationPortraitUpsideDown:
-			// XXX: set correct orientation
-			x = pos.x;
-			y = pos.y;
-			break;		
-	}
+    if ([[Director sharedDirector] landscape]) {
+        x = pos.x - 240.0f;
+        y = 160.0f - pos.y;
+    } else {
+        x = pos.x;
+        y = pos.y;
+    }
     float listenerPosAL[] = {x, y, 0.0f};
 	// Move our listener coordinates
 	alListenerfv(AL_POSITION, listenerPosAL);    

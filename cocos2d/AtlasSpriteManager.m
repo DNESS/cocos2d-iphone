@@ -38,7 +38,7 @@ const int defaultCapacity = 29;
 #pragma mark AtlasSpriteManager
 @implementation AtlasSpriteManager
 
-@synthesize textureAtlas = textureAtlas_;
+@synthesize atlas = textureAtlas_;
 
 -(void)dealloc
 {	
@@ -170,6 +170,9 @@ const int defaultCapacity = 29;
 	NSUInteger index = [self indexForNewChildAtZ:z];
 	[child insertInAtlasAtIndex: index];
 
+	if( textureAtlas_.withColorArray )
+		[child updateColor];
+
 	totalSprites_++;
 	[super addChild:child z:z tag:aTag];
 
@@ -257,30 +260,30 @@ const int defaultCapacity = 29;
 {
 	for( AtlasSprite *child in children )
 	{
-		if( child.dirty )
+		if( child.dirtyPosition )
 			[child updatePosition];
+		if( child.dirtyColor )
+			[child updateColor];
 	}
 
 	if(totalSprites_ > 0)
 	{
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_COLOR_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		
+		if( textureAtlas_.withColorArray )
+			glEnableClientState(GL_COLOR_ARRAY);
+
 		glEnable(GL_TEXTURE_2D);
-		
-		BOOL preMulti = [[textureAtlas_ texture] hasPremultipliedAlpha];
-		if( !preMulti )
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
-		[textureAtlas_ drawNumberOfQuads:totalSprites_];
-		
-		if( !preMulti )
-			glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
-		
+
+		[textureAtlas_ drawQuads];
+
 		glDisable(GL_TEXTURE_2D);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
+
+		if( textureAtlas_.withColorArray )
+			glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 }
 
@@ -299,17 +302,9 @@ const int defaultCapacity = 29;
 		// serious problems
 		CCLOG(@"WARNING: Not enough memory to resize the atlas");
 		NSAssert(NO,@"XXX: AltasSpriteManager#resizeAtlas SHALL handle this assert");
-	}	
-}
-
-#pragma mark AtlasSpriteManager - CocosNodeTexture protocol
--(void) setTexture:(Texture2D*)texture
-{
-	textureAtlas_.texture = texture;
-}
-
--(Texture2D*) texture
-{
-	return textureAtlas_.texture;
+	}
+	
+	for(AtlasSprite *sprite in children)
+		[sprite updateAtlas];
 }
 @end

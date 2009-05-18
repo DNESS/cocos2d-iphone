@@ -17,7 +17,6 @@
  
 // cocos2d imports
 #import "Director.h"
-#import "TouchDispatcher.h"
 #import "Camera.h"
 #import "Scheduler.h"
 #import "LabelAtlas.h"
@@ -61,7 +60,6 @@
 @synthesize openGLView=openGLView_;
 @synthesize pixelFormat=pixelFormat_;
 @synthesize nextDeltaTimeZero=nextDeltaTimeZero_;
-@synthesize deviceOrientation=deviceOrientation_;
 
 //
 // singleton stuff
@@ -119,8 +117,8 @@ static Director *_sharedDirector = nil;
 	scenesStack_ = [[NSMutableArray arrayWithCapacity:10] retain];
 	
 	// landscape
-	deviceOrientation_ = CCDeviceOrientationPortrait;
-
+	landscape = NO;
+	
 	// FPS
 	displayFPS = NO;
 	frames = 0;
@@ -192,7 +190,7 @@ static Director *_sharedDirector = nil;
 	if( displayFPS )
 		[self showFPS];
 	
-	glPopMatrix();
+		glPopMatrix();
 	
 	/* swap buffers */
 	[openGLView_ swapBuffers];	
@@ -492,25 +490,23 @@ static Director *_sharedDirector = nil;
 -(CGPoint)convertCoordinate:(CGPoint)p
 {
 	int newY = openGLView_.frame.size.height - p.y;
-	int newX = openGLView_.frame.size.width -p.x;
 	
-	CGPoint ret;
-	switch ( deviceOrientation_) {
-		case CCDeviceOrientationPortrait:
-			 ret = ccp( p.x, newY );
-			break;
-		case CCDeviceOrientationPortraitUpsideDown:
-			ret = ccp(newX, p.y);
-			break;
-		case CCDeviceOrientationLandscapeLeft:
-			ret.x = p.y;
-			ret.y = p.x;
-			break;
-		case CCDeviceOrientationLandscapeRight:
-			ret.x = newY;
-			ret.y = newX;
-			break;
-		}
+	CGPoint ret = ccp( p.x, newY );
+	if( ! landscape )
+	{
+		ret = ret;
+	}
+	else 
+	{
+#ifdef LANDSCAPE_LEFT
+		ret.x = p.y;
+		ret.y = p.x;
+#else
+		ret.x = p.y;
+		ret.y = openGLView_.frame.size.width -p.x;
+#endif // LANDSCAPE_LEFT
+	}
+	
 	return ret;
 }
 
@@ -518,7 +514,7 @@ static Director *_sharedDirector = nil;
 -(CGSize)winSize
 {
 	CGSize s = openGLView_.frame.size;
-	if( deviceOrientation_ == CCDeviceOrientationLandscapeLeft || deviceOrientation_ == CCDeviceOrientationLandscapeRight ) {
+	if( landscape ) {
 		// swap x,y in landscape mode
 		s.width = openGLView_.frame.size.height;
 		s.height = openGLView_.frame.size.width;
@@ -534,63 +530,39 @@ static Director *_sharedDirector = nil;
 
 - (BOOL) landscape
 {
-	return deviceOrientation_ == CCDeviceOrientationLandscapeLeft;
+	return landscape;
 }
 
 - (void) setLandscape: (BOOL) on
 {
-	if( on )
-		[self setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
-	else
-		[self setDeviceOrientation:CCDeviceOrientationPortrait];
-}
+	if( on != landscape ) {
+		landscape = on;
+		if( landscape )
+#ifdef LANDSCAPE_LEFT
+			[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationLandscapeRight animated:NO];
+#else
+			[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationLandscapeLeft animated:NO];
+#endif
+		else
+			[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationPortrait animated:NO];
 
-- (void) setDeviceOrientation:(ccDeviceOrientation) orientation
-{
-	if( deviceOrientation_ != orientation ) {
-		deviceOrientation_ = orientation;
-		switch( deviceOrientation_) {
-			case CCDeviceOrientationPortrait:
-				[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationPortrait animated:NO];
-				break;
-			case CCDeviceOrientationPortraitUpsideDown:
-				[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationPortrait animated:NO];
-				break;
-			case CCDeviceOrientationLandscapeLeft:
-				[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationLandscapeRight animated:NO];
-				break;
-			case CCDeviceOrientationLandscapeRight:
-				[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationLandscapeLeft animated:NO];
-				break;
-			default:
-				NSLog(@"Director: Unknown device orientation");
-				break;
-		}
 	}
+	return;
 }
 
 -(void) applyLandscape
 {
-	switch ( deviceOrientation_ ) {
-		case CCDeviceOrientationPortrait:
-			// nothing
-			break;
-		case CCDeviceOrientationPortraitUpsideDown:
-			// upside down
-			glTranslatef(160,240,0);
-			glRotatef(180,0,0,1);
-			glTranslatef(-160,-240,0);
-			break;
-		case CCDeviceOrientationLandscapeRight:
-			glTranslatef(160,240,0);
-			glRotatef(90,0,0,1);
-			glTranslatef(-240,-160,0);
-			break;
-		case CCDeviceOrientationLandscapeLeft:
-			glTranslatef(160,240,0);
-			glRotatef(-90,0,0,1);
-			glTranslatef(-240,-160,0);
-			break;
+	if( landscape ) {
+		glTranslatef(160,240,0);
+		
+#ifdef LANDSCAPE_LEFT
+		glRotatef(-90,0,0,1);
+		glTranslatef(-240,-160,0);
+#else		
+		// rotate left
+		glRotatef(90,0,0,1);
+		glTranslatef(-240,-160,0);
+#endif // LANDSCAPE_LEFT
 	}	
 }
 
@@ -707,8 +679,6 @@ static Director *_sharedDirector = nil;
 
 - (void)startAnimation
 {
-	[eventHandlers insertObject:[TouchDispatcher sharedDispatcher] atIndex:0];
-	
 	NSAssert( animationTimer == nil, @"animationTimer must be nil. Calling startAnimation twice?");
 
 	if( gettimeofday( &lastUpdate, NULL) != 0 ) {
@@ -719,6 +689,8 @@ static Director *_sharedDirector = nil;
 		@throw myException;
 	}
 	
+	
+
 	animationTimer = [NSTimer scheduledTimerWithTimeInterval:animationInterval target:self selector:@selector(mainLoop) userInfo:nil repeats:YES];
 
 //
@@ -732,8 +704,6 @@ static Director *_sharedDirector = nil;
 
 - (void)stopAnimation
 {
-	[eventHandlers removeObject:[TouchDispatcher sharedDispatcher]];
-	
 	[animationTimer invalidate];
 	animationTimer = nil;
 }
@@ -753,7 +723,7 @@ static Director *_sharedDirector = nil;
 -(void) addEventHandler:(id<TouchEventsDelegate>) delegate
 {
 	NSAssert( delegate != nil, @"Director.addEventHandler: delegate must be non nil");	
-	[eventHandlers insertObject:delegate atIndex:1];
+	[eventHandlers insertObject:delegate atIndex:0];
 }
 
 -(void) removeEventHandler:(id<TouchEventsDelegate>) delegate
@@ -899,8 +869,6 @@ static Director *_sharedDirector = nil;
 
 - (void) startAnimation
 {
-	[eventHandlers insertObject:[TouchDispatcher sharedDispatcher] atIndex:0];
-	
 	// XXX:
 	// XXX: release autorelease objects created
 	// XXX: between "use fast director" and "runWithScene"
@@ -951,8 +919,6 @@ static Director *_sharedDirector = nil;
 }
 - (void) stopAnimation
 {
-	[eventHandlers removeObject:[TouchDispatcher sharedDispatcher]];
-	
 	isRunning = NO;
 }
 

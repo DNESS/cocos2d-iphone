@@ -201,11 +201,11 @@ Class restartTransition()
 		y = size.height;
 
 		Sprite *bg1 = [Sprite spriteWithFile:@"background1.jpg"];
-		bg1.anchorPoint = CGPointZero;
+		bg1.transformAnchor = CGPointZero;
 		[self addChild:bg1 z:-1];
 
 		Label* label = [Label labelWithString:@"SCENE 1" fontName:@"Marker Felt" fontSize:64];
-		[label setRGB:16 :16 :255];
+
 		[label setPosition: ccp(x/2,y/2)];	
 		[self addChild: label];
 		
@@ -260,11 +260,11 @@ Class restartTransition()
 		y = size.height;
 		
 		Sprite *bg2 = [Sprite spriteWithFile:@"background2.jpg"];
-		bg2.anchorPoint = CGPointZero;
+		bg2.transformAnchor = CGPointZero;
 		[self addChild:bg2 z:-1];
 		
 		Label* label = [Label labelWithString:@"SCENE 2" fontName:@"Marker Felt" fontSize:64];
-		[label setRGB:16 :16 :255];
+		
 		[label setPosition: ccp(x/2,y/2)];
 		[self addChild: label];
 		
@@ -320,7 +320,7 @@ Class restartTransition()
 //	[Director useFastDirector];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
+	[[Director sharedDirector] setLandscape: YES];
 	[[Director sharedDirector] setDisplayFPS:YES];
 
 	[[Director sharedDirector] attachInView:window];

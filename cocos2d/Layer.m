@@ -19,7 +19,6 @@
 #import "Layer.h"
 #import "Director.h"
 #import "ccMacros.h"
-#import "Support/CGPointExtension.h"
 
 #pragma mark -
 #pragma mark Layer
@@ -34,10 +33,11 @@
 		return nil;
 	
 	CGSize s = [[Director sharedDirector] winSize];
-	anchorPoint_ = ccp(0.5f, 0.5f);
-	[self setContentSize:s];
-	self.relativeTransformAnchor = NO;
+	relativeTransformAnchor = NO;
 
+	transformAnchor.x = s.width / 2;
+	transformAnchor.y = s.height / 2;
+	
 	isTouchEnabled = NO;
 	isAccelerometerEnabled = NO;
 	
@@ -171,13 +171,7 @@
 	glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
 	glEnableClientState(GL_COLOR_ARRAY);
 	
-	if( opacity != 255 )
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	
-	if( opacity != 255 )
-		glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
 	
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);

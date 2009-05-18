@@ -16,12 +16,6 @@
 
 #import "MenuItem.h"
 #import "Layer.h"
-#import "TargetedTouchDelegate.h"
-
-typedef enum  {
-	kMenuStateWaiting,
-	kMenuStateTrackingTouch
-} MenuState;
 
 /** A Menu
  * 
@@ -29,11 +23,10 @@ typedef enum  {
  *  - You can add MenuItem objects in runtime using addChild:
  *  - But the only accecpted children are MenuItem objects
  */
-@interface Menu : CocosNode <TargetedTouchDelegate, CocosNodeRGBA>
+@interface Menu : Layer <CocosNodeOpacity>
 {
-	MenuState state;
-	MenuItem *selectedItem;
-	GLubyte opacity_, r_, g_, b_;
+	int selectedItem;
+	GLubyte opacity;
 }
 
 /** creates a menu with it's items */
@@ -66,7 +59,6 @@ typedef enum  {
 -(void) alignItemsInRows: (NSNumber *) rows vaList: (va_list) args;
 
 
-/** conforms to CocosNodeRGBA protocol */
-@property (readonly) GLubyte opacity, r, g, b;
+@property (readwrite,assign) GLubyte opacity;
 
 @end

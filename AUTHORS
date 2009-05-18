@@ -38,7 +38,6 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 			TurnOffTiles, WavesTiles3D, JumpTiles3D, SplitRows, SplitCols
 		Added Composite actions: AccelAmplitude, AccelDeccelAmplitude, DeccelAmplitude
 	* Favo Yang: patch for unschedule timer in CocosNode
-	* Fraggle: Fix to make Sequence actions works with 1st action
 	* Florin Dumitrescu: added "update score" in cocosLive
 		author of the sound engine: PASoundListener, PASoundMgr, PASoundSource
 	* Fradj Johann: patches for CocosNode
@@ -46,7 +45,7 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 		patches for MultiplexLayer
 	* Graham Perks: Atlas works with GL_CULL_FACE
 		FastDirector doesn't leak autorelease pool patch
-	* Mark Cooke: Added TintTo action
+	* guilo0: Added TintTo action
 	* Hans Larsen: Possibility to create empty menus
 	* Ishaq Malik: patches for CocosNode
 	* Jacob Eiting: patches for Primitives
@@ -54,15 +53,11 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 		author of EaseAction demos
 		author of StreakDemo, MotionStreak and Ribbon
 		patch for ScaleTo/By action to support X and Y.
-		added endSize to ParticleSystem
-		added WorldSpace coordinates to ParticleSystem
 	* Joe Vennix: patches for CocosNode
 	* jkrippy: patch for menu align. takes scale into account
 	* kasatani: AtlasSprite index 0 is not overwritten
 	* kermidt.zed: patches for absolutePosition in CocosNode
 		patches for Labels in Texture2D
-	* Leonardo Kasperavičius: original author of QuadParticleSystem class
-		Author of the original Bezier action
 	* lukeman: patches for MenuItem
 	* Maarten Billemont (lhunath): author of ParticleRain
 		added suport for particles' source
@@ -80,7 +75,7 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 		Added RGB protocol in CocosNode, Atlas, Texture
 		Particle reset system works as expected
 		CocosNode: fixed "already scheduled exception" bug
-	* mark at abitofthought: author of the single threaded Fast Director
+	* mark at abitofthought: author of Fast Director
 	* Mitch: patches for Menu
 		 author of MenuItemToggle
 	* Math Sephton: patches for Demos
@@ -95,7 +90,6 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 	* Steve Israelson: patches for Scheduler
 		pactches for Actions
 		patches for Transitions
-	* slypete: patch for FastDirector to run in the main thread
 	* Steve Oldmeadow: patches for Texture2D
 	* Valentin Milea: clean up CocosNode, added better comments to CocosNode
 		Set transformAnchor point in Sprite
@@ -112,8 +106,6 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 		AtlasSpriteManager#removeChild fixes
 		CocosNode#runAction doesn't run an already running action
 		Added improvements, fixes and documentation in CGPointExtension
-		Author of the TouchDispatcher/TouchHandler
-		CocosNode#runAction: patch that doesn't retain the target
 	* yarrington: patches for Director
 
 

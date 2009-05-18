@@ -34,13 +34,6 @@
 }
 @end
 
-@interface AtlasZVertex : AtlasDemo
-{
-	int dir;
-	float	time;
-}
-@end
-
 @interface Atlas5 : AtlasDemo
 {}
 @end
@@ -48,12 +41,3 @@
 @interface Atlas6 : AtlasDemo
 {}
 @end
-
-@interface Atlas7 : AtlasDemo
-{}
-@end
-
-@interface Atlas8 : AtlasDemo
-{}
-@end
-

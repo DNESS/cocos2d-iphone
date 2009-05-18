@@ -19,12 +19,13 @@
 @interface TileMapAtlas (Private)
 -(void) loadTGAfile:(NSString*)file;
 -(void) calculateItemsToRender;
--(void) updateAtlasValueAt:(ccGridSize)pos withValue:(ccColor3B)value withIndex:(int)idx;
+-(void) updateAtlasValueAt:(ccGridSize)pos withValue:(ccRGBB)value withIndex:(int)idx;
 @end
 
 
 @implementation TileMapAtlas
 
+@synthesize contentSize;
 @synthesize tgaInfo;
 
 #pragma mark TileMapAtlas - Creation & Init
@@ -39,14 +40,15 @@
 	[self loadTGAfile: map];
 	[self calculateItemsToRender];
 
-	if( (self=[super initWithTileFile:tile tileWidth:w tileHeight:h itemsToRender: itemsToRender]) ) {
+	if( !(self=[super initWithTileFile:tile tileWidth:w tileHeight:h itemsToRender: itemsToRender]) )
+		return nil;
 
-		posToAtlasIndex = [[NSMutableDictionary dictionaryWithCapacity:itemsToRender] retain];
+	posToAtlasIndex = [[NSMutableDictionary dictionaryWithCapacity:itemsToRender] retain];
 
-		[self updateAtlasValues];
-		
-		[self setContentSize: CGSizeMake(tgaInfo->width*itemWidth, tgaInfo->height*itemHeight)];
-	}
+	[self updateAtlasValues];
+	
+	contentSize.width = tgaInfo->width * itemWidth;
+	contentSize.height = tgaInfo->height * itemHeight;
 
 	return self;
 }
@@ -78,8 +80,8 @@
 	itemsToRender = 0;
 	for(int x=0;x < tgaInfo->width; x++ ) {
 		for( int y=0; y < tgaInfo->height; y++ ) {
-			ccColor3B *ptr = (ccColor3B*) tgaInfo->imageData;
-			ccColor3B value = ptr[x + y * tgaInfo->width];
+			ccRGBB *ptr = (ccRGBB*) tgaInfo->imageData;
+			ccRGBB value = ptr[x + y * tgaInfo->width];
 			if( value.r )
 				itemsToRender++;
 		}
@@ -107,7 +109,7 @@
 
 #pragma mark TileMapAtlas - Atlas generation / updates
 
--(void) setTile:(ccColor3B) tile at:(ccGridSize) pos
+-(void) setTile:(ccRGBB) tile at:(ccGridSize) pos
 {
 	NSAssert( tgaInfo != nil, @"tgaInfo must not be nil");
 	NSAssert( posToAtlasIndex != nil, @"posToAtlasIndex must not be nil");
@@ -115,8 +117,8 @@
 	NSAssert( pos.y < tgaInfo->height, @"Invalid position.x");
 	NSAssert( tile.r != 0, @"R component must be non 0");
 	
-	ccColor3B *ptr = (ccColor3B*) tgaInfo->imageData;
-	ccColor3B value = ptr[pos.x + pos.y * tgaInfo->width];
+	ccRGBB *ptr = (ccRGBB*) tgaInfo->imageData;
+	ccRGBB value = ptr[pos.x + pos.y * tgaInfo->width];
 	if( value.r == 0 ) {
 		CCLOG(@"Value.r must be non 0.");
 	} else {
@@ -129,50 +131,60 @@
 	}	
 }
 
--(ccColor3B) tileAt:(ccGridSize) pos
+-(ccRGBB) tileAt:(ccGridSize) pos
 {
 	NSAssert( tgaInfo != nil, @"tgaInfo must not be nil");
 	NSAssert( pos.x < tgaInfo->width, @"Invalid position.x");
 	NSAssert( pos.y < tgaInfo->height, @"Invalid position.y");
 	
-	ccColor3B *ptr = (ccColor3B*) tgaInfo->imageData;
-	ccColor3B value = ptr[pos.x + pos.y * tgaInfo->width];
+	ccRGBB *ptr = (ccRGBB*) tgaInfo->imageData;
+	ccRGBB value = ptr[pos.x + pos.y * tgaInfo->width];
 	
 	return value;	
 }
 
--(void) updateAtlasValueAt:(ccGridSize)pos withValue:(ccColor3B)value withIndex:(int)idx
+-(void) updateAtlasValueAt:(ccGridSize)pos withValue:(ccRGBB)value withIndex:(int)idx
 {
-	ccV3F_C4B_T2F_Quad quad;
-
+	ccQuad2 texCoord;
+	ccQuad3 vertex;
 	int x = pos.x;
 	int y = pos.y;
 	float row = (value.r % itemsPerRow) * texStepX;
 	float col = (value.r / itemsPerRow) * texStepY;
-
-	quad.tl.texCoords.u = row;
-	quad.tl.texCoords.v = col;
-	quad.tr.texCoords.u = row + texStepX;
-	quad.tr.texCoords.v = col;
-	quad.bl.texCoords.u = row;
-	quad.bl.texCoords.v = col + texStepY;
-	quad.br.texCoords.u = row + texStepX;
-	quad.br.texCoords.v = col + texStepY;
-
-	quad.bl.vertices.x = (int) (x * itemWidth);
-	quad.bl.vertices.y = (int) (y * itemHeight);
-	quad.bl.vertices.z = 0.0f;
-	quad.br.vertices.x = (int)(x * itemWidth + itemWidth);
-	quad.br.vertices.y = (int)(y * itemHeight);
-	quad.br.vertices.z = 0.0f;
-	quad.tl.vertices.x = (int)(x * itemWidth);
-	quad.tl.vertices.y = (int)(y * itemHeight + itemHeight);
-	quad.tl.vertices.z = 0.0f;
-	quad.tr.vertices.x = (int)(x * itemWidth + itemWidth);
-	quad.tr.vertices.y = (int)(y * itemHeight + itemHeight);
-	quad.tr.vertices.z = 0.0f;
 	
-	[textureAtlas_ updateQuad:&quad atIndex:idx];
+	texCoord.bl_x = row;							// A - x
+	texCoord.bl_y = col;							// A - y
+	texCoord.br_x = row + texStepX;					// B - x
+	texCoord.br_y = col;							// B - y
+	texCoord.tl_x = row;							// C - x
+	texCoord.tl_y = col + texStepY;					// C - y
+	texCoord.tr_x = row + texStepX;					// D - x
+	texCoord.tr_y = col + texStepY;					// D - y
+	
+	//					CCLOG(@"Tex coords: (%f,%f), (%f,%f), (%f,%f), (%f,%f)",
+	//						  texCoord.bl_x,
+	//						  texCoord.bl_y,
+	//						  texCoord.br_x,
+	//						  texCoord.br_y,
+	//						  texCoord.tl_x,
+	//						  texCoord.tl_y,
+	//						  texCoord.tr_x,
+	//						  texCoord.tr_y );
+	
+	vertex.bl_x = (int) (x * itemWidth);				// A - x
+	vertex.bl_y = (int) (y * itemHeight);				// A - y
+	vertex.bl_z = 0.0f;									// A - z
+	vertex.br_x = (int)(x * itemWidth + itemWidth);		// B - x
+	vertex.br_y = (int)(y * itemHeight);				// B - y
+	vertex.br_z = 0.0f;									// B - z
+	vertex.tl_x = (int)(x * itemWidth);					// C - x
+	vertex.tl_y = (int)(y * itemHeight + itemHeight);	// C - y
+	vertex.tl_z = 0.0f;									// C - z
+	vertex.tr_x = (int)(x * itemWidth + itemWidth);		// D - x
+	vertex.tr_y = (int)(y * itemHeight + itemHeight);	// D - y
+	vertex.tr_z = 0.0f;									// D - z
+	
+	[textureAtlas updateQuadWithTexture:&texCoord vertexQuad:&vertex atIndex:idx];
 }
 
 -(void) updateAtlasValues
@@ -185,8 +197,8 @@
 	for(int x=0;x < tgaInfo->width; x++ ) {
 		for( int y=0; y < tgaInfo->height; y++ ) {
 			if( total < itemsToRender ) {
-				ccColor3B *ptr = (ccColor3B*) tgaInfo->imageData;
-				ccColor3B value = ptr[x + y * tgaInfo->width];
+				ccRGBB *ptr = (ccRGBB*) tgaInfo->imageData;
+				ccRGBB value = ptr[x + y * tgaInfo->width];
 				
 				if( value.r != 0 ) {
 					[self updateAtlasValueAt:ccg(x,y) withValue:value withIndex:total];
@@ -201,4 +213,5 @@
 		}
 	}
 }
+
 @end

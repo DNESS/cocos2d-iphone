@@ -34,9 +34,15 @@
 	/// x,y to altas dicctionary
 	NSMutableDictionary	*posToAtlasIndex;
 	
+	/// size of the map in pixels
+	CGSize			contentSize;
+	
 	/// numbers of tiles to render
 	int				itemsToRender;
 }
+
+/** content size of the TileMap */
+@property (readonly) CGSize contentSize;
 
 /** TileMap info */
 @property (readonly) tImageTGA *tgaInfo;
@@ -50,12 +56,12 @@
 /** returns a tile from position x,y.
  For the moment only channel R is used
  */
--(ccColor3B) tileAt: (ccGridSize) position;
+-(ccRGBB) tileAt: (ccGridSize) position;
 
 /** sets a tile at position x,y.
  For the moment only channel R is used
  */
--(void) setTile:(ccColor3B)tile at:(ccGridSize)position;
+-(void) setTile:(ccRGBB)tile at:(ccGridSize)position;
 /** dealloc the map from memory */
 -(void) releaseMap;
 @end
