@@ -4954,7 +4954,7 @@
 				GCC_VERSION = 4.0;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 2.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -4981,7 +4981,7 @@
 				GCC_VERSION = 4.0;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 2.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
