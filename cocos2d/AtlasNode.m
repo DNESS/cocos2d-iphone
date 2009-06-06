@@ -84,7 +84,7 @@
 
 -(void) updateAtlasValues
 {
-	[NSException raise:@"AtlasNode:Abstract" format:@"updateAtlasValue not overriden"];
+	[NSException raise:@"AtlasNode:Abstract" format:@"updateAtlasValue not overridden"];
 }
 
 #pragma mark AtlasNode - draw
@@ -136,7 +136,7 @@
 
 -(CGSize) contentSize
 {
-	[NSException raise:@"ContentSizeAbstract" format:@"ContentSize was not overriden"];
+	[NSException raise:@"ContentSizeAbstract" format:@"ContentSize was not overridden"];
 	return CGSizeMake(0,0);
 }
 

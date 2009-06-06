@@ -25,16 +25,12 @@
 #pragma mark IntervalAction
 @implementation IntervalAction
 
-@synthesize elapsed;
+@synthesize duration, elapsed;
 
 -(id) init
 {
-	NSException* myException = [NSException
-								exceptionWithName:@"IntervalActionInit"
-								reason:@"Init not supported. Use InitWithDuration"
-								userInfo:nil];
-	@throw myException;
-	
+	NSAssert(NO, @"IntervalAction: init not supported. Use initWithDuration.");
+	return nil;
 }
 
 +(id) actionWithDuration: (ccTime) d
@@ -44,6 +40,8 @@
 
 -(id) initWithDuration: (ccTime) d
 {
+	// NSAssert(d > 0, @"IntervalAction duration must be greater than 0");
+	
 	if( !(self=[super init]) )
 		return nil;
 	
@@ -54,33 +52,35 @@
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	Action *copy = [[[self class] allocWithZone: zone] initWithDuration: [self duration] ];
+	id copy = [[[self class] allocWithZone: zone] initWithDuration: [self duration] ];
 	return copy;
 }
 
-
-- (BOOL) isDone
+-(void) start
 {
-	return (elapsed >= duration);
+	[super start];
+	elapsed = 0;
 }
 
 -(void) step: (ccTime) dt
 {
 	elapsed += dt;
-	[self update: MIN(1, elapsed/duration)];
+	
+	if (elapsed >= duration) {
+		// [self onDone];
+		[self update:1];
+	} else 
+		[self update: elapsed/duration];
 }
 
--(void) start
+-(void) update: (ccTime) time
 {
-	if( gettimeofday( &lastUpdate, NULL) != 0 ) {
-		NSException* myException = [NSException
-									exceptionWithName:@"GetTimeOfDay"
-									reason:@"GetTimeOfDay abnormal error"
-									userInfo:nil];
-		@throw myException;
-	}
-	
-	elapsed = 0.0f;
+	NSAssert(NO, @"IntervalAction#update must be overridden by subclass");
+}
+
+- (BOOL) isDone
+{
+	return (elapsed >= duration);
 }
 
 - (IntervalAction*) reverse
@@ -99,21 +99,21 @@
 #pragma mark -
 #pragma mark Sequence
 @implementation Sequence
-+(id) actionOne: (FiniteTimeAction*) one two: (FiniteTimeAction*) two
++(id) actionOne: (IntervalAction*) one two: (IntervalAction*) two
 {	
 	return [[[self alloc] initOne:one two:two ] autorelease];
 }
 
-+(id) actions: (FiniteTimeAction*) action1, ...
++(id) actions: (IntervalAction*) action1, ...
 {
 	va_list params;
 	va_start(params,action1);
 	
-	FiniteTimeAction *now;
-	FiniteTimeAction *prev = action1;
+	IntervalAction *now;
+	IntervalAction *prev = action1;
 	
 	while( action1 ) {
-		now = va_arg(params,FiniteTimeAction*);
+		now = va_arg(params,IntervalAction*);
 		if ( now )
 			prev = [Sequence actionOne: prev two: now];
 		else
@@ -123,13 +123,13 @@
 	return prev;
 }
 
--(id) initOne: (FiniteTimeAction*) one_ two: (FiniteTimeAction*) two_
+-(id) initOne: (IntervalAction*) one_ two: (IntervalAction*) two_
 {
 	NSAssert( one_!=nil, @"Sequence: argument one must be non-nil");
 	NSAssert( two_!=nil, @"Sequence: argument two must be non-nil");
 
-	FiniteTimeAction *one = one_;
-	FiniteTimeAction *two = two_;
+	IntervalAction *one = one_;
+	IntervalAction *two = two_;
 		
 	ccTime d = [one duration] + [two duration];
 	[super initWithDuration: d];
@@ -183,13 +183,13 @@
 	if (last == -1 && found==1)	{
 		[[actions objectAtIndex:0] start];
 		[[actions objectAtIndex:0] update:1.0f];
-		[[actions objectAtIndex:0] stop];
+		// !!! [[actions objectAtIndex:0] stop];
 	}
 
 	if (last != found ) {
 		if( last != -1 ) {
 			[[actions objectAtIndex: last] update: 1.0f];
-			[[actions objectAtIndex: last] stop];
+			// !!! [[actions objectAtIndex: last] stop];
 		}
 		[[actions objectAtIndex: found] start];
 	}
@@ -209,14 +209,14 @@
 #pragma mark -
 #pragma mark Repeat
 @implementation Repeat
-+(id) actionWithAction: (FiniteTimeAction*) action times: (unsigned int) t
++(id) actionWithAction: (IntervalAction*) action times: (unsigned int) t
 {
 	return [[[self alloc] initWithAction: action times: t] autorelease];
 }
 
--(id) initWithAction: (FiniteTimeAction*) action times: (unsigned int) t
+-(id) initWithAction: (IntervalAction*) action times: (unsigned int) t
 {
-	ccTime d = [action duration] * t;
+	ccTime d = action.duration * t;
 
 	if( !(self=[super initWithDuration: d ]) )
 		return nil;
@@ -224,7 +224,6 @@
 	times = t;
 	other = [action retain];
 
-	total = 0;
 	return self;
 }
 
@@ -266,7 +265,7 @@
 	if( t > total+1 ) {
 		[other update:1.0f];
 		total++;
-		[other stop];
+		// !!! [other stop];
 		[other start];
 		[other update:0.0f];
 	} else {
@@ -296,16 +295,16 @@
 #pragma mark Spawn
 
 @implementation Spawn
-+(id) actions: (FiniteTimeAction*) action1, ...
++(id) actions: (IntervalAction*) action1, ...
 {
 	va_list params;
 	va_start(params,action1);
 	
-	FiniteTimeAction *now;
-	FiniteTimeAction *prev = action1;
+	IntervalAction *now;
+	IntervalAction *prev = action1;
 	
 	while( action1 ) {
-		now = va_arg(params,FiniteTimeAction*);
+		now = va_arg(params,IntervalAction*);
 		if ( now )
 			prev = [Spawn actionOne: prev two: now];
 		else
@@ -315,12 +314,12 @@
 	return prev;
 }
 
-+(id) actionOne: (FiniteTimeAction*) one two: (FiniteTimeAction*) two
++(id) actionOne: (IntervalAction*) one two: (IntervalAction*) two
 {	
 	return [[[self alloc] initOne:one two:two ] autorelease];
 }
 
--(id) initOne: (FiniteTimeAction*) one_ two: (FiniteTimeAction*) two_
+-(id) initOne: (IntervalAction*) one_ two: (IntervalAction*) two_
 {
 	NSAssert( one_!=nil, @"Spawn: argument one must be non-nil");
 	NSAssert( two_!=nil, @"Spawn: argument two must be non-nil");
@@ -985,14 +984,14 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 #pragma mark -
 #pragma mark ReverseTime
 @implementation ReverseTime
-+(id) actionWithAction: (FiniteTimeAction*) action
++(id) actionWithAction: (IntervalAction*) action
 {
 	// casting to prevent warnings
 	ReverseTime *a = [super alloc];
 	return [[a initWithAction:action] autorelease];
 }
 
--(id) initWithAction: (FiniteTimeAction*) action
+-(id) initWithAction: (IntervalAction*) action
 {
 	if( !(self=[super initWithDuration: [action duration]]) )
 		return nil;
@@ -1019,11 +1018,12 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 	[other start];
 }
 
--(void) stop
+// !!!
+/*-(void) stop
 {
 	[other stop];
 	[super stop];
-}
+}*/
 
 -(void) update:(ccTime)t
 {
@@ -1094,7 +1094,8 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 	origFrame = [[sprite displayFrame] retain];
 }
 
--(void) stop
+// !!! 
+/*-(void) stop
 {
 	if( restoreOriginalFrame ) {
 		id<CocosNodeFrames> sprite = (id<CocosNodeFrames>) target;
@@ -1102,7 +1103,7 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 	}
 	
 	[super stop];
-}
+}*/
 
 -(void) update: (ccTime) t
 {

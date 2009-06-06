@@ -15,12 +15,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Action.h"
+#import "IntervalAction.h"
 
-/** Instant actions are immediate actions. They don't have a duration like
- the Interval Actions.
+/** Instant actions are IntervalAction with 0 duration. They do their job on
+ "start", ignoring "step" & "update".
 */ 
-@interface InstantAction : FiniteTimeAction <NSCopying>
+@interface InstantAction : IntervalAction <NSCopying>
 {}
 @end
 

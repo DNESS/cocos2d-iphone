@@ -21,32 +21,26 @@
 //
 @implementation InstantAction
 
+-(id) initWithDuration: (ccTime) d
+{
+	NSAssert(NO, @"InstantAction: initWithDuration not supported. Use init.");
+	return nil;
+}
 -(id) init
 {
-	if( (self=[super init]) )	
-		duration = 0;
-	return self;
+	return self = [super initWithDuration:0];
 }
-
 -(id) copyWithZone: (NSZone*) zone
 {
 	InstantAction *copy = [[[self class] allocWithZone: zone] init];
 	return copy;
 }
+-(void) start { [super start]; }
+-(void) step: (ccTime) dt { }
+-(void) update: (ccTime) time { }
+- (BOOL) isDone { return YES; }
 
-- (BOOL) isDone
-{
-	return YES;
-}
--(void) step: (ccTime) dt
-{
-	[self update: 1];
-}
--(void) update: (ccTime) t
-{
-	// ignore
-}
--(FiniteTimeAction*) reverse
+-(id) reverse
 {
 	return [[self copy] autorelease];
 }
@@ -61,7 +55,7 @@
 	[super start];
 	target.visible = YES;
 }
--(FiniteTimeAction*) reverse
+-(id) reverse
 {
 	return [Hide action];
 }
@@ -76,7 +70,7 @@
 	[super start];
 	target.visible = NO;
 }
--(FiniteTimeAction*) reverse
+-(id) reverse
 {
 	return [Show action];
 }

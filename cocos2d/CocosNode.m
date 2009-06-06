@@ -656,7 +656,7 @@
 			[currentAction release];
 		}
 		else if( [currentAction isDone] ) {
-			[currentAction stop];
+			// !!! [currentAction stop];
 			
 			Action *a = currentAction;
 			// Make currentAction nil to prevent stopAction from salvaging it.

@@ -84,12 +84,12 @@ enum {
 
 -(void) selected
 {
-	NSAssert(1,@"MenuItem.selected must be overriden");
+	NSAssert(1,@"MenuItem.selected must be overridden");
 }
 
 -(void) unselected
 {
-	NSAssert(1,@"MenuItem.unselected must be overriden");
+	NSAssert(1,@"MenuItem.unselected must be overridden");
 }
 
 -(void) activate

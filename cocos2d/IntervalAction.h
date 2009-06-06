@@ -33,24 +33,28 @@ Example:
  
 	Action * pingPongAction = [Sequence actions: action, [action reverse], nil];
 */
-@interface IntervalAction: FiniteTimeAction <NSCopying>
+@interface IntervalAction: Action <NSCopying>
 {
-	struct timeval lastUpdate;
+	//! duration in seconds
+	ccTime duration;
 	ccTime elapsed;
 }
 
 @property (readonly) ccTime elapsed;
+//! duration in seconds of the action
+@property (readonly) ccTime duration;
 
 /** creates the action */
 +(id) actionWithDuration: (ccTime) d;
 /** initializes the action */
 -(id) initWithDuration: (ccTime) d;
-/** called when the action is about to start */
--(void) start;
-/** returns YES if the action has finished */
--(BOOL) isDone;
-/** returns a reversed action */
-- (IntervalAction*) reverse;
+
+//! called once per frame. time a value between 0 and 1
+//! For example: 
+//! * 0 means that the action just started
+//! * 0.5 means that the action is in the middle
+//! * 1 means that the action is over
+-(void) update: (ccTime) time;
 @end
 
 /** Runs actions sequentially, one after another
@@ -62,11 +66,11 @@ Example:
 	int last;
 }
 /** helper contructor to create an array of sequenceable actions */
-+(id) actions: (FiniteTimeAction*) action1, ... NS_REQUIRES_NIL_TERMINATION;
++(id) actions: (IntervalAction*) action1, ... NS_REQUIRES_NIL_TERMINATION;
 /** creates the action */
-+(id) actionOne:(FiniteTimeAction*)actionOne two:(FiniteTimeAction*)actionTwo;
++(id) actionOne:(IntervalAction*)actionOne two:(IntervalAction*)actionTwo;
 /** initializes the action */
--(id) initOne:(FiniteTimeAction*)actionOne two:(FiniteTimeAction*)actionTwo;
+-(id) initOne:(IntervalAction*)actionOne two:(IntervalAction*)actionTwo;
 @end
 
 
@@ -77,27 +81,27 @@ Example:
 {
 	unsigned int times;
 	unsigned int total;
-	FiniteTimeAction *other;
+	IntervalAction *other;
 }
 /** creates the Repeat action. Times is an unsigned integer between 1 and pow(2,30) */
-+(id) actionWithAction:(FiniteTimeAction*)action times: (unsigned int)times;
++(id) actionWithAction:(IntervalAction*)action times: (unsigned int)times;
 /** initializes the action. Times is an unsigned integer between 1 and pow(2,30) */
--(id) initWithAction:(FiniteTimeAction*)action times: (unsigned int)times;
+-(id) initWithAction:(IntervalAction*)action times: (unsigned int)times;
 @end
 
 /** Spawn a new action immediately
  */
 @interface Spawn : IntervalAction <NSCopying>
 {
-	FiniteTimeAction *one;
-	FiniteTimeAction *two;
+	IntervalAction *one;
+	IntervalAction *two;
 }
 /** helper constructor to create an array of spawned actions */
-+(id) actions: (FiniteTimeAction*) action1, ... NS_REQUIRES_NIL_TERMINATION;
++(id) actions: (IntervalAction*) action1, ... NS_REQUIRES_NIL_TERMINATION;
 /** creates the Spawn action */
-+(id) actionOne: (FiniteTimeAction*) one two:(FiniteTimeAction*) two;
++(id) actionOne: (IntervalAction*) one two:(IntervalAction*) two;
 /** initializes the Spawn action with the 2 actions to spawn */
--(id) initOne: (FiniteTimeAction*) one two:(FiniteTimeAction*) two;
+-(id) initOne: (IntervalAction*) one two:(IntervalAction*) two;
 @end
 
 /**  Rotates a CocosNode object to a certain angle by modifying it's
@@ -325,12 +329,12 @@ typedef struct _ccBezierConfig {
 */
 @interface ReverseTime : IntervalAction <NSCopying>
 {
-	FiniteTimeAction * other;
+	IntervalAction * other;
 }
 /** creates the action */
-+(id) actionWithAction: (FiniteTimeAction*) action;
++(id) actionWithAction: (IntervalAction*) action;
 /** initializes the action */
--(id) initWithAction: (FiniteTimeAction*) action;
+-(id) initWithAction: (IntervalAction*) action;
 @end
 
 

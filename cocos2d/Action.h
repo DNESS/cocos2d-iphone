@@ -34,6 +34,8 @@ enum {
 @property (readwrite,assign) CocosNode *target;
 /** The action tag. An identifier of the action */
 @property (readwrite,assign) int tag;
+/** YES if the action has finished */
+@property (readonly,assign) BOOL isDone;
 
 +(id) action;
 -(id) init;
@@ -42,69 +44,89 @@ enum {
 
 //! called before the action start
 -(void) start;
-//! return YES if the action has finished
--(BOOL) isDone;
-//! called after the action has finished
--(void) stop;
 //! called every frame with it's delta time. DON'T override unless you know what you are doing.
 -(void) step: (ccTime) dt;
-//! called once per frame. time a value between 0 and 1
-//! For example: 
-//! * 0 means that the action just started
-//! * 0.5 means that the action is in the middle
-//! * 1 means that the action is over
--(void) update: (ccTime) time;
-
-@end
-
-/** Base class actions that do have a finite time duration.
- Possible actions:
-   - An action with a duration of 0 seconds
-   - An action with a duration of 35.5 seconds
- Infitite time actions are valid
- */
-@interface FiniteTimeAction : Action <NSCopying>
-{
-	//! duration in seconds
-	ccTime duration;
-}
-//! duration in seconds of the action
-@property (readwrite) ccTime duration;
 
 /** returns a reversed action */
-- (FiniteTimeAction*) reverse;
+- (id) reverse;
+@end
+
+/** Repeats an action a number of times.
+ @warning This action can't be Eased because it is not an IntervalAction.
+ */
+@interface GeneralRepeat : Action <NSCopying>
+{
+	NSUInteger times, total;
+	Action *other;
+}
+/** creates the GeneralRepeat action. Times is an unsigned integer between 1 and pow(2,30) */
++(id) actionWithAction:(Action*)action times: (NSUInteger)times;
+/** initializes the action. Times is an unsigned integer between 1 and pow(2,30) */
+-(id) initWithAction:(Action*)action times: (NSUInteger)times;
 @end
 
 
-@class IntervalAction;
-/** Repeats an action for ever.
+/** Repeats an action forever.
  To repeat the an action for a limited number of times use the Repeat action.
- @warning This action can't be Sequenceable because it is not an IntervalAction
+ @warning This action can't be Eased because it is not an IntervalAction.
  */
-@interface RepeatForever : Action <NSCopying>
+@interface RepeatForever : GeneralRepeat <NSCopying>
 {
-	IntervalAction *other;
 }
 /** creates the action */
-+(id) actionWithAction: (IntervalAction*) action;
++(id) actionWithAction: (Action*) action;
 /** initializes the action */
--(id) initWithAction: (IntervalAction*) action;
+-(id) initWithAction: (Action*) action;
+@end
+
+
+/** Runs actions sequentially, one after another.
+  @warning This action can't be Eased because it is not an IntervalAction.
+ */
+@interface GeneralSequence : Action <NSCopying>
+{
+	NSArray *actions;
+	Action *currentAction;
+	NSUInteger currentActionIndex;
+}
+/** helper contructor to create an array of sequenceable actions */
++(id) actions: (Action*) action1, ... NS_REQUIRES_NIL_TERMINATION;
+/** creates the action */
++(id) actionOne:(Action*)actionOne two:(Action*)actionTwo;
+/** initializes the action */
+-(id) initOne:(Action*)actionOne two:(Action*)actionTwo;
+@end
+
+
+/** Runs actions in parallel.
+  @warning This action can't be Eased because it is not an IntervalAction.
+ */
+@interface GeneralSpawn : Action <NSCopying>
+{
+	Action *one, *two;
+}
+/** helper constructor to create an array of spawned actions */
++(id) actions: (Action*) action1, ... NS_REQUIRES_NIL_TERMINATION;
+/** creates the Spawn action */
++(id) actionOne: (Action*) one two:(Action*) two;
+/** initializes the Spawn action with the 2 actions to spawn */
+-(id) initOne: (Action*) one two:(Action*) two;
 @end
 
 /** Changes the speed of an action, making it take longer (speed>1)
  or less (speed<1) time.
  Useful to simulate 'slow motion' or 'fast forward' effect.
- @warning This action can't be Sequenceable because it is not an IntervalAction
+ @warning This action can't be Eased because it is not an IntervalAction.
  */
 @interface Speed : Action <NSCopying>
 {
-	IntervalAction	*other;
+	Action	*other;
 	float speed;
 }
 /** alter the speed of the inner function in runtime */
 @property (readwrite) float speed;
 /** creates the action */
-+(id) actionWithAction: (IntervalAction*) action speed:(float)rate;
++(id) actionWithAction: (Action*) action speed:(float)rate;
 /** initializes the action */
--(id) initWithAction: (IntervalAction*) action speed:(float)rate;
+-(id) initWithAction: (Action*) action speed:(float)rate;
 @end

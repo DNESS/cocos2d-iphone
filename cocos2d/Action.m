@@ -17,8 +17,6 @@
 #import "CocosNode.h"
 #import "ccMacros.h"
 
-#import "IntervalAction.h"
-
 //
 // Action Base Class
 //
@@ -63,67 +61,53 @@
 	// override me
 }
 
--(void) stop
+-(void) step: (ccTime) dt
 {
-	// override me
+	NSAssert(NO, @"Action#step must be overridden by subclass");
 }
 
 -(BOOL) isDone
 {
-	return YES;
+	NSAssert(NO, @"Action#isDone must be overridden by subclass");
+	return NO;
 }
 
--(void) step: (ccTime) dt
+-(id) reverse
 {
-	NSLog(@"[Action step]. override me");
+	NSException* myException = [NSException
+															exceptionWithName:@"ReverseActionNotImplemented"
+															reason:@"Reverse Action not implemented"
+															userInfo:nil];
+	@throw myException;
 }
 
--(void) update: (ccTime) time
-{
-	NSLog(@"[Action update]. override me");
-}
 @end
 
 //
-// FiniteTimeAction
+// GeneralRepeat
 //
 #pragma mark -
-#pragma mark FiniteTimeAction
-@implementation FiniteTimeAction
-@synthesize duration;
-
-- (FiniteTimeAction*) reverse
+#pragma mark GeneralRepeat
+@implementation GeneralRepeat
++(id) actionWithAction:(Action*)action times: (NSUInteger)times;
 {
-	CCLOG(@"FiniteTimeAction#reverse: Implement me");
-	return nil;
-}
-@end
-
-
-//
-// RepeatForever
-//
-#pragma mark -
-#pragma mark RepeatForever
-@implementation RepeatForever
-+(id) actionWithAction: (IntervalAction*) action
-{
-	return [[[self alloc] initWithAction: action] autorelease];
+	return [[[self alloc] initWithAction: action times: times] autorelease];
 }
 
--(id) initWithAction: (IntervalAction*) action
+-(id) initWithAction:(Action*)action times: (NSUInteger)times_;
 {
 	if( !(self=[super init]) )
 		return nil;
 	
 	other = [action retain];
+	times = times_; total = 0;
 	return self;
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	Action *copy = [[[self class] allocWithZone: zone] initWithAction:[[other copy] autorelease] ];
-    return copy;
+	Action *copy = [[[self class] allocWithZone: zone] initWithAction:[[other copy] autorelease] times: times];
+	return copy;
 }
 
 -(void) dealloc
@@ -143,22 +127,210 @@
 {
 	[other step: dt];
 	if( [other isDone] ) {
-		[other start];
+		if( ++total < times )
+			[other start];
 	}
 }
 
-
 -(BOOL) isDone
 {
-	return NO;
+	return total == times;
 }
 
-- (IntervalAction *) reverse
+- (id) reverse
 {
-	return [RepeatForever actionWithAction:[other reverse]];
+	return [GeneralRepeat actionWithAction:[other reverse] times:times];
+}
+@end
+
+//
+// RepeatForever
+//
+#pragma mark -
+#pragma mark RepeatForever
+@implementation RepeatForever
++(id) actionWithAction: (Action*) action
+{
+	return [[[self alloc] initWithAction: action] autorelease];
+}
+
+-(id) initWithAction: (Action*) action
+{
+	return [super initWithAction:action times:NSUIntegerMax];
+}
+@end
+
+
+//
+// GeneralSequence
+//
+#pragma mark -
+#pragma mark GeneralSequence
+@implementation GeneralSequence
++(id) actionOne: (Action*) one two: (Action*) two
+{	
+	return [[[self alloc] initOne:one two:two ] autorelease];
+}
+
++(id) actions: (Action*) action1, ...
+{
+	va_list params;
+	va_start(params,action1);
+	
+	Action *now;
+	Action *prev = action1;
+	
+	while( action1 ) {
+		now = va_arg(params,Action*);
+		if ( now )
+			prev = [GeneralSequence actionOne: prev two: now];
+		else
+			break;
+	}
+	va_end(params);
+	return prev;
+}
+
+-(id) initOne: (Action*) one_ two: (Action*) two_
+{
+	if ((self = [super init]) == nil) return nil;
+	
+	NSAssert( one_!=nil, @"Sequence: argument one must be non-nil");
+	NSAssert( two_!=nil, @"Sequence: argument two must be non-nil");
+	
+	Action *one = one_;
+	Action *two = two_;
+	
+	actions = [[NSArray arrayWithObjects: one, two, nil] retain];
+	
+	return self;
+}
+
+-(id) copyWithZone: (NSZone*) zone
+{
+	Action *copy = [[[self class] allocWithZone:zone] initOne:[[[actions objectAtIndex:0] copy] autorelease] two:[[[actions objectAtIndex:1] copy] autorelease] ];
+	return copy;
+}
+
+-(void) dealloc
+{
+	[actions release];
+	[super dealloc];
+}
+
+-(void) start
+{
+	[super start];
+	for( Action *a in actions )
+		a.target = target;
+	
+	currentActionIndex = 0;
+	currentAction = [actions objectAtIndex:currentActionIndex];
+	[currentAction start];
+}
+
+-(void) step:(ccTime) dt
+{
+	[currentAction step:dt];
+	
+	if( currentAction.isDone ) {
+		if( ++currentActionIndex < [actions count] ) {
+			currentAction = [actions objectAtIndex:currentActionIndex];
+			[currentAction start];
+		}
+	}
+}
+
+- (BOOL)isDone
+{
+	return currentActionIndex == [actions count];
+}
+
+- (id) reverse
+{
+	return [GeneralSequence actionOne: [[actions objectAtIndex:1] reverse] two: [[actions objectAtIndex:0] reverse ] ];
 }
 
 @end
+
+
+//
+// GeneralSpawn
+//
+#pragma mark -
+#pragma mark GeneralSpawn
+
+@implementation GeneralSpawn
++(id) actions: (Action*) action1, ...
+{
+	va_list params;
+	va_start(params,action1);
+	
+	Action *now;
+	Action *prev = action1;
+	
+	while( action1 ) {
+		now = va_arg(params,Action*);
+		if ( now )
+			prev = [GeneralSpawn actionOne: prev two: now];
+		else
+			break;
+	}
+	va_end(params);
+	return prev;
+}
+
++(id) actionOne: (Action*) one two: (Action*) two
+{	
+	return [[[self alloc] initOne:one two:two ] autorelease];
+}
+
+-(id) initOne: (Action*) one_ two: (Action*) two_
+{
+	NSAssert( one_!=nil, @"Spawn: argument one must be non-nil");
+	NSAssert( two_!=nil, @"Spawn: argument two must be non-nil");
+	
+	one = [one_ retain]; two = [two_ retain];
+	
+	return self;
+}
+
+-(id) copyWithZone: (NSZone*) zone
+{
+	id copy = [[[self class] allocWithZone: zone] initOne:[[one copy] autorelease] two:[[two copy] autorelease]];
+	return copy;
+}
+
+-(void) dealloc
+{
+	[one release]; [two release];
+	[super dealloc];
+}
+
+-(void) start
+{
+	[super start];
+	one.target = target; two.target = target;
+	[one start]; [two start];
+}
+
+-(void) step: (ccTime) dt
+{
+	if( !one.isDone ) [one step:dt];
+	if( !two.isDone ) [two step:dt];
+}
+
+-(BOOL) isDone
+{
+	return one.isDone && one.isDone;
+}
+
+- (id) reverse
+{
+	return [GeneralSpawn actionOne:[one reverse] two:[two reverse]];
+}
+@end
+
 
 //
 // Speed
@@ -168,12 +340,12 @@
 @implementation Speed
 @synthesize speed;
 
-+(id) actionWithAction: (IntervalAction*) action speed:(float)r
++(id) actionWithAction: (Action*) action speed:(float)r
 {
 	return [[[self alloc] initWithAction: action speed:r] autorelease];
 }
 
--(id) initWithAction: (IntervalAction*) action speed:(float)r
+-(id) initWithAction: (Action*) action speed:(float)r
 {
 	if( !(self=[super init]) )
 		return nil;
@@ -186,7 +358,7 @@
 -(id) copyWithZone: (NSZone*) zone
 {
 	Action *copy = [[[self class] allocWithZone: zone] initWithAction:[[other copy] autorelease] speed:speed];
-    return copy;
+	return copy;
 }
 
 -(void) dealloc
@@ -212,11 +384,8 @@
 	return [other isDone];
 }
 
-- (IntervalAction *) reverse
+- (id) reverse
 {
 	return [Speed actionWithAction:[other reverse] speed:speed];
 }
 @end
-
-
-

@@ -71,7 +71,7 @@
 -(id) initWithTileFile:(NSString*)tile tileWidth:(int)w tileHeight:(int)h itemsToRender: (int) c;
 
 /** updates the Atlas (indexed vertex array).
- * Shall be overriden in subclasses
+ * Shall be overridden in subclasses
  */
 -(void) updateAtlasValues;
 @end
