@@ -18,13 +18,14 @@
 #import "Scheduler.h"
 #import "ccMacros.h"
 
+
 //
 // singleton stuff
 //
 static ActionManager *_sharedManager = nil;
 
 @interface ActionManager (Private)
--(void) actionAlloc;
+-(void) actionAllocWithHashElement:(tHashElement*)element;
 @end
 
 
@@ -59,7 +60,7 @@ static ActionManager *_sharedManager = nil;
 {
 	if ((self=[super init]) ) {
 		[[Scheduler sharedScheduler] scheduleTimer: [Timer timerWithTarget:self selector:@selector(step_:)]];
-		[self actionAlloc];
+		targets = nil;
 	}
 	
 	return self;
@@ -68,29 +69,39 @@ static ActionManager *_sharedManager = nil;
 - (void) dealloc
 {
 	CCLOG( @"deallocing %@", self);
-	
-	ccArrayFree(actions);	
+
+	uthash_tbl_free( targets );
 	[super dealloc];
 }
 
 
--(void) actionAlloc
+-(void) actionAllocWithHashElement:(tHashElement*)element
 {
-	if( actions == nil )
-		actions = ccArrayNew(10);
-	else if( actions->num == actions->max )
-		ccArrayDoubleCapacity(actions);
+	if( element->actions == nil )
+		element->actions = ccArrayNew(10);
+	else if( element->actions->num == element->actions->max )
+		ccArrayDoubleCapacity(element->actions);	
 }
 
 -(void) runAction:(Action*) action target:(id)target
 {
 	NSAssert( action != nil, @"Argument action must be non-nil");
 	NSAssert( target != nil, @"Argument target must be non-nil");	
-	NSAssert( !ccArrayContainsObject(actions, action), @"Action already running");
 	
-	[self actionAlloc];
+	tHashElement *element = nil;
+	HASH_FIND_INT(targets, &target, element);
 	
-	ccArrayAppendObject(actions, action);
+	if( ! element ) {
+		element = malloc( sizeof( *element ) );
+		bzero(element, sizeof(*element));
+		element->target = [target retain];
+		HASH_ADD_INT( targets, target, element );
+	}
+	
+	[self actionAllocWithHashElement:element];
+
+	NSAssert( !ccArrayContainsObject(element->actions, action), @"runAction: Action already running");	
+	ccArrayAppendObject(element->actions, action);
 	
 	action.target = target;
 	[action start];
@@ -102,12 +113,17 @@ static ActionManager *_sharedManager = nil;
 	if( target == nil )
 		return;
 	
-	NSUInteger limit = actions->num;
-	for( NSUInteger i = 0; i < limit; i++) {
-		Action *a = actions->arr[i];
+	tHashElement *element = nil;
+	HASH_FIND_INT(targets, &target, element);
+	if( element ) {
+		if( ccArrayContainsObject(element->actions, element->currentAction) && !element->currentActionSalvaged ) {
+			[element->currentAction retain];
+			element->currentActionSalvaged = YES;
+		}
 		
-		if( a.target == target )
-			[self stopAction:a];
+		ccArrayRemoveAllObjects(element->actions);
+	} else {
+		CCLOG(@"stopAllActionsFromTarget: Target not found");
 	}
 }
 
@@ -117,13 +133,32 @@ static ActionManager *_sharedManager = nil;
 	if (action == nil)
 		return;
 	
-	NSUInteger i = ccArrayGetIndexOfObject(actions, action);
-	if( i != NSNotFound ) {
-		ccArrayRemoveObjectAtIndex(actions, i);
+	tHashElement *element = nil;
+	id target = action.target;
+	HASH_FIND_INT(targets, &target, element);
 
-		// update actionIndex in case we are in step_, looping over the actions
-		if( actionIndex >= (int) i )
-			actionIndex--;
+	if( element ) {
+		NSUInteger i = ccArrayGetIndexOfObject(element->actions, action);
+		if( i != NSNotFound ) {
+			if( action == element->currentAction && !element->currentActionSalvaged ) {
+				[element->currentAction retain];
+				element->currentActionSalvaged = YES;
+			}
+			ccArrayRemoveObjectAtIndex(element->actions, i);
+
+			// update actionIndex in case we are in step_, looping over the actions
+			if( element->actionIndex >= (int) i )
+				element->actionIndex--;
+			
+			if( element->actions->num == 0 ) {
+				ccArrayFree(element->actions);
+				HASH_DEL(targets, element);
+				[element->target release];
+				free(element);
+			}
+		}
+	} else {
+		CCLOG(@"stopAction: Target not found");
 	}
 }
 
@@ -132,62 +167,82 @@ static ActionManager *_sharedManager = nil;
 	NSAssert( aTag != kActionTagInvalid, @"Invalid tag");
 	NSAssert( target != nil, @"Target should be ! nil");
 	
-	NSUInteger limit = actions->num;
-	for( NSUInteger i = 0; i < limit; i++) {
-		Action *a = actions->arr[i];
-		
-		if( a.tag == aTag && a.target==target) {
-			ccArrayRemoveObjectAtIndex(actions, i);
+	tHashElement *element = nil;
+	HASH_FIND_INT(targets, &target, element);
+
+	if( element ) {
+		NSUInteger limit = element->actions->num;
+		for( NSUInteger i = 0; i < limit; i++) {
+			Action *a = element->actions->arr[i];
 			
-			// update actionIndex in case we are in step_, looping over the actions
-			if (actionIndex >= (int) i)
-				actionIndex--;
-			return; 
+			if( a.tag == aTag && a.target==target)
+				return [self stopAction:a];
 		}
+		CCLOG(@"stopActionByTag: Action not found!");
+	} else {
+		CCLOG(@"stopActionByTag: Target not found!");
 	}
-	CCLOG(@"stopActionByTag: Action not found!");
 }
 
 -(Action*) getActionByTag:(int)aTag target:(id)target
 {
 	NSAssert( aTag != kActionTagInvalid, @"Invalid tag");
-	
-	if( actions != nil ) {
-		NSUInteger limit = actions->num;
-		for( NSUInteger i = 0; i < limit; i++) {
-			Action *a = actions->arr[i];
-		
-			if( a.tag == aTag )
-				return a; 
-		}
-	}
 
-	CCLOG(@"getActionByTag: Action not found");
+	tHashElement *element = nil;
+	HASH_FIND_INT(targets, &target, element);
+
+	if( element ) {
+		if( element->actions != nil ) {
+			NSUInteger limit = element->actions->num;
+			for( NSUInteger i = 0; i < limit; i++) {
+				Action *a = element->actions->arr[i];
+			
+				if( a.tag == aTag )
+					return a; 
+			}
+		}
+		CCLOG(@"getActionByTag: Action not found");
+	} else {
+		CCLOG(@"getActionByTag: Target not found");
+	}
 	return nil;
 }
 
 -(int) numberOfRunningActionsInTarget:(id) target
 {
-	int total = 0;
-	for( NSUInteger i=0; i< actions->num ; i++ ) {
-		Action *a = actions->arr[i];
-		if( a.target == target )
-			total++;
-	}
-	return total;
+	tHashElement *element = nil;
+	HASH_FIND_INT(targets, &target, element);
+	if( element )
+		return element->actions ? element->actions->num : 0;
+
+	CCLOG(@"numberOfRunningActionsInTarget: Target not found");
+	return 0;
 }
 
 -(void) step_: (ccTime) dt
 {
-	for( actionIndex = 0; actionIndex < (int) actions->num; actionIndex++) {
-		Action *currentAction = actions->arr[actionIndex];
+    for(tHashElement *element=targets; element != NULL; element=element->hh.next) {	
 		
-		[currentAction step: dt];
-		
-		if( [currentAction isDone] ) {
-			[currentAction stop];
+		// The 'actions' ccArray may change while inside this loop.
+		for( element->actionIndex = 0; element->actionIndex < (int) element->actions->num; element->actionIndex++) {
+			element->currentAction = element->actions->arr[element->actionIndex];
+			element->currentActionSalvaged = NO;
 			
-			[self stopAction:currentAction];
+			[element->currentAction step: dt];
+
+			if( element->currentActionSalvaged ) {
+				// The currentAction told the node to stop it. To prevent the action from
+				// accidentally deallocating itself before finishing its step, we retained
+				// it. Now that step is done, it's safe to release it.
+				[element->currentAction release];
+			} else if( [element->currentAction isDone] ) {
+				[element->currentAction stop];
+				
+				Action *a = element->currentAction;
+				// Make currentAction nil to prevent stopAction from salvaging it.
+				element->currentAction = nil;
+				[self stopAction:a];
+			}
 		}
 	}
 }

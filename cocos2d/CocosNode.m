@@ -220,10 +220,7 @@
 	
 	// timers
 	[scheduledSelectors release];
-	
-	// actions
-	[self stopAllActions];
-	
+		
 	[super dealloc];
 }
 

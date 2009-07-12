@@ -15,12 +15,25 @@
 
 #import "Action.h"
 #import "Support/ccArray.h"
+#import "Support/uthash.h"
 
-@interface ActionManager : NSObject {
-	
-	// actions
+typedef struct _hashElement
+{
 	struct ccArray	*actions;
+	id				target;
 	int				actionIndex;
+	Action			*currentAction;
+	BOOL			currentActionSalvaged;
+	UT_hash_handle	hh;
+} tHashElement;
+
+
+/** ActionManager is a singleton that manages all the actions
+ @since v0.8
+ */
+@interface ActionManager : NSObject {
+
+	tHashElement	* targets;
 }
 
 /** returns a shared instance of the ActionManager */
