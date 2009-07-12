@@ -522,7 +522,7 @@
 {
 	NSAssert( action != nil, @"Argument must be non-nil");
 	
-	[[ActionManager sharedManager] runAction:action target:self];
+	[[ActionManager sharedManager] queueAction:action target:self paused:!isRunning];
 	return action;
 }
 
@@ -610,12 +610,16 @@
 {
 	for( id key in scheduledSelectors )
 		[[Scheduler sharedScheduler] scheduleTimer: [scheduledSelectors objectForKey:key]];
+	
+	[[ActionManager sharedManager] pauseActions:NO forTarget:self];
 }
 
 - (void) deactivateTimers
 {
 	for( id key in scheduledSelectors )
 		[[Scheduler sharedScheduler] unscheduleTimer: [scheduledSelectors objectForKey:key]];
+
+	[[ActionManager sharedManager] pauseActions:YES forTarget:self];
 }
 
 

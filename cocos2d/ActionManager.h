@@ -3,7 +3,6 @@
  * http://www.cocos2d-iphone.org
  *
  * Copyright (C) 2008,2009 Ricardo Quesada
- * Copyright (C) 2009 Valentin Milea
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the 'cocos2d for iPhone' license.
@@ -15,25 +14,27 @@
 
 #import "Action.h"
 #import "Support/ccArray.h"
+#import "Support/uthash.h"
 
-@interface HashElement : NSObject
+typedef struct _hashElement
 {
-@public
 	struct ccArray	*actions;
 	id				target;
 	unsigned int	actionIndex;
 	Action			*currentAction;
 	BOOL			currentActionSalvaged;
-}
-@end
+	BOOL			paused;
+	UT_hash_handle	hh;
+} tHashElement;
+
 
 /** ActionManager is a singleton that manages all the actions
  @since v0.8
  */
 @interface ActionManager : NSObject {
-	struct ccArray	* targets;
-	unsigned int	targetIndex;
-	HashElement		* currentTarget;
+
+	tHashElement	* targets;
+	tHashElement	* currentTarget;
 	BOOL			currentTargetSalvaged;
 }
 
@@ -42,9 +43,9 @@
 
 // actions
 
-/** Executes an action in a target, and returns the action that is executed.
+/** Queues an action for a target. The action can be queued paused or unpaused.
  */
--(void) runAction: (Action*) action target:(id)target;
+-(void) queueAction: (Action*) action target:(id)target paused:(BOOL)paused;
 /** Removes all actions from a certain target */
 -(void) stopAllActionsFromTarget:(id)target;
 /** Removes an action from the running action list */
@@ -61,5 +62,7 @@
  *    If you are running 7 Sequences of 2 actions, it will return 7.
  */
 -(int) numberOfRunningActionsInTarget:(id)target;
+/** pauses / unpauses all actions for a certain target */
+-(void) pauseActions:(BOOL)pause forTarget:(id)target;
 @end
 
