@@ -3,6 +3,7 @@
  * http://www.cocos2d-iphone.org
  *
  * Copyright (C) 2008,2009 Ricardo Quesada
+ * Copyright (C) 2009 Valentin Milea
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the 'cocos2d for iPhone' license.
@@ -28,7 +29,7 @@ typedef struct _hashElement
 } tHashElement;
 
 
-/** ActionManager is a singleton that manages all the actions
+/** ActionManager is a singleton that manages all the actions.
  @since v0.8
  */
 @interface ActionManager : NSObject {

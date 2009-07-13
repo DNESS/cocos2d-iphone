@@ -82,10 +82,10 @@ static ActionManager *_sharedManager = nil;
 -(void) deleteHashElement:(tHashElement*)element
 {
 	ccArrayFree(element->actions);
-	[element->target release];
 	HASH_DEL(targets, element);
+//	CCLOG(@"---- buckets: %d - %@", HASH_COUNT(targets), element->target);
+	[element->target release];
 	free(element);
-	CCLOG(@"---- buckets: %d", HASH_COUNT(targets));
 }
 
 -(void) actionAllocWithHashElement:(tHashElement*)element
@@ -121,7 +121,7 @@ static ActionManager *_sharedManager = nil;
 	HASH_FIND_INT(targets, &target, element);
 	if( element )
 		element->paused = pause;
-	else
+//	else
 //		CCLOG(@"pauseActions: Target not found");
 }
 #pragma mark ActionManager - run
@@ -140,7 +140,7 @@ static ActionManager *_sharedManager = nil;
 		element->paused = paused;
 		element->target = [target retain];
 		HASH_ADD_INT( targets, target, element );
-		CCLOG(@"---- buckets: %d", HASH_COUNT(targets));
+//		CCLOG(@"---- buckets: %d - %@", HASH_COUNT(targets), target);
 	}
 	
 	[self actionAllocWithHashElement:element];
@@ -148,7 +148,7 @@ static ActionManager *_sharedManager = nil;
 	NSAssert( !ccArrayContainsObject(element->actions, action), @"runAction: Action already running");	
 	ccArrayAppendObject(element->actions, action);
 	
-	action.target = target;
+	[action setTarget: target];
 	[action start];
 }
 
@@ -173,7 +173,7 @@ static ActionManager *_sharedManager = nil;
 		else
 			[self deleteHashElement:element];
 	} else {
-		CCLOG(@"stopAllActionsFromTarget: Target not found");
+//		CCLOG(@"stopAllActionsFromTarget: Target not found");
 	}
 }
 
@@ -184,7 +184,7 @@ static ActionManager *_sharedManager = nil;
 		return;
 	
 	tHashElement *element = nil;
-	id target = action.target;
+	id target = [action target];
 	HASH_FIND_INT(targets, &target, element);
 
 	if( element ) {
@@ -198,7 +198,7 @@ static ActionManager *_sharedManager = nil;
 			[self stopActionAtIndex:i hashElement:element];
 		}
 	} else {
-		CCLOG(@"stopAction: Target not found");
+//		CCLOG(@"stopAction: Target not found");
 	}
 }
 
@@ -215,12 +215,12 @@ static ActionManager *_sharedManager = nil;
 		for( NSUInteger i = 0; i < limit; i++) {
 			Action *a = element->actions->arr[i];
 			
-			if( a.tag == aTag && a.target==target)
+			if( a.tag == aTag && [a target]==target)
 				return [self stopActionAtIndex:i hashElement:element];
 		}
-		CCLOG(@"stopActionByTag: Action not found!");
+//		CCLOG(@"stopActionByTag: Action not found!");
 	} else {
-		CCLOG(@"stopActionByTag: Target not found!");
+//		CCLOG(@"stopActionByTag: Target not found!");
 	}
 }
 
@@ -243,9 +243,9 @@ static ActionManager *_sharedManager = nil;
 					return a; 
 			}
 		}
-		CCLOG(@"getActionByTag: Action not found");
+//		CCLOG(@"getActionByTag: Action not found");
 	} else {
-		CCLOG(@"getActionByTag: Target not found");
+//		CCLOG(@"getActionByTag: Target not found");
 	}
 	return nil;
 }
@@ -257,7 +257,7 @@ static ActionManager *_sharedManager = nil;
 	if( element )
 		return element->actions ? element->actions->num : 0;
 
-	CCLOG(@"numberOfRunningActionsInTarget: Target not found");
+//	CCLOG(@"numberOfRunningActionsInTarget: Target not found");
 	return 0;
 }
 
@@ -267,9 +267,9 @@ static ActionManager *_sharedManager = nil;
 {
 	currentTarget = targets;
 	while( currentTarget != NULL ) {
+		currentTargetSalvaged = NO;
 		
 		if( ! currentTarget->paused ) {
-			currentTargetSalvaged = NO;
 			
 			// The 'actions' ccArray may change while inside this loop.
 			for( currentTarget->actionIndex = 0; currentTarget->actionIndex <  currentTarget->actions->num; currentTarget->actionIndex++) {
@@ -303,5 +303,6 @@ static ActionManager *_sharedManager = nil;
 		if( currentTargetSalvaged )
 			[self deleteHashElement:deleteMe];
 	}
+	currentTarget = NULL;
 }
 @end
