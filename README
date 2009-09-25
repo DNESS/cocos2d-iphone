@@ -1,5 +1,8 @@
-cocos2d for iPhone
+Cocos2d for Mac OS
 ------------------
+
+This is the first attempt of creating a Cocos2D-iPhone branch that works
+on Mac OS X. Below is the original README.
 
 cocos2d for iPhone[1] is a framework for building 2D games, demos, and other
 graphical/interactive applications. It is based on the cocos2d [2] (python)
