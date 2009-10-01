@@ -71,19 +71,19 @@ Class restartAction()
 
 		CGSize s = [[Director sharedDirector] winSize];
 			
-		Label* label = [Label labelWithString:[self title] fontName:@"Arial" fontSize:32];
+		CCLabel* label = [CCLabel labelWithString:[self title] fontName:@"Arial" fontSize:32];
 		[self addChild: label z:1];
 		[label setPosition: ccp(s.width/2, s.height-50)];
-		Label* subtitle = [Label labelWithString:[self subtitle] fontName:@"Arial" fontSize:20];
+		CCLabel* subtitle = [CCLabel labelWithString:[self subtitle] fontName:@"Arial" fontSize:20];
 		[self addChild: subtitle z:1];
 		[subtitle setPosition: ccp(s.width/2, s.height-85)];
 		
 		
-		MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-		MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-		MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
+		CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
+		CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
+		CCMenuItemImage *item3 = [CCMenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
 		
-		Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
+		CCMenu *menu = [CCMenu menuWithItems:item1, item2, item3, nil];
 		
 		menu.position = CGPointZero;
 		item1.position = ccp( s.width/2 - 100,30);
@@ -128,28 +128,28 @@ Class restartAction()
 	
 	CGPoint diff = ccpSub(touchLocation,prevLocation);
 	
-	CocosNode *node = [self getChildByTag:kTagTileMap];
+	CCNode *node = [self getChildByTag:kTagTileMap];
 	CGPoint currentPos = [node position];
 	[node setPosition: ccpAdd(currentPos, diff)];
 }
 
 -(void) restartCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [restartAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) nextCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [nextAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) backCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [backAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
@@ -292,16 +292,16 @@ Class restartAction()
 		//
 		// it should not flicker. No artifacts should appear
 		//
-		ColorLayer *color = [ColorLayer layerWithColor:ccc4(64,64,64,255)];
+		CCColorLayer *color = [CCColorLayer layerWithColor:ccc4(64,64,64,255)];
 		[self addChild:color z:-1];
 
-		TMXTiledMap *map = [TMXTiledMap tiledMapWithTMXFile:@"orthogonal-test2.tmx"];
+		CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"orthogonal-test2.tmx"];
 		[self addChild:map z:0 tag:kTagTileMap];
 		
 		CGSize s = map.contentSize;
 		NSLog(@"ContentSize: %f, %f", s.width,s.height);
 		
-		for( AtlasSpriteManager* child in [map children] ) {
+		for( CCAtlasSpriteManager* child in [map children] ) {
 			[[child texture] setAntiAliasTexParameters];
 		}
 		float x, y, z;
@@ -337,13 +337,13 @@ Class restartAction()
 -(id) init
 {
 	if( (self=[super init]) ) {		
-		TMXTiledMap *map = [TMXTiledMap tiledMapWithTMXFile:@"orthogonal-test1.tmx"];
+		CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"orthogonal-test1.tmx"];
 		[self addChild:map z:0 tag:kTagTileMap];
 
 		CGSize s = map.contentSize;
 		NSLog(@"ContentSize: %f, %f", s.width,s.height);
 
-		for( AtlasSpriteManager* child in [map children] ) {
+		for( CCAtlasSpriteManager* child in [map children] ) {
 			[[child texture] setAntiAliasTexParameters];
 		}
 
@@ -366,13 +366,13 @@ Class restartAction()
 -(id) init
 {
 	if( (self=[super init]) ) {		
-		TMXTiledMap *map = [TMXTiledMap tiledMapWithTMXFile:@"orthogonal-test3.tmx"];
+		CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"orthogonal-test3.tmx"];
 		[self addChild:map z:0 tag:kTagTileMap];
 		
 		CGSize s = map.contentSize;
 		NSLog(@"ContentSize: %f, %f", s.width,s.height);
 		
-		for( AtlasSpriteManager* child in [map children] ) {
+		for( CCAtlasSpriteManager* child in [map children] ) {
 			[[child texture] setAntiAliasTexParameters];
 		}
 		
@@ -395,22 +395,22 @@ Class restartAction()
 -(id) init
 {
 	if( (self=[super init]) ) {		
-		TMXTiledMap *map = [TMXTiledMap tiledMapWithTMXFile:@"orthogonal-test4.tmx"];
+		CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"orthogonal-test4.tmx"];
 		[self addChild:map z:0 tag:kTagTileMap];
 		
 		CGSize s = map.contentSize;
 		NSLog(@"ContentSize: %f, %f", s.width,s.height);
 		
-		for( AtlasSpriteManager* child in [map children] ) {
+		for( CCAtlasSpriteManager* child in [map children] ) {
 			[[child texture] setAntiAliasTexParameters];
 		}
 		
 		[map setAnchorPoint:ccp(0, 0)];
 
-		TMXLayer *layer = [map layerNamed:@"Layer 0"];
+		CCTMXLayer *layer = [map layerNamed:@"Layer 0"];
 		s = [layer layerSize];
 		
-		AtlasSprite *sprite;
+		CCAtlasSprite *sprite;
 		sprite = [layer tileAt:ccp(0,0)];
 		[sprite setScale:2];
 		sprite = [layer tileAt:ccp(s.width-1,0)];
@@ -438,10 +438,10 @@ Class restartAction()
 -(id) init
 {
 	if( (self=[super init]) ) {
-		ColorLayer *color = [ColorLayer layerWithColor:ccc4(64,64,64,255)];
+		CCColorLayer *color = [CCColorLayer layerWithColor:ccc4(64,64,64,255)];
 		[self addChild:color z:-1];
 		
-		TMXTiledMap *map = [TMXTiledMap tiledMapWithTMXFile:@"iso-test.tmx"];
+		CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"iso-test.tmx"];
 		[self addChild:map z:0 tag:kTagTileMap];		
 		
 		// move map to the center of the screen
@@ -466,10 +466,10 @@ Class restartAction()
 -(id) init
 {
 	if( (self=[super init]) ) {
-		ColorLayer *color = [ColorLayer layerWithColor:ccc4(64,64,64,255)];
+		CCColorLayer *color = [CCColorLayer layerWithColor:ccc4(64,64,64,255)];
 		[self addChild:color z:-1];
 		
-		TMXTiledMap *map = [TMXTiledMap tiledMapWithTMXFile:@"iso-test1.tmx"];
+		CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"iso-test1.tmx"];
 		[self addChild:map z:0 tag:kTagTileMap];
 		
 		CGSize s = map.contentSize;
@@ -493,10 +493,10 @@ Class restartAction()
 -(id) init
 {
 	if( (self=[super init]) ) {
-		ColorLayer *color = [ColorLayer layerWithColor:ccc4(64,64,64,255)];
+		CCColorLayer *color = [CCColorLayer layerWithColor:ccc4(64,64,64,255)];
 		[self addChild:color z:-1];
 		
-		TMXTiledMap *map = [TMXTiledMap tiledMapWithTMXFile:@"iso-test2.tmx"];
+		CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"iso-test2.tmx"];
 		[self addChild:map z:0 tag:kTagTileMap];	
 		
 		CGSize s = map.contentSize;
@@ -525,10 +525,10 @@ Class restartAction()
 -(id) init
 {
 	if( (self=[super init]) ) {
-		ColorLayer *color = [ColorLayer layerWithColor:ccc4(64,64,64,255)];
+		CCColorLayer *color = [CCColorLayer layerWithColor:ccc4(64,64,64,255)];
 		[self addChild:color z:-1];
 		
-		TMXTiledMap *map = [TMXTiledMap tiledMapWithTMXFile:@"hexa-test.tmx"];
+		CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"hexa-test.tmx"];
 		[self addChild:map z:0 tag:kTagTileMap];
 		
 		CGSize s = map.contentSize;
@@ -553,17 +553,17 @@ Class restartAction()
 
 		gid = 0;
 		
-		TMXTiledMap *map = [TMXTiledMap tiledMapWithTMXFile:@"orthogonal-test2.tmx"];
+		CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"orthogonal-test2.tmx"];
 		[self addChild:map z:0 tag:kTagTileMap];
 		
 		CGSize s = map.contentSize;
 		NSLog(@"ContentSize: %f, %f", s.width,s.height);
 
 		
-		TMXLayer *layer = [map layerNamed:@"Layer 0"];
+		CCTMXLayer *layer = [map layerNamed:@"Layer 0"];
 		[layer.texture setAntiAliasTexParameters];
 
-		AtlasSprite *tile = [layer tileAt:ccp(0,63)];
+		CCAtlasSprite *tile = [layer tileAt:ccp(0,63)];
 		tile.anchorPoint = ccp(0.5f, 0.5f);
 
 		id move = [MoveBy actionWithDuration:2 position:ccp(240,160)];
@@ -589,7 +589,7 @@ Class restartAction()
 -(void) updateCol:(ccTime)dt
 {	
 	id map = [self getChildByTag:kTagTileMap];
-	TMXLayer *layer = (TMXLayer*) [map getChildByTag:0];
+	CCTMXLayer *layer = (CCTMXLayer*) [map getChildByTag:0];
 		
 	CGSize s = [layer layerSize];
 	for( int y=0; y< s.height; y++ ) {
@@ -602,7 +602,7 @@ Class restartAction()
 //	[self unschedule:_cmd];
 
 	id map = [self getChildByTag:kTagTileMap];
-	TMXLayer *layer = (TMXLayer*) [map getChildByTag:0];
+	CCTMXLayer *layer = (CCTMXLayer*) [map getChildByTag:0];
 	
 	CGSize s = [layer layerSize];
 	for( int x=0; x<s.width;x++) {
@@ -618,7 +618,7 @@ Class restartAction()
 	[self unschedule:_cmd];
 
 	id map = [self getChildByTag:kTagTileMap];
-	TMXLayer *layer = (TMXLayer*) [map getChildByTag:0];
+	CCTMXLayer *layer = (CCTMXLayer*) [map getChildByTag:0];
 	CGSize s = [layer layerSize];
 	for( int y=0; y< s.height; y++ ) {
 		[layer removeTileAt:ccp(5,y)];
@@ -639,13 +639,13 @@ Class restartAction()
 {
 	if( (self=[super init]) ) {
 				
-		TMXTiledMap *map = [TMXTiledMap tiledMapWithTMXFile:@"orthogonal-test5.tmx"];
+		CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"orthogonal-test5.tmx"];
 		[self addChild:map z:0 tag:kTagTileMap];
 		
 		CGSize s = map.contentSize;
 		NSLog(@"ContentSize: %f, %f", s.width,s.height);
 		
-		TMXLayer *layer;
+		CCTMXLayer *layer;
 		layer = [map layerNamed:@"Layer 0"];
 		[layer.texture setAntiAliasTexParameters];
 		
@@ -699,7 +699,7 @@ Class restartAction()
 	[[Director sharedDirector] attachInView:window];	
 	[window makeKeyAndVisible];		
 	
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	[scene addChild: [nextAction() node]];
 	
 	//

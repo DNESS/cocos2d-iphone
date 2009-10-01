@@ -14,7 +14,7 @@
 
 
 #import "Transition.h"
-#import "CocosNode.h"
+#import "CCNode.h"
 #import "Director.h"
 #import "IntervalAction.h"
 #import "InstantAction.h"
@@ -30,17 +30,17 @@ enum {
 	kSceneFade = 0xFADEFADE,
 };
 
-@interface TransitionScene (Private)
+@interface CCTransitionScene (Private)
 -(void) sceneOrder;
 @end
 
-@implementation TransitionScene
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s
+@implementation CCTransitionScene
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s
 {
 	return [[[self alloc] initWithDuration:t scene:s] autorelease];
 }
 
--(id) initWithDuration:(ccTime) t scene:(Scene*)s
+-(id) initWithDuration:(ccTime) t scene:(CCScene*)s
 {
 	NSAssert( s != nil, @"Argument scene must be non-nil");
 	
@@ -156,13 +156,13 @@ enum {
 //
 // Oriented Transition
 //
-@implementation OrientedTransitionScene
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s orientation:(tOrientation)o
+@implementation CCOrientedTransitionScene
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s orientation:(tOrientation)o
 {
 	return [[[self alloc] initWithDuration:t scene:s orientation:o] autorelease];
 }
 
--(id) initWithDuration:(ccTime) t scene:(Scene*)s orientation:(tOrientation)o
+-(id) initWithDuration:(ccTime) t scene:(CCScene*)s orientation:(tOrientation)o
 {
 	if( (self=[super initWithDuration:t scene:s]) )
 		orientation = o;
@@ -174,7 +174,7 @@ enum {
 //
 // RotoZoom
 //
-@implementation RotoZoomTransition
+@implementation CCRotoZoomTransition
 -(void) onEnter
 {
 	[super onEnter];
@@ -204,7 +204,7 @@ enum {
 //
 // JumpZoom
 //
-@implementation JumpZoomTransition
+@implementation CCJumpZoomTransition
 -(void) onEnter
 {
 	[super onEnter];
@@ -236,7 +236,7 @@ enum {
 //
 // MoveInL
 //
-@implementation MoveInLTransition
+@implementation CCMoveInLTransition
 -(void) onEnter
 {
 	[super onEnter];
@@ -273,7 +273,7 @@ enum {
 //
 // MoveInR
 //
-@implementation MoveInRTransition
+@implementation CCMoveInRTransition
 -(void) initScenes
 {
 	CGSize s = [[Director sharedDirector] winSize];
@@ -284,7 +284,7 @@ enum {
 //
 // MoveInT
 //
-@implementation MoveInTTransition
+@implementation CCMoveInTTransition
 -(void) initScenes
 {
 	CGSize s = [[Director sharedDirector] winSize];
@@ -295,7 +295,7 @@ enum {
 //
 // MoveInB
 //
-@implementation MoveInBTransition
+@implementation CCMoveInBTransition
 -(void) initScenes
 {
 	CGSize s = [[Director sharedDirector] winSize];
@@ -312,7 +312,7 @@ enum {
 // The other issue is that in some transitions (and I don't know why)
 // the order should be reversed (In in top of Out or vice-versa).
 #define ADJUST_FACTOR 0.5f
-@implementation SlideInLTransition
+@implementation CCSlideInLTransition
 -(void) onEnter
 {
 	[super onEnter];
@@ -357,7 +357,7 @@ enum {
 //
 // SlideInR
 //
-@implementation SlideInRTransition
+@implementation CCSlideInRTransition
 -(void) sceneOrder
 {
 	inSceneOnTop = YES;
@@ -379,7 +379,7 @@ enum {
 //
 // SlideInT
 //
-@implementation SlideInTTransition
+@implementation CCSlideInTTransition
 -(void) sceneOrder
 {
 	inSceneOnTop = NO;
@@ -401,7 +401,7 @@ enum {
 //
 // SlideInB
 //
-@implementation SlideInBTransition
+@implementation CCSlideInBTransition
 -(void) sceneOrder
 {
 	inSceneOnTop = YES;
@@ -423,7 +423,7 @@ enum {
 //
 // ShrinkGrow Transition
 //
-@implementation ShrinkGrowTransition
+@implementation CCShrinkGrowTransition
 -(void) onEnter
 {
 	[super onEnter];
@@ -453,7 +453,7 @@ enum {
 //
 // FlipX Transition
 //
-@implementation FlipXTransition
+@implementation CCFlipXTransition
 -(void) onEnter
 {
 	[super onEnter];
@@ -496,7 +496,7 @@ enum {
 //
 // FlipY Transition
 //
-@implementation FlipYTransition
+@implementation CCFlipYTransition
 -(void) onEnter
 {
 	[super onEnter];
@@ -539,7 +539,7 @@ enum {
 //
 // FlipAngular Transition
 //
-@implementation FlipAngularTransition
+@implementation CCFlipAngularTransition
 -(void) onEnter
 {
 	[super onEnter];
@@ -581,7 +581,7 @@ enum {
 //
 // ZoomFlipX Transition
 //
-@implementation ZoomFlipXTransition
+@implementation CCZoomFlipXTransition
 -(void) onEnter
 {
 	[super onEnter];
@@ -630,7 +630,7 @@ enum {
 //
 // ZoomFlipY Transition
 //
-@implementation ZoomFlipYTransition
+@implementation CCZoomFlipYTransition
 -(void) onEnter
 {
 	[super onEnter];
@@ -680,7 +680,7 @@ enum {
 //
 // ZoomFlipAngular Transition
 //
-@implementation ZoomFlipAngularTransition
+@implementation CCZoomFlipAngularTransition
 -(void) onEnter
 {
 	[super onEnter];
@@ -732,13 +732,13 @@ enum {
 //
 // Fade Transition
 //
-@implementation FadeTransition
-+(id) transitionWithDuration:(ccTime)d scene:(Scene*)s withColor:(ccColor3B)color
+@implementation CCFadeTransition
++(id) transitionWithDuration:(ccTime)d scene:(CCScene*)s withColor:(ccColor3B)color
 {
 	return [[[self alloc] initWithDuration:d scene:s withColor:color] autorelease];
 }
 
--(id) initWithDuration:(ccTime)d scene:(Scene*)s withColor:(ccColor3B)aColor
+-(id) initWithDuration:(ccTime)d scene:(CCScene*)s withColor:(ccColor3B)aColor
 {
 	if( (self=[super initWithDuration:d scene:s]) ) {
 		color.r = aColor.r;
@@ -749,7 +749,7 @@ enum {
 	return self;
 }
 
--(id) initWithDuration:(ccTime)d scene:(Scene*)s
+-(id) initWithDuration:(ccTime)d scene:(CCScene*)s
 {
 	return [self initWithDuration:d scene:s withColor:ccBLACK];
 }
@@ -758,13 +758,13 @@ enum {
 {
 	[super onEnter];
 	
-	ColorLayer *l = [ColorLayer layerWithColor:color];
+	CCColorLayer *l = [CCColorLayer layerWithColor:color];
 	[inScene setVisible: NO];
 	
 	[self addChild: l z:2 tag:kSceneFade];
 	
 	
-	CocosNode *f = [self getChildByTag:kSceneFade];
+	CCNode *f = [self getChildByTag:kSceneFade];
 
 	IntervalAction *a = [Sequence actions:
 							[FadeIn actionWithDuration:duration/2],
@@ -785,7 +785,7 @@ enum {
 //
 // TurnOffTilesTransition
 //
-@implementation TurnOffTilesTransition
+@implementation CCTurnOffTilesTransition
 
 // override addScenes, and change the order
 -(void) sceneOrder
@@ -822,7 +822,7 @@ enum {
 //
 // SplitCols Transition
 //
-@implementation SplitColsTransition
+@implementation CCSplitColsTransition
 
 -(void) onEnter
 {
@@ -859,7 +859,7 @@ enum {
 //
 // SplitRows Transition
 //
-@implementation SplitRowsTransition
+@implementation CCSplitRowsTransition
 -(IntervalAction*) action
 {
 	return [SplitRows actionWithRows:3 duration:duration/2.0f];
@@ -872,7 +872,7 @@ enum {
 //
 // FadeTR Transition
 //
-@implementation FadeTRTransition
+@implementation CCFadeTRTransition
 -(void) sceneOrder
 {
 	inSceneOnTop = NO;
@@ -912,7 +912,7 @@ enum {
 //
 // FadeBL Transition
 //
-@implementation FadeBLTransition
+@implementation CCFadeBLTransition
 -(IntervalAction*) actionWithSize: (ccGridSize) v
 {
 	return [FadeOutBLTiles actionWithSize:v duration:duration];
@@ -922,7 +922,7 @@ enum {
 //
 // FadeUp Transition
 //
-@implementation FadeUpTransition
+@implementation CCFadeUpTransition
 -(IntervalAction*) actionWithSize: (ccGridSize) v
 {
 	return [FadeOutUpTiles actionWithSize:v duration:duration];
@@ -932,7 +932,7 @@ enum {
 //
 // FadeDown Transition
 //
-@implementation FadeDownTransition
+@implementation CCFadeDownTransition
 -(IntervalAction*) actionWithSize: (ccGridSize) v
 {
 	return [FadeOutDownTiles actionWithSize:v duration:duration];

@@ -22,9 +22,9 @@
 	[self addChild:sun];
 
 	// timers
-	label1 = [Label labelWithString:@"0" fontName:@"Courier" fontSize:32];
-	label2 = [Label labelWithString:@"0" fontName:@"Courier" fontSize:32];
-	label3 = [Label labelWithString:@"0" fontName:@"Courier" fontSize:32];
+	label1 = [CCLabel labelWithString:@"0" fontName:@"Courier" fontSize:32];
+	label2 = [CCLabel labelWithString:@"0" fontName:@"Courier" fontSize:32];
+	label3 = [CCLabel labelWithString:@"0" fontName:@"Courier" fontSize:32];
 	
 	[self schedule: @selector(step1:) interval: 0.5f];
 	[self schedule: @selector(step2:) interval:1.0f];
@@ -39,7 +39,7 @@
 	[self addChild:label3];
 	
 	// Sprite
-	Sprite *sprite = [Sprite spriteWithFile:@"grossini.png"];
+	CCSprite *sprite = [CCSprite spriteWithFile:@"grossini.png"];
 	sprite.position = ccp(40,50);
 	
 	id jump = [JumpBy actionWithDuration:3 position:ccp(400,0) height:50 jumps:4];
@@ -51,8 +51,8 @@
 	 ];
 
 	// pause button
-	MenuItem *item1 = [MenuItemFont itemFromString: @"Pause" target:self selector:@selector(pause:)];
-	Menu *menu = [Menu menuWithItems: item1, nil];
+	CCMenuItem *item1 = [CCMenuItemFont itemFromString: @"Pause" target:self selector:@selector(pause:)];
+	CCMenu *menu = [CCMenu menuWithItems: item1, nil];
 	menu.position = ccp(480/2, 270);
 
 	[self addChild: menu];
@@ -137,7 +137,7 @@
 	// create an openGL view inside a window
 	[[Director sharedDirector] attachInView:window];	
 
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 
 	[scene addChild: [Layer1 node] z:0];
 

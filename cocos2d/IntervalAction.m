@@ -15,7 +15,7 @@
 
 #import "IntervalAction.h"
 #import "Sprite.h"
-#import "CocosNode.h"
+#import "CCNode.h"
 #import "Support/CGPointExtension.h"
 
 //
@@ -508,7 +508,7 @@
 -(void) start
 {
 	[super start];
-	startPosition = [(CocosNode*)target position];
+	startPosition = [(CCNode*)target position];
 	delta = ccpSub( endPosition, startPosition );
 }
 
@@ -590,7 +590,7 @@
 -(void) start
 {
 	[super start];
-	startPosition = [(CocosNode*)target position];
+	startPosition = [(CCNode*)target position];
 }
 
 -(void) update: (ccTime) t
@@ -663,7 +663,7 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 -(void) start
 {
 	[super start];
-	startPosition = [(CocosNode*)target position];
+	startPosition = [(CCNode*)target position];
 }
 
 -(void) update: (ccTime) t

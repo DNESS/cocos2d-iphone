@@ -29,7 +29,7 @@
 		//
 		
 		// create and initialize a Label
-		Label* label = [Label labelWithString:@"Hello Actions" fontName:@"Marker Felt" fontSize:64];
+		CCLabel* label = [CCLabel labelWithString:@"Hello Actions" fontName:@"Marker Felt" fontSize:64];
 
 		// ask director the the window size
 		CGSize size = [[Director sharedDirector] winSize];
@@ -54,7 +54,7 @@
 		// Sprite
 		//
 		
-		Sprite *sprite = [Sprite spriteWithFile:@"grossini.png"];
+		CCSprite *sprite = [CCSprite spriteWithFile:@"grossini.png"];
 		sprite.position = ccp( 0, 50);
 		
 		// z is the z-order. Greater values means on top of lower values.
@@ -133,10 +133,10 @@
 	[window makeKeyAndVisible];
 	
 	// Create and initialize parent and empty Scene
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 
 	// Create and initialize our HelloActions Layer
-	Layer *layer = [HelloActions node];
+	CCLayer *layer = [HelloActions node];
 	// add our HelloWorld Layer as a child of the main scene
 	[scene addChild:layer];
 

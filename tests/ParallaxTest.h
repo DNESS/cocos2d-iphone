@@ -7,7 +7,7 @@
 }
 @end
 
-@interface ParallaxDemo: Layer
+@interface ParallaxDemo: CCLayer
 {
     TextureAtlas *atlas;
 }

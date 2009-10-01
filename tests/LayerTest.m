@@ -57,15 +57,15 @@ Class restartAction()
 	
 		CGSize s = [[Director sharedDirector] winSize];
 		
-		Label* label = [Label labelWithString:[self title] fontName:@"Arial" fontSize:32];
+		CCLabel* label = [CCLabel labelWithString:[self title] fontName:@"Arial" fontSize:32];
 		[self addChild: label z:1];
 		[label setPosition: ccp(s.width/2, s.height-50)];
 		
-		MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-		MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-		MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
+		CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
+		CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
+		CCMenuItemImage *item3 = [CCMenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
 		
-		Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
+		CCMenu *menu = [CCMenu menuWithItems:item1, item2, item3, nil];
 		
 		menu.position = CGPointZero;
 		item1.position = ccp( s.width/2 - 100,30);
@@ -84,21 +84,21 @@ Class restartAction()
 
 -(void) restartCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [restartAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) nextCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [nextAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) backCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [backAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
@@ -119,7 +119,7 @@ Class restartAction()
 		self.isTouchEnabled = YES;
 		
 		CGSize s = [[Director sharedDirector] winSize];
-		ColorLayer* layer = [ColorLayer layerWithColor: ccc4(0xFF, 0x00, 0x00, 0x80)
+		CCColorLayer* layer = [CCColorLayer layerWithColor: ccc4(0xFF, 0x00, 0x00, 0x80)
 												 width: 200 
 												height: 200];
 		layer.relativeAnchorPoint =  YES;
@@ -143,7 +143,7 @@ Class restartAction()
 	
 	CGSize newSize = CGSizeMake( abs( touchLocation.x - s.width/2)*2, abs(touchLocation.y - s.height/2)*2);
 	
-	ColorLayer *l = (ColorLayer*) [self getChildByTag:kTagLayer];
+	CCColorLayer *l = (CCColorLayer*) [self getChildByTag:kTagLayer];
 
 //	[l changeWidth:newSize.width];
 //	[l changeHeight:newSize.height];
@@ -188,14 +188,14 @@ Class restartAction()
 	if( (self=[super init] )) {
 		
 		CGSize s = [[Director sharedDirector] winSize];
-		ColorLayer* layer1 = [ColorLayer layerWithColor: ccc4(255, 255, 0, 80)
+		CCColorLayer* layer1 = [CCColorLayer layerWithColor: ccc4(255, 255, 0, 80)
 												 width: 100 
 												height: 300];
 		layer1.position = ccp(s.width/3, s.height/2);
 		layer1.relativeAnchorPoint = YES;
 		[self addChild: layer1 z:1];
 		
-		ColorLayer* layer2 = [ColorLayer layerWithColor: ccc4(0, 0, 255, 255)
+		CCColorLayer* layer2 = [CCColorLayer layerWithColor: ccc4(0, 0, 255, 255)
 												 width: 100 
 												height: 300];
 		layer2.position = ccp((s.width/3)*2, s.height/2);
@@ -254,7 +254,7 @@ Class restartAction()
 	[[Director sharedDirector] attachInView:window];	
 	[window makeKeyAndVisible];	
 	
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	[scene addChild: [nextAction() node]];
 	
 	[[Director sharedDirector] runWithScene: scene];

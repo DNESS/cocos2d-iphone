@@ -202,12 +202,12 @@ Class restartAction()
 		x = size.width;
 		y = size.height;
 		
-		Sprite *bg = [Sprite spriteWithFile:@"background3.png"];
+		CCSprite *bg = [CCSprite spriteWithFile:@"background3.png"];
 		[self addChild: bg z:0 tag:kTagBackground];
 		bg.anchorPoint = CGPointZero;
 //		bg.position = ccp(x/2,y/2);
 		
-		Sprite *grossini = [Sprite spriteWithFile:@"grossinis_sister2.png"];
+		CCSprite *grossini = [CCSprite spriteWithFile:@"grossinis_sister2.png"];
 		[bg addChild:grossini z:1 tag:kTagSprite1];
 		grossini.position = ccp(x/3.0f,200);
 		id sc = [ScaleBy actionWithDuration:2 scale:5];
@@ -215,7 +215,7 @@ Class restartAction()
 	
 		[grossini runAction: [RepeatForever actionWithAction: [Sequence actions:sc, sc_back, nil]]];
 
-		Sprite *tamara = [Sprite spriteWithFile:@"grossinis_sister1.png"];
+		CCSprite *tamara = [CCSprite spriteWithFile:@"grossinis_sister1.png"];
 		[bg addChild:tamara z:1 tag:kTagSprite2];
 		tamara.position = ccp(2*x/3.0f,200);
 		id sc2 = [ScaleBy actionWithDuration:2 scale:5];
@@ -223,17 +223,17 @@ Class restartAction()
 		[tamara runAction: [RepeatForever actionWithAction: [Sequence actions:sc2, sc2_back, nil]]];
 		
 		
-		Label* label = [Label labelWithString:[self title] fontName:@"Marker Felt" fontSize:32];
+		CCLabel* label = [CCLabel labelWithString:[self title] fontName:@"Marker Felt" fontSize:32];
 		
 		[label setPosition: ccp(x/2,y-80)];
 		[self addChild: label];
 		label.tag = kTagLabel;
 		
 		// menu
-		MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-		MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-		MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
-		Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
+		CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
+		CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
+		CCMenuItemImage *item3 = [CCMenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
+		CCMenu *menu = [CCMenu menuWithItems:item1, item2, item3, nil];
 		menu.position = CGPointZero;
 		item1.position = ccp(480/2-100,30);
 		item2.position = ccp(480/2, 30);
@@ -252,21 +252,21 @@ Class restartAction()
 
 -(void) restartCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [restartAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) nextCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [nextAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) backCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [backAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
@@ -315,7 +315,7 @@ Class restartAction()
 	// You can change anytime.
 	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];	
 	
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	[scene addChild: [nextAction() node]];
 	
 //	[[Director sharedDirector] set2Dprojection];

@@ -57,15 +57,15 @@ Class restartAction()
 	if( (self = [super init]) ) {
 		
 		CGSize s = [[Director sharedDirector] winSize];	
-		Label* label = [Label labelWithString:[self title] fontName:@"Arial" fontSize:32];
+		CCLabel* label = [CCLabel labelWithString:[self title] fontName:@"Arial" fontSize:32];
 		[self addChild:label z:0 tag:kTagLabel];
 		[label setPosition: ccp(s.width/2, s.height-50)];
 		
-		MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-		MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-		MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
+		CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
+		CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
+		CCMenuItemImage *item3 = [CCMenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
 		
-		Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
+		CCMenu *menu = [CCMenu menuWithItems:item1, item2, item3, nil];
 		menu.position = CGPointZero;
 		item1.position = ccp(480/2-100,30);
 		item2.position = ccp(480/2, 30);
@@ -84,21 +84,21 @@ Class restartAction()
 
 -(void) restartCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [restartAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) nextCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [nextAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) backCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [backAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
@@ -128,12 +128,12 @@ Class restartAction()
 	CGSize s = [[Director sharedDirector] winSize];
   
 	// the root object just rotates around
-	root = [Sprite spriteWithFile:@"r1.png"];
+	root = [CCSprite spriteWithFile:@"r1.png"];
 	[self addChild: root z:1];
 	[root setPosition: ccp(s.width/2, s.height/2)];
   
 	// the target object is offset from root, and the streak is moved to follow it
-	target = [Sprite spriteWithFile:@"r1.png"];
+	target = [CCSprite spriteWithFile:@"r1.png"];
 	[root addChild:target];
 	[target setPosition:ccp(100,0)];
 
@@ -221,7 +221,7 @@ Class restartAction()
 	[[Director sharedDirector] attachInView:window];	
 	[window makeKeyAndVisible];		
 
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	[scene addChild: [nextAction() node]];
 	
 	[[Director sharedDirector] runWithScene: scene];

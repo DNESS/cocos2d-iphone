@@ -12,7 +12,7 @@
  *
  */
 
-#import "CocosNode.h"
+#import "CCNode.h"
 #import "Action.h"
 
 #include <sys/time.h>
@@ -334,12 +334,12 @@ typedef struct _ccBezierConfig {
 @end
 
 
-@class Animation;
+@class CCAnimation;
 @class Texture2D;
 /** Animates a sprite given the name of an Animation */
 @interface Animate : IntervalAction <NSCopying>
 {
-	Animation *animation;
+	CCAnimation *animation;
 	id origFrame;
 	BOOL restoreOriginalFrame;
 }

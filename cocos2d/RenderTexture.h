@@ -13,8 +13,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "CocosNode.h"
-#import "Sprite.h"
+#import "CCNode.h"
+#import "CCSprite.h"
 #import "OpenGL_Internal.h"
 
 enum  
@@ -34,16 +34,16 @@ enum
  
  @since v0.8.1
  */
-@interface RenderTexture : CocosNode 
+@interface RenderTexture : CCNode 
 {
 	GLuint fbo;
 	GLint oldFBO;
 	Texture2D* texture;
-	Sprite* sprite;
+	CCSprite* sprite;
 }
 
 /** sprite being used */
-@property (nonatomic,readwrite, assign) Sprite* sprite;
+@property (nonatomic,readwrite, assign) CCSprite* sprite;
 
 /** creates a RenderTexture object with width and height */
 +(id)renderTextureWithWidth:(int)width height:(int)height;

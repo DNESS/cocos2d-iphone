@@ -14,7 +14,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "CocosNode.h"
+#import "CCNode.h"
 #import "ccTypes.h"
 
 enum {
@@ -70,7 +70,7 @@ typedef struct sParticle
   * size can't be bigger than 64
   * the system can't be scaled since the particles are rendered using GL_POINT_SPRITE
  */
-@interface ParticleSystem : CocosNode <CocosNodeTexture>
+@interface ParticleSystem : CCNode <CCNodeTexture>
 {
 	int id;
 	

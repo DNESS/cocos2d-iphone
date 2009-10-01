@@ -73,13 +73,13 @@ Class restartAction()
 		// Example:
 		// You can create a sprite using a Texture2D
 		Texture2D *tex = [ [Texture2D alloc] initWithImage: [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"grossini.png" ofType:nil] ] ];
-		grossini = [[Sprite spriteWithTexture:tex] retain];
+		grossini = [[CCSprite spriteWithTexture:tex] retain];
 		[tex release];
 
 		
 		// Example:
 		// Or you can create an sprite using a filename. PNG, JPEG and BMP files are supported. Probably TIFF too
-		tamara = [[Sprite spriteWithFile:@"grossinis_sister1.png"] retain];
+		tamara = [[CCSprite spriteWithFile:@"grossinis_sister1.png"] retain];
 		
 		[self addChild: grossini z:1];
 		[self addChild: tamara z:2];
@@ -89,15 +89,15 @@ Class restartAction()
 		[grossini setPosition: ccp(60, s.height/3)];
 		[tamara setPosition: ccp(60, 2*s.height/3)];
 		
-		Label* label = [Label labelWithString:[self title] fontName:@"Arial" fontSize:32];
+		CCLabel* label = [CCLabel labelWithString:[self title] fontName:@"Arial" fontSize:32];
 		[self addChild: label];
 		[label setPosition: ccp(s.width/2, s.height-50)];
 
-		MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-		MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-		MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
+		CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
+		CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
+		CCMenuItemImage *item3 = [CCMenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
 		
-		Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
+		CCMenu *menu = [CCMenu menuWithItems:item1, item2, item3, nil];
 		menu.position = CGPointZero;
 		item1.position = ccp(480/2-100,30);
 		item2.position = ccp(480/2, 30);
@@ -118,21 +118,21 @@ Class restartAction()
 
 -(void) restartCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [restartAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) nextCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [nextAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) backCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [backAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
@@ -214,7 +214,7 @@ Class restartAction()
 	id actionByBack = [actionBy reverse];
 	[grossini runAction: [Sequence actions:actionBy, actionByBack, nil]];
 
-	Sprite *kathia = [Sprite spriteWithFile:@"grossinis_sister2.png"];
+	CCSprite *kathia = [CCSprite spriteWithFile:@"grossinis_sister2.png"];
 	[self addChild:kathia];
 	[kathia setPosition:ccp(240,160)];
 	[kathia runAction: [Sequence actions:actionTo2, [[actionTo0 copy] autorelease], nil]];
@@ -392,7 +392,7 @@ Class restartAction()
 	
 	[tamara setVisible:NO];
 	
-	Animation* animation = [Animation animationWithName:@"dance" delay:0.2f];
+	CCAnimation* animation = [CCAnimation animationWithName:@"dance" delay:0.2f];
 	for( int i=1;i<15;i++)
 		[animation addFrameWithFilename: [NSString stringWithFormat:@"grossini_dance_%02d.png", i]];
 	
@@ -566,7 +566,7 @@ Class restartAction()
 	[super onEnter];
 	
 	CGSize s = [[Director sharedDirector] winSize];
-	Sprite *sprite = [Sprite spriteWithFile:@"grossinis_sister2.png"];
+	CCSprite *sprite = [CCSprite spriteWithFile:@"grossinis_sister2.png"];
 	[self addChild:sprite];
 	[sprite setPosition:ccp(s.width-100, s.height/2)];
 	
@@ -597,7 +597,7 @@ Class restartAction()
 {
 	NSLog(@"callback 1 called");
 	CGSize s = [[Director sharedDirector] winSize];
-	Label *label = [Label labelWithString:@"callback 1 called" fontName:@"Marker Felt" fontSize:16];
+	CCLabel *label = [CCLabel labelWithString:@"callback 1 called" fontName:@"Marker Felt" fontSize:16];
 	[label setPosition:ccp( s.width/4*1,s.height/2)];
 
 	[self addChild:label];
@@ -606,7 +606,7 @@ Class restartAction()
 {
 	NSLog(@"callback 2 called from:%@", sender);
 	CGSize s = [[Director sharedDirector] winSize];
-	Label *label = [Label labelWithString:@"callback 2 called" fontName:@"Marker Felt" fontSize:16];
+	CCLabel *label = [CCLabel labelWithString:@"callback 2 called" fontName:@"Marker Felt" fontSize:16];
 	[label setPosition:ccp( s.width/4*2,s.height/2)];
 
 	[self addChild:label];
@@ -616,7 +616,7 @@ Class restartAction()
 {
 	NSLog(@"callback 3 called from:%@ with data:%x",sender,data);
 	CGSize s = [[Director sharedDirector] winSize];
-	Label *label = [Label labelWithString:@"callback 3 called" fontName:@"Marker Felt" fontSize:16];
+	CCLabel *label = [CCLabel labelWithString:@"callback 3 called" fontName:@"Marker Felt" fontSize:16];
 	[label setPosition:ccp( s.width/4*3,s.height/2)];
 	[self addChild:label];
 }
@@ -694,7 +694,7 @@ Class restartAction()
 	// You can change anytime.
 	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
 	
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	[scene addChild: [nextAction() node]];
 	
 	[[Director sharedDirector] runWithScene: scene];

@@ -59,15 +59,15 @@ Class restartAction()
 
 	CGSize s = [[Director sharedDirector] winSize];
 		
-	Label* label = [Label labelWithString:[self title] fontName:@"Arial" fontSize:32];
+	CCLabel* label = [CCLabel labelWithString:[self title] fontName:@"Arial" fontSize:32];
 	[self addChild: label z:1];
 	[label setPosition: ccp(s.width/2, s.height-50)];
 	
-	MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-	MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-	MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
+	CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
+	CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
+	CCMenuItemImage *item3 = [CCMenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
 	
-	Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
+	CCMenu *menu = [CCMenu menuWithItems:item1, item2, item3, nil];
 	
 	menu.position = CGPointZero;
 	item1.position = ccp( s.width/2 - 100,30);
@@ -85,21 +85,21 @@ Class restartAction()
 
 -(void) restartCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [restartAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) nextCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [nextAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) backCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [backAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
@@ -119,7 +119,7 @@ Class restartAction()
 		return nil;
 
 	// Top Layer, a simple image
-	Sprite *cocosImage = [Sprite spriteWithFile:@"powered.png"];
+	CCSprite *cocosImage = [CCSprite spriteWithFile:@"powered.png"];
 	// scale the image (optional)
 	cocosImage.scale = 2.5f;
 	// change the transform anchor point to 0,0 (optional)
@@ -138,7 +138,7 @@ Class restartAction()
 	
 
 	// background layer: another image
-	Sprite *background = [Sprite spriteWithFile:@"background.png"];
+	CCSprite *background = [CCSprite spriteWithFile:@"background.png"];
 	// scale the image (optional)
 	background.scale = 1.5f;
 	// change the transform anchor point (optional)
@@ -146,7 +146,7 @@ Class restartAction()
 
 	
 	// create a void node, a parent node
-	ParallaxNode *voidNode = [ParallaxNode node];
+	CCParallaxNode *voidNode = [CCParallaxNode node];
 	
 	// NOW add the 3 layers to the 'void' node
 
@@ -197,7 +197,7 @@ Class restartAction()
 		self.isTouchEnabled = YES;
 		
 		// Top Layer, a simple image
-		Sprite *cocosImage = [Sprite spriteWithFile:@"powered.png"];
+		CCSprite *cocosImage = [CCSprite spriteWithFile:@"powered.png"];
 		// scale the image (optional)
 		cocosImage.scale = 2.5f;
 		// change the transform anchor point to 0,0 (optional)
@@ -216,7 +216,7 @@ Class restartAction()
 		
 		
 		// background layer: another image
-		Sprite *background = [Sprite spriteWithFile:@"background.png"];
+		CCSprite *background = [CCSprite spriteWithFile:@"background.png"];
 		// scale the image (optional)
 		background.scale = 1.5f;
 		// change the transform anchor point (optional)
@@ -224,7 +224,7 @@ Class restartAction()
 		
 		
 		// create a void node, a parent node
-		ParallaxNode *voidNode = [ParallaxNode node];
+		CCParallaxNode *voidNode = [CCParallaxNode node];
 		
 		// NOW add the 3 layers to the 'void' node
 		
@@ -271,7 +271,7 @@ Class restartAction()
 
 	CGPoint diff = ccpSub(touchLocation,prevLocation);
 	
-	CocosNode *node = [self getChildByTag:kTagNode];
+	CCNode *node = [self getChildByTag:kTagNode];
 	CGPoint currentPos = [node position];
 	[node setPosition: ccpAdd(currentPos, diff)];
 }
@@ -313,7 +313,7 @@ Class restartAction()
 	[[Director sharedDirector] attachInView:window];	
 	[window makeKeyAndVisible];	
 	
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	[scene addChild: [nextAction() node]];
 			 
 	[[Director sharedDirector] runWithScene: scene];

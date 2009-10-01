@@ -25,7 +25,7 @@ float randfloat() {
 		self.isTouchEnabled = YES;
 		self.isAccelerometerEnabled = YES;
 		Texture2D *tex = [[TextureMgr sharedTextureMgr] addPVRTCImage:@"clouds.pvrtc" bpp:4 hasAlpha:NO width:1024];
-		clouds = [Sprite spriteWithTexture:tex];
+		clouds = [CCSprite spriteWithTexture:tex];
 		[clouds setScale: CLOUDS_SCALE];
 		
 		CGSize cs = clouds.texture.contentSize;
@@ -54,16 +54,16 @@ float randfloat() {
 	//	NSString *info = [NSString stringWithFormat:@"(%.1f,%.1f) (%.1f,%.1f)", tl.x, tl.y, br.x, br.y];
 		NSString *info = @"Grossini's iPhone";
 		
-		label = [Label labelWithString:info fontName:@"Arial" fontSize:16];
+		label = [CCLabel labelWithString:info fontName:@"Arial" fontSize:16];
 		[self addChild: label];
 		[label setPosition: ccp(s.width/2, s.height-50)];
 	}
 	return self;
 }
 
--(Sprite *) addNewSpritePosition:(CGPoint)pos scale:(double)scle
+-(CCSprite *) addNewSpritePosition:(CGPoint)pos scale:(double)scle
 {
-	Sprite *g = [Sprite spriteWithFile:@"grossini.png"];
+	CCSprite *g = [CCSprite spriteWithFile:@"grossini.png"];
 	[clouds addChild: g];
 	[g setScale: (float) scle];
 	[g setPosition: pos ];
@@ -169,7 +169,7 @@ float randfloat() {
 	// create OpenGL context and add it to window
 	[[Director sharedDirector] attachInView:window];
 	
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	AccelViewportDemo *layer = [AccelViewportDemo node];
 	[scene addChild: layer];
 	

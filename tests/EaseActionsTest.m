@@ -69,13 +69,13 @@ Class restartAction()
 		// Example:
 		// You can create a sprite using a Texture2D
 		Texture2D *tex = [ [Texture2D alloc] initWithImage: [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"grossini.png" ofType:nil] ] ];
-		grossini = [[Sprite spriteWithTexture:tex] retain];
+		grossini = [[CCSprite spriteWithTexture:tex] retain];
 		[tex release];
 		
 		// Example:
 		// Or you can create an sprite using a filename. PNG and BMP files are supported. Probably TIFF too
-		tamara = [[Sprite spriteWithFile:@"grossinis_sister1.png"] retain];
-		kathia = [[Sprite spriteWithFile:@"grossinis_sister2.png"] retain];
+		tamara = [[CCSprite spriteWithFile:@"grossinis_sister1.png"] retain];
+		kathia = [[CCSprite spriteWithFile:@"grossinis_sister2.png"] retain];
 		
 		[self addChild: grossini z:3];
 		[self addChild: kathia z:2];
@@ -87,15 +87,15 @@ Class restartAction()
 		[kathia setPosition: ccp(60, 150)];
 		[tamara setPosition: ccp(60, 250)];
 		
-		Label* label = [Label labelWithString:[self title] fontName:@"Arial" fontSize:32];
+		CCLabel* label = [CCLabel labelWithString:[self title] fontName:@"Arial" fontSize:32];
 		[self addChild: label];
 		[label setPosition: ccp(s.width/2, s.height-50)];
 
-		MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-		MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-		MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
+		CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
+		CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
+		CCMenuItemImage *item3 = [CCMenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
 		
-		Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
+		CCMenu *menu = [CCMenu menuWithItems:item1, item2, item3, nil];
 		menu.position = CGPointZero;
 		item1.position = ccp(480/2-100,30);
 		item2.position = ccp(480/2, 30);
@@ -117,21 +117,21 @@ Class restartAction()
 
 -(void) restartCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [restartAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) nextCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [nextAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) backCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [backAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
@@ -660,7 +660,7 @@ Class restartAction()
 	// You can change anytime.
 	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
 	
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	[scene addChild: [nextAction() node]];	
 	
 	[[Director sharedDirector] runWithScene: scene];

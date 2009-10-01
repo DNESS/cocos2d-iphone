@@ -22,7 +22,7 @@
 	NSArray *array = [UIFont familyNames];
 	for( NSString *s in array )
 		NSLog( s );
-	Label* label = [Label labelWithString:@"cocos2d" fontName:@"Marker Felt" fontSize:64];
+	CCLabel* label = [CCLabel labelWithString:@"cocos2d" fontName:@"Marker Felt" fontSize:64];
 
 	[label setPosition: ccp(x/2,y/2)];
 	
@@ -48,9 +48,9 @@
 	x = size.width;
 	y = size.height;
 	
-	Sprite *sprite = [Sprite spriteWithFile: @"grossini.png"];
-	Sprite *spriteSister1 = [Sprite spriteWithFile: @"grossinis_sister1.png"];
-	Sprite *spriteSister2 = [Sprite spriteWithFile: @"grossinis_sister2.png"];
+	CCSprite *sprite = [CCSprite spriteWithFile: @"grossini.png"];
+	CCSprite *spriteSister1 = [CCSprite spriteWithFile: @"grossinis_sister1.png"];
+	CCSprite *spriteSister2 = [CCSprite spriteWithFile: @"grossinis_sister2.png"];
 	
 	[sprite setScale: 1.5f];
 	[spriteSister1 setScale: 1.5f];
@@ -101,10 +101,10 @@
 	x = size.width;
 	y = size.height;
 	
-	CocosNode* blue =  [ColorLayer layerWithColor:ccc4(0,0,255,255)];
-	CocosNode* red =   [ColorLayer layerWithColor:ccc4(255,0,0,255)];
-	CocosNode* green = [ColorLayer layerWithColor:ccc4(0,255,0,255)];
-	CocosNode* white = [ColorLayer layerWithColor:ccc4(255,255,255,255)];
+	CCNode* blue =  [CCColorLayer layerWithColor:ccc4(0,0,255,255)];
+	CCNode* red =   [CCColorLayer layerWithColor:ccc4(255,0,0,255)];
+	CCNode* green = [CCColorLayer layerWithColor:ccc4(0,255,0,255)];
+	CCNode* white = [CCColorLayer layerWithColor:ccc4(255,255,255,255)];
 
 	[blue setScale: 0.5f];
 	[blue setPosition: ccp(-x/4,-y/4)];
@@ -173,7 +173,7 @@
 	// frames per second
 	[[Director sharedDirector] setAnimationInterval:1.0/60];
 
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 
 	MainLayer * mainLayer =[MainLayer node];
 	

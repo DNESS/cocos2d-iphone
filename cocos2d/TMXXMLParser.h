@@ -38,7 +38,7 @@ enum {
  
  This information is obtained from the TMX file.
  */
-@interface TMXLayerInfo : NSObject
+@interface CCTMXLayerInfo : NSObject
 {
 @public
 	NSString		*name;
@@ -62,7 +62,7 @@ enum {
  
  This information is obtained from the TMX file. 
  */
-@interface TMXTilesetInfo : NSObject
+@interface CCTMXTilesetInfo : NSObject
 {
 @public
 	NSString		*name;
@@ -92,7 +92,7 @@ enum {
  This information is obtained from the TMX file.
  
  */
-@interface TMXMapInfo : NSObject
+@interface CCTMXMapInfo : NSObject
 {
 	
 	NSMutableString		*currentLayer;

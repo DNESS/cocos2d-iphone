@@ -22,11 +22,11 @@
 #import "Scheduler.h"
 #import "ActionManager.h"
 #import "TextureMgr.h"
-#import "LabelAtlas.h"
+#import "CCLabelAtlas.h"
 #import "ccMacros.h"
 #import "ccExceptions.h"
 #import "Transition.h"
-#import "Scene.h"
+#import "CCScene.h"
 #import "TouchDispatcher.h"
 
 // support imports
@@ -210,7 +210,7 @@ static Director *_sharedDirector = nil;
 	
 #if CC_DIRECTOR_FAST_FPS
     if (!FPSLabel)
-        FPSLabel = [[LabelAtlas labelAtlasWithString:@"00.0" charMapFile:@"fps_images.png" itemWidth:16 itemHeight:24 startCharMap:'.'] retain];
+        FPSLabel = [[CCLabelAtlas labelAtlasWithString:@"00.0" charMapFile:@"fps_images.png" itemWidth:16 itemHeight:24 startCharMap:'.'] retain];
 #endif	
 }
 
@@ -676,7 +676,7 @@ static Director *_sharedDirector = nil;
 
 #pragma mark Director Scene Management
 
-- (void)runWithScene:(Scene*) scene
+- (void)runWithScene:(CCScene*) scene
 {
 	NSAssert( scene != nil, @"Argument must be non-nil");
 	NSAssert( runningScene_ == nil, @"You can't run an scene if another Scene is running. Use replaceScene or pushScene instead");
@@ -685,7 +685,7 @@ static Director *_sharedDirector = nil;
 	[self startAnimation];
 }
 
--(void) replaceScene: (Scene*) scene
+-(void) replaceScene: (CCScene*) scene
 {
 	NSAssert( scene != nil, @"Argument must be non-nil");
 
@@ -695,7 +695,7 @@ static Director *_sharedDirector = nil;
 	nextScene = scene;	// nextScene is a weak ref
 }
 
-- (void) pushScene: (Scene*) scene
+- (void) pushScene: (CCScene*) scene
 {
 	NSAssert( scene != nil, @"Argument must be non-nil");
 
@@ -754,8 +754,8 @@ static Director *_sharedDirector = nil;
 
 -(void) setNextScene
 {
-	BOOL runningIsTransition = [runningScene_ isKindOfClass:[TransitionScene class]];
-	BOOL newIsTransition = [nextScene isKindOfClass:[TransitionScene class]];
+	BOOL runningIsTransition = [runningScene_ isKindOfClass:[CCTransitionScene class]];
+	BOOL newIsTransition = [nextScene isKindOfClass:[CCTransitionScene class]];
 
 	// If it is not a transition, call onExit
 	if( ! newIsTransition )

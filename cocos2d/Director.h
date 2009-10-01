@@ -98,8 +98,8 @@ typedef enum {
     CCDeviceOrientationLandscapeRight = UIDeviceOrientationLandscapeRight,
 } ccDeviceOrientation;
 
-@class LabelAtlas;
-@class Scene;
+@class CCLabelAtlas;
+@class CCScene;
 
 /**Class that creates and handle the main Window and manages how
 and when to execute the Scenes.
@@ -127,18 +127,18 @@ and when to execute the Scenes.
 	ccTime accumDt;
 	ccTime frameRate;
 #if	CC_DIRECTOR_FAST_FPS
-	LabelAtlas *FPSLabel;
+	CCLabelAtlas *FPSLabel;
 #endif
 	
 	/* is the running scene paused */
 	BOOL isPaused_;
 	
 	/* The running scene */
-	Scene *runningScene_;
+	CCScene *runningScene_;
 	
 	/* will be the next 'runningScene' in the next frame
 	 nextScene is a weak reference. */
-	Scene *nextScene;
+	CCScene *nextScene;
 
 	/* scheduled scenes */
 	NSMutableArray *scenesStack_;
@@ -152,7 +152,7 @@ and when to execute the Scenes.
 }
 
 /** The current running Scene. Director can only run one Scene at the time */
-@property (nonatomic,readonly) Scene* runningScene;
+@property (nonatomic,readonly) CCScene* runningScene;
 /** The FPS value */
 @property (nonatomic,readwrite, assign) NSTimeInterval animationInterval;
 /** Whether or not to display the FPS on the bottom-left corner */
@@ -264,14 +264,14 @@ and when to execute the Scenes.
  * Call it to run only your FIRST scene.
  * Don't call it if there is already a running scene.
  */
-- (void) runWithScene:(Scene*) scene;
+- (void) runWithScene:(CCScene*) scene;
 
 /**Suspends the execution of the running scene, pushing it on the stack of suspended scenes.
  * The new scene will be executed.
  * Try to avoid big stacks of pushed scenes to reduce memory allocation. 
  * ONLY call it if there is a running scene.
  */
-- (void) pushScene:(Scene*) scene;
+- (void) pushScene:(CCScene*) scene;
 
 /**Pops out a scene from the queue.
  * This scene will replace the running one.
@@ -283,7 +283,7 @@ and when to execute the Scenes.
 /** Replaces the running scene with a new one. The running scene is terminated.
  * ONLY call it if there is a running scene.
  */
--(void) replaceScene: (Scene*) scene;
+-(void) replaceScene: (CCScene*) scene;
 
 /** Ends the execution, releases the running scene */
 -(void) end;

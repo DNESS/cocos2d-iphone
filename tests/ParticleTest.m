@@ -69,24 +69,24 @@ Class restartAction()
 		self.isTouchEnabled = YES;
 		
 		CGSize s = [[Director sharedDirector] winSize];
-		Label* label = [Label labelWithString:[self title] fontName:@"Arial" fontSize:32];
+		CCLabel* label = [CCLabel labelWithString:[self title] fontName:@"Arial" fontSize:32];
 		[self addChild:label z:100];
 		[label setPosition: ccp(s.width/2, s.height-50)];
 		
-		Label *tapScreen = [Label labelWithString:@"(Tap the Screen)" fontName:@"Arial" fontSize:20];
+		CCLabel *tapScreen = [CCLabel labelWithString:@"(Tap the Screen)" fontName:@"Arial" fontSize:20];
 		[tapScreen setPosition: ccp(s.width/2, s.height-80)];
 		[self addChild:tapScreen z:100];
 		
-		MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-		MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-		MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
+		CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
+		CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
+		CCMenuItemImage *item3 = [CCMenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
 		
-		MenuItemToggle *item4 = [MenuItemToggle itemWithTarget:self selector:@selector(toggleCallback:) items:
-								 [MenuItemFont itemFromString: @"Free Movement"],
-								 [MenuItemFont itemFromString: @"Grouped Movement"],
+		CCMenuItemToggle *item4 = [CCMenuItemToggle itemWithTarget:self selector:@selector(toggleCallback:) items:
+								 [CCMenuItemFont itemFromString: @"Free Movement"],
+								 [CCMenuItemFont itemFromString: @"Grouped Movement"],
 								 nil];
 		
-		Menu *menu = [Menu menuWithItems:item1, item2, item3, item4, nil];
+		CCMenu *menu = [CCMenu menuWithItems:item1, item2, item3, item4, nil];
 			
 		menu.position = CGPointZero;
 		item1.position = ccp( s.width/2 - 100,30);
@@ -97,12 +97,12 @@ Class restartAction()
 
 		[self addChild: menu z:100];	
 		
-		LabelAtlas *labelAtlas = [LabelAtlas labelAtlasWithString:@"0000" charMapFile:@"fps_images.png" itemWidth:16 itemHeight:24 startCharMap:'.'];
+		CCLabelAtlas *labelAtlas = [CCLabelAtlas labelAtlasWithString:@"0000" charMapFile:@"fps_images.png" itemWidth:16 itemHeight:24 startCharMap:'.'];
 		[self addChild:labelAtlas z:100 tag:kTagLabelAtlas];
 		labelAtlas.position = ccp(s.width-100,50);
 		
 		// moving background
-		background = (Sprite*) self;
+		background = (CCSprite*) self;
 //		background = [Sprite spriteWithFile:@"background3.png"];
 //		[self addChild:background z:5];
 //		[background setPosition:ccp(s.width/2, s.height-180)];
@@ -151,7 +151,7 @@ Class restartAction()
 
 -(void) step:(ccTime) dt
 {
-	LabelAtlas *atlas = (LabelAtlas*) [self getChildByTag:kTagLabelAtlas];
+	CCLabelAtlas *atlas = (CCLabelAtlas*) [self getChildByTag:kTagLabelAtlas];
 
 	NSString *str = [NSString stringWithFormat:@"%4d", emitter.particleCount];
 	[atlas setString:str];
@@ -182,14 +182,14 @@ Class restartAction()
 
 -(void) nextCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [nextAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) backCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [backAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
@@ -741,7 +741,7 @@ Class restartAction()
 	// You can change anytime.
 	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];	
 
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	[scene addChild: [nextAction() node]];
 	
 	[window makeKeyAndVisible];

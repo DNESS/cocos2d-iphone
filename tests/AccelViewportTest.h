@@ -4,7 +4,7 @@
 
 //#import "VirtualAccelerometer.h"
 
-@class Sprite;
+@class CCSprite;
 
 #define NUM_GROSSINIS 20
 #define ACC_FACTOR 5.0f
@@ -16,10 +16,10 @@
 }
 @end
 
-@interface AccelViewportDemo : Layer
+@interface AccelViewportDemo : CCLayer
 {
-	Sprite * grossini[NUM_GROSSINIS];
-	Sprite *clouds;
+	CCSprite * grossini[NUM_GROSSINIS];
+	CCSprite *clouds;
 	CGPoint cloudsCentered;
 	CGPoint cloudsPos;
 	CGPoint cloudsSize;
@@ -27,12 +27,12 @@
 	CGPoint halfCloudsSize;
 	cpBB visibleArea;
 	Action * rotateForever;
-	Label * label;
+	CCLabel * label;
 	double accels[3];
 	int num_g;
 }
 //-(void) centerSprites;
 -(NSString*) title;
--(Sprite *) addNewSpritePosition:(CGPoint)pos scale:(double)scle;
+-(CCSprite *) addNewSpritePosition:(CGPoint)pos scale:(double)scle;
 
 @end

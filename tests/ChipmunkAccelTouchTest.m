@@ -14,7 +14,7 @@ static void
 eachShape(void *ptr, void* unused)
 {
 	cpShape *shape = (cpShape*) ptr;
-	Sprite *sprite = shape->data;
+	CCSprite *sprite = shape->data;
 	if( sprite ) {
 		cpBody *body = shape->body;
 		
@@ -37,7 +37,7 @@ eachShape(void *ptr, void* unused)
 {
 	int posx, posy;
 
-	AtlasSpriteManager *mgr = (AtlasSpriteManager*) [self getChildByTag:kTagAtlasSpriteManager];
+	CCAtlasSpriteManager *mgr = (CCAtlasSpriteManager*) [self getChildByTag:kTagAtlasSpriteManager];
 	
 	posx = (CCRANDOM_0_1() * 200);
 	posy = (CCRANDOM_0_1() * 200);
@@ -45,7 +45,7 @@ eachShape(void *ptr, void* unused)
 	posx = (posx % 4) * 85;
 	posy = (posy % 3) * 121;
 	
-	AtlasSprite *sprite = [AtlasSprite spriteWithRect:CGRectMake(posx, posy, 85, 121) spriteManager:mgr];
+	CCAtlasSprite *sprite = [CCAtlasSprite spriteWithRect:CGRectMake(posx, posy, 85, 121) spriteManager:mgr];
 	[mgr addChild: sprite];
 	
 	sprite.position = ccp(x,y);
@@ -112,7 +112,7 @@ eachShape(void *ptr, void* unused)
 		shape->e = 1.0f; shape->u = 1.0f;
 		cpSpaceAddStaticShape(space, shape);
 		
-		AtlasSpriteManager *mgr = [AtlasSpriteManager spriteManagerWithFile:@"grossini_dance_atlas.png" capacity:100];
+		CCAtlasSpriteManager *mgr = [CCAtlasSpriteManager spriteManagerWithFile:@"grossini_dance_atlas.png" capacity:100];
 		[self addChild:mgr z:0 tag:kTagAtlasSpriteManager];
 		
 		[self addNewSpriteX: 200 y:200];
@@ -207,12 +207,12 @@ eachShape(void *ptr, void* unused)
 	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];	
 	
 	// add layer
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	[scene addChild: [Layer1 node] z:0];
 	
 	// add the label
 	CGSize s = [[Director sharedDirector] winSize];
-	Label* label = [Label labelWithString:@"Multi touch the screen" fontName:@"Marker Felt" fontSize:36];
+	CCLabel* label = [CCLabel labelWithString:@"Multi touch the screen" fontName:@"Marker Felt" fontSize:36];
 	label.position = ccp( s.width / 2, s.height - 30);
 	[scene addChild:label z:-1];
 

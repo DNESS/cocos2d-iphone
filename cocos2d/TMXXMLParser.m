@@ -20,7 +20,7 @@
 
 #import "ccMacros.h"
 #import "TMXXMLParser.h"
-#import "TMXTiledMap.h"
+#import "CCTMXTiledMap.h"
 #import "Support/FileUtils.h"
 #import "Support/base64.h"
 #import "Support/ZipUtils.h"
@@ -29,7 +29,7 @@
 #pragma mark TMXLayerInfo
 
 
-@implementation TMXLayerInfo
+@implementation CCTMXLayerInfo
 -(id) init
 {
 	if( (self=[super init])) {
@@ -53,7 +53,7 @@
 
 #pragma mark -
 #pragma mark TMXTilesetInfo
-@implementation TMXTilesetInfo
+@implementation CCTMXTilesetInfo
 - (void) dealloc
 {
 	CCLOG(@"cocos2d: deallocing %@", self);
@@ -82,7 +82,7 @@
 #pragma mark -
 #pragma mark TMXMapInfo
 
-@implementation TMXMapInfo
+@implementation CCTMXMapInfo
 +(id) formatWithTMXFile:(NSString*)tmxFile
 {
 	return [[[self alloc] initWithTMXFile:tmxFile] autorelease];
@@ -150,7 +150,7 @@
 		tileSize.height = [[attributeDict valueForKey:@"tileheight"] intValue];
 
 	} else if([elementName isEqualToString:@"tileset"]) {
-		TMXTilesetInfo *tileset = [TMXTilesetInfo new];
+		CCTMXTilesetInfo *tileset = [CCTMXTilesetInfo new];
 		tileset->name = [[attributeDict valueForKey:@"name"] retain];
 		tileset->firstGid = [[attributeDict valueForKey:@"firstgid"] intValue];
 		tileset->spacing = [[attributeDict valueForKey:@"spacing"] intValue];
@@ -162,7 +162,7 @@
 		[tileset release];
 
 	} else if([elementName isEqualToString:@"layer"]) {
-		TMXLayerInfo *layer = [TMXLayerInfo new];
+		CCTMXLayerInfo *layer = [CCTMXLayerInfo new];
 		layer->name = [[attributeDict valueForKey:@"name"] retain];
 		layer->layerSize.width = [[attributeDict valueForKey:@"width"] intValue];
 		layer->layerSize.height = [[attributeDict valueForKey:@"height"] intValue];
@@ -178,7 +178,7 @@
 		
 	} else if([elementName isEqualToString:@"image"]) {
 
-		TMXTilesetInfo *tileset = [tilesets lastObject];
+		CCTMXTilesetInfo *tileset = [tilesets lastObject];
 		tileset->sourceImage = [[attributeDict valueForKey:@"source"] retain];
 
 	} else if([elementName isEqualToString:@"data"]) {
@@ -207,7 +207,7 @@
 	if([elementName isEqualToString:@"data"] && layerAttribs&TMXLayerAttribBase64) {
 		storingCharacters = NO;
 		
-		TMXLayerInfo *layer = [layers lastObject];
+		CCTMXLayerInfo *layer = [layers lastObject];
 		
 		unsigned char *buffer;
 		len = base64Decode((unsigned char*)[currentString UTF8String], [currentString length], &buffer);

@@ -1,3 +1,6 @@
+version 0.9.0 - XX-MMM-2009
+ . Major refactoring: now all Cocos2D classes are prefixed by `CC'
+
 version 0.8.2 - XX-MMM-2009
  . Actions: Added EaseBack family actios (issue #568)
  . AtlasSprite: set atlasIndex to invalid on remove (issue #569)

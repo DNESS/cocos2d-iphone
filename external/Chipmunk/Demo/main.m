@@ -284,7 +284,7 @@ void drawCollisions(void *ptr, void *data)
 	
 	[[Director sharedDirector] attachInView:window];
 	
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	
 	MainLayer * mainLayer =[MainLayer node];
 	

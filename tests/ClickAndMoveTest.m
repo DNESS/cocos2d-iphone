@@ -18,9 +18,9 @@ enum
 	{
 		self.isTouchEnabled = YES;
 		
-		Sprite *sprite = [Sprite spriteWithFile: @"grossini.png"];
+		CCSprite *sprite = [CCSprite spriteWithFile: @"grossini.png"];
 		
-		id layer = [ColorLayer layerWithColor: ccc4(255,255,0,255)];
+		id layer = [CCColorLayer layerWithColor: ccc4(255,255,0,255)];
 		[self addChild: layer z:-1];
 			
 		[self addChild: sprite z:0 tag:kTagSprite];
@@ -50,7 +50,7 @@ enum
 	CGPoint location = [touch locationInView: [touch view]];
 	CGPoint convertedLocation = [[Director sharedDirector] convertToGL:location];
 
-	CocosNode *s = [self getChildByTag:kTagSprite];
+	CCNode *s = [self getChildByTag:kTagSprite];
 	[s stopAllActions];
 	[s runAction: [MoveTo actionWithDuration:1 position:ccp(convertedLocation.x, convertedLocation.y)]];
 	float o = convertedLocation.x - [s position].x;
@@ -107,7 +107,7 @@ enum
 	// You can change anytime.
 	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];	
 	
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	MainLayer * mainLayer =[MainLayer node];	
 	[scene addChild: mainLayer z:2];
 	

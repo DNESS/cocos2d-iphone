@@ -10,128 +10,128 @@
 
 #define TRANSITION_DURATION (1.2f)
 
-@interface FadeWhiteTransition : FadeTransition 
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface FadeWhiteTransition : CCFadeTransition 
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
-@interface FlipXLeftOver : FlipXTransition 
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface FlipXLeftOver : CCFlipXTransition 
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
-@interface FlipXRightOver : FlipXTransition 
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface FlipXRightOver : CCFlipXTransition 
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
-@interface FlipYUpOver : FlipYTransition 
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface FlipYUpOver : CCFlipYTransition 
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
-@interface FlipYDownOver : FlipYTransition 
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface FlipYDownOver : CCFlipYTransition 
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
-@interface FlipAngularLeftOver : FlipAngularTransition 
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface FlipAngularLeftOver : CCFlipAngularTransition 
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
-@interface FlipAngularRightOver : FlipAngularTransition 
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface FlipAngularRightOver : CCFlipAngularTransition 
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
-@interface ZoomFlipXLeftOver : ZoomFlipXTransition 
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface ZoomFlipXLeftOver : CCZoomFlipXTransition 
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
-@interface ZoomFlipXRightOver : ZoomFlipXTransition 
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface ZoomFlipXRightOver : CCZoomFlipXTransition 
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
-@interface ZoomFlipYUpOver : ZoomFlipYTransition 
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface ZoomFlipYUpOver : CCZoomFlipYTransition 
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
-@interface ZoomFlipYDownOver : ZoomFlipYTransition 
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface ZoomFlipYDownOver : CCZoomFlipYTransition 
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
-@interface ZoomFlipAngularLeftOver : ZoomFlipAngularTransition 
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface ZoomFlipAngularLeftOver : CCZoomFlipAngularTransition 
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
-@interface ZoomFlipAngularRightOver : ZoomFlipAngularTransition 
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface ZoomFlipAngularRightOver : CCZoomFlipAngularTransition 
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
-@interface PageTransitionForward : PageTurnTransition
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface PageTransitionForward : CCPageTurnTransition
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
-@interface PageTransitionBackward : PageTurnTransition
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s;
+@interface PageTransitionBackward : CCPageTurnTransition
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s;
 @end
 
 
 @implementation FlipXLeftOver
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s orientation:kOrientationLeftOver];
 }
 @end
 @implementation FadeWhiteTransition
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s withColor:ccWHITE];
 }
 @end
 
 @implementation FlipXRightOver
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s orientation:kOrientationRightOver];
 }
 @end
 @implementation FlipYUpOver
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s orientation:kOrientationUpOver];
 }
 @end
 @implementation FlipYDownOver
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s orientation:kOrientationDownOver];
 }
 @end
 @implementation FlipAngularLeftOver
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s orientation:kOrientationLeftOver];
 }
 @end
 @implementation FlipAngularRightOver
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s orientation:kOrientationRightOver];
 }
 @end
 @implementation ZoomFlipXLeftOver
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s orientation:kOrientationLeftOver];
 }
 @end
 @implementation ZoomFlipXRightOver
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s orientation:kOrientationRightOver];
 }
 @end
 @implementation ZoomFlipYUpOver
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s orientation:kOrientationUpOver];
 }
 @end
 @implementation ZoomFlipYDownOver
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s orientation:kOrientationDownOver];
 }
 @end
 @implementation ZoomFlipAngularLeftOver
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s orientation:kOrientationLeftOver];
 }
 @end
 @implementation ZoomFlipAngularRightOver
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s orientation:kOrientationRightOver];
 }
 @end
 
 @implementation PageTransitionForward
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s backwards:NO];
 }
 @end
 
 @implementation PageTransitionBackward
-+(id) transitionWithDuration:(ccTime) t scene:(Scene*)s {
++(id) transitionWithDuration:(ccTime) t scene:(CCScene*)s {
 	return [self transitionWithDuration:t scene:s backwards:YES];
 }
 @end
@@ -192,7 +192,7 @@ Class nextTransition()
 Class backTransition()
 {
 	// HACK: else NSClassFromString will fail
-	[FadeTransition node];
+	[CCFadeTransition node];
 
 	sceneIdx--;
 	int total = ( sizeof(transitions) / sizeof(transitions[0]) );
@@ -206,7 +206,7 @@ Class backTransition()
 Class restartTransition()
 {
 	// HACK: else NSClassFromString will fail
-	[FadeTransition node];
+	[CCFadeTransition node];
 
 	NSString *r = transitions[sceneIdx];
 	Class c = NSClassFromString(r);
@@ -224,25 +224,25 @@ Class restartTransition()
 		x = size.width;
 		y = size.height;
 
-		Sprite *bg1 = [Sprite spriteWithFile:@"background1.jpg"];
+		CCSprite *bg1 = [CCSprite spriteWithFile:@"background1.jpg"];
 		bg1.anchorPoint = CGPointZero;
 		[self addChild:bg1 z:-1];
 
-		Label* title = [Label labelWithString:transitions[sceneIdx] fontName:@"Thonburi" fontSize:40];
+		CCLabel* title = [CCLabel labelWithString:transitions[sceneIdx] fontName:@"Thonburi" fontSize:40];
 		[self addChild:title];
 		[title setColor:ccc3(255,32,32)];
 		[title setPosition: ccp(x/2, y-100)];
 
-		Label* label = [Label labelWithString:@"SCENE 1" fontName:@"Marker Felt" fontSize:64];
+		CCLabel* label = [CCLabel labelWithString:@"SCENE 1" fontName:@"Marker Felt" fontSize:64];
 		[label setColor:ccc3(16,16,255)];
 		[label setPosition: ccp(x/2,y/2)];	
 		[self addChild: label];
 		
 		// menu
-		MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-		MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-		MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
-		Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
+		CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
+		CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
+		CCMenuItemImage *item3 = [CCMenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
+		CCMenu *menu = [CCMenu menuWithItems:item1, item2, item3, nil];
 		menu.position = CGPointZero;
 		item1.position = ccp(480/2-100,30);
 		item2.position = ccp(480/2, 30);
@@ -262,7 +262,7 @@ Class restartTransition()
 -(void) nextCallback:(id) sender
 {
 	Class transition = nextTransition();
-	Scene *s2 = [Scene node];
+	CCScene *s2 = [CCScene node];
 	[s2 addChild: [TextLayer2 node]];
 	[[Director sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
 
@@ -271,7 +271,7 @@ Class restartTransition()
 -(void) backCallback:(id) sender
 {
 	Class transition = backTransition();
-	Scene *s2 = [Scene node];
+	CCScene *s2 = [CCScene node];
 	[s2 addChild: [TextLayer2 node]];
 	[[Director sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
 }	
@@ -279,7 +279,7 @@ Class restartTransition()
 -(void) restartCallback:(id) sender
 {
 	Class transition = restartTransition();
-	Scene *s2 = [Scene node];
+	CCScene *s2 = [CCScene node];
 	[s2 addChild: [TextLayer2 node]];
 	[[Director sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
 }	
@@ -313,25 +313,25 @@ Class restartTransition()
 		x = size.width;
 		y = size.height;
 		
-		Sprite *bg2 = [Sprite spriteWithFile:@"background2.jpg"];
+		CCSprite *bg2 = [CCSprite spriteWithFile:@"background2.jpg"];
 		bg2.anchorPoint = CGPointZero;
 		[self addChild:bg2 z:-1];
 		
-		Label* title = [Label labelWithString:transitions[sceneIdx] fontName:@"Thonburi" fontSize:40];
+		CCLabel* title = [CCLabel labelWithString:transitions[sceneIdx] fontName:@"Thonburi" fontSize:40];
 		[self addChild:title];
 		[title setColor:ccc3(255,32,32)];
 		[title setPosition: ccp(x/2, y-100)];		
 		
-		Label* label = [Label labelWithString:@"SCENE 2" fontName:@"Marker Felt" fontSize:64];
+		CCLabel* label = [CCLabel labelWithString:@"SCENE 2" fontName:@"Marker Felt" fontSize:64];
 		[label setColor:ccc3(16,16,255)];
 		[label setPosition: ccp(x/2,y/2)];
 		[self addChild: label];
 		
 		// menu
-		MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-		MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-		MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
-		Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
+		CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
+		CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
+		CCMenuItemImage *item3 = [CCMenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
+		CCMenu *menu = [CCMenu menuWithItems:item1, item2, item3, nil];
 		menu.position = CGPointZero;
 		item1.position = ccp(480/2-100,30);
 		item2.position = ccp(480/2, 30);
@@ -347,7 +347,7 @@ Class restartTransition()
 -(void) nextCallback:(id) sender
 {
 	Class transition = nextTransition();
-	Scene *s2 = [Scene node];
+	CCScene *s2 = [CCScene node];
 	[s2 addChild: [TextLayer node]];
 	[[Director sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
 }	
@@ -355,7 +355,7 @@ Class restartTransition()
 -(void) backCallback:(id) sender
 {
 	Class transition = backTransition();
-	Scene *s2 = [Scene node];
+	CCScene *s2 = [CCScene node];
 	[s2 addChild: [TextLayer node]];
 	[[Director sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
 }	
@@ -363,7 +363,7 @@ Class restartTransition()
 -(void) restartCallback:(id) sender
 {
 	Class transition = restartTransition();
-	Scene *s2 = [Scene node];
+	CCScene *s2 = [CCScene node];
 	[s2 addChild: [TextLayer node]];
 	[[Director sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
 }
@@ -425,7 +425,7 @@ Class restartTransition()
 	// You can change anytime.
 	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
 
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	[scene addChild: [TextLayer node]];
 	
 	[window makeKeyAndVisible];

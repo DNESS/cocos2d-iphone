@@ -67,15 +67,15 @@ Class restartAction()
 
 		CGSize s = [[Director sharedDirector] winSize];
 	
-		Label* label = [Label labelWithString:[self title] fontName:@"Arial" fontSize:32];
+		CCLabel* label = [CCLabel labelWithString:[self title] fontName:@"Arial" fontSize:32];
 		[self addChild: label];
 		[label setPosition: ccp(s.width/2, s.height-50)];
 		
-		MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-		MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-		MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
+		CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
+		CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
+		CCMenuItemImage *item3 = [CCMenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
 		
-		Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
+		CCMenu *menu = [CCMenu menuWithItems:item1, item2, item3, nil];
 		
 		menu.position = CGPointZero;
 		item1.position = ccp( s.width/2 - 100,30);
@@ -94,21 +94,21 @@ Class restartAction()
 
 -(void) restartCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [restartAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) nextCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [nextAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
 
 -(void) backCallback: (id) sender
 {
-	Scene *s = [Scene node];
+	CCScene *s = [CCScene node];
 	[s addChild: [backAction() node]];
 	[[Director sharedDirector] replaceScene: s];
 }
@@ -126,12 +126,12 @@ Class restartAction()
 	
 	CGSize s = [[Director sharedDirector] winSize];
 
-	Sprite *sp0 = [Sprite spriteWithFile:@"grossini.png"];
-	Sprite *sp1 = [Sprite spriteWithFile:@"grossinis_sister1.png"];
-	Sprite *sp2 = [Sprite spriteWithFile:@"grossinis_sister2.png"];
-	Sprite *point0 = [Sprite spriteWithFile:@"r1.png"];
-	Sprite *point1 = [Sprite spriteWithFile:@"r1.png"];
-	Sprite *point2 = [Sprite spriteWithFile:@"r1.png"];
+	CCSprite *sp0 = [CCSprite spriteWithFile:@"grossini.png"];
+	CCSprite *sp1 = [CCSprite spriteWithFile:@"grossinis_sister1.png"];
+	CCSprite *sp2 = [CCSprite spriteWithFile:@"grossinis_sister2.png"];
+	CCSprite *point0 = [CCSprite spriteWithFile:@"r1.png"];
+	CCSprite *point1 = [CCSprite spriteWithFile:@"r1.png"];
+	CCSprite *point2 = [CCSprite spriteWithFile:@"r1.png"];
 
 	point0.scale = 0.25f;
 	point1.scale = 0.25f;
@@ -183,10 +183,10 @@ Class restartAction()
 
 	CGSize s = [[Director sharedDirector] winSize];
 	
-	Sprite *sp1 = [Sprite spriteWithFile:@"grossinis_sister1.png"];
-	Sprite *sp2 = [Sprite spriteWithFile:@"grossinis_sister2.png"];
-	Sprite *sp3 = [Sprite spriteWithFile:@"grossinis_sister1.png"];
-	Sprite *sp4 = [Sprite spriteWithFile:@"grossinis_sister2.png"];
+	CCSprite *sp1 = [CCSprite spriteWithFile:@"grossinis_sister1.png"];
+	CCSprite *sp2 = [CCSprite spriteWithFile:@"grossinis_sister2.png"];
+	CCSprite *sp3 = [CCSprite spriteWithFile:@"grossinis_sister1.png"];
+	CCSprite *sp4 = [CCSprite spriteWithFile:@"grossinis_sister2.png"];
 	
 	sp1.position = ccp(100, s.height /2 );
 	sp2.position = ccp(380, s.height /2 );
@@ -228,9 +228,9 @@ Class restartAction()
 	
 	CGSize s = [[Director sharedDirector] winSize];
 
-	Sprite *sp1 = [Sprite spriteWithFile:@"grossinis_sister1.png"];
-	Sprite *sp2 = [Sprite spriteWithFile:@"grossinis_sister2.png"];
-	Sprite *sp3 = [Sprite spriteWithFile:@"grossini.png"];
+	CCSprite *sp1 = [CCSprite spriteWithFile:@"grossinis_sister1.png"];
+	CCSprite *sp2 = [CCSprite spriteWithFile:@"grossinis_sister2.png"];
+	CCSprite *sp3 = [CCSprite spriteWithFile:@"grossini.png"];
 	
 	sp1.position = ccp(20,80);
 	sp2.position = ccp(70,50);
@@ -252,10 +252,10 @@ Class restartAction()
 
 -(void) changeZOrder:(ccTime) dt
 {
-	CocosNode *grossini = [self getChildByTag:kTagSprite1];
+	CCNode *grossini = [self getChildByTag:kTagSprite1];
 
-	CocosNode *sprite1 = [grossini getChildByTag:kTagSprite1];
-	CocosNode *sprite2 = [grossini getChildByTag:kTagSprite2];
+	CCNode *sprite1 = [grossini getChildByTag:kTagSprite1];
+	CCNode *sprite2 = [grossini getChildByTag:kTagSprite2];
 	
 	int zt = sprite1.zOrder;
 	[grossini reorderChild:sprite1 z:sprite2.zOrder];
@@ -274,8 +274,8 @@ Class restartAction()
 	if( !( self=[super init]) )
 		return nil;
 		
-	Sprite *sp1 = [Sprite spriteWithFile:@"grossinis_sister1.png"];
-	Sprite *sp2 = [Sprite spriteWithFile:@"grossinis_sister2.png"];
+	CCSprite *sp1 = [CCSprite spriteWithFile:@"grossinis_sister1.png"];
+	CCSprite *sp2 = [CCSprite spriteWithFile:@"grossinis_sister2.png"];
 	
 	sp1.position = ccp(100,160);
 	sp2.position = ccp(380,160);
@@ -314,8 +314,8 @@ Class restartAction()
 {
 	if( ( self=[super init]) ) {
 
-		Sprite *sp1 = [Sprite spriteWithFile:@"grossinis_sister1.png"];
-		Sprite *sp2 = [Sprite spriteWithFile:@"grossinis_sister2.png"];
+		CCSprite *sp1 = [CCSprite spriteWithFile:@"grossinis_sister1.png"];
+		CCSprite *sp2 = [CCSprite spriteWithFile:@"grossinis_sister2.png"];
 		
 		sp1.position = ccp(100,160);
 		sp2.position = ccp(380,160);
@@ -342,8 +342,8 @@ Class restartAction()
 
 -(void) addAndRemove:(ccTime) dt
 {
-	CocosNode *sp1 = [self getChildByTag:kTagSprite1];
-	CocosNode *sp2 = [self getChildByTag:kTagSprite2];
+	CCNode *sp1 = [self getChildByTag:kTagSprite1];
+	CCNode *sp2 = [self getChildByTag:kTagSprite2];
 
 	[sp1 retain];
 	[sp2 retain];
@@ -371,11 +371,11 @@ Class restartAction()
 {
 	if( ( self=[super init]) ) {
 		
-		Sprite *sp1 = [Sprite spriteWithFile:@"grossinis_sister1.png"];
-		Sprite *sp11 = [Sprite spriteWithFile:@"grossinis_sister1.png"];
+		CCSprite *sp1 = [CCSprite spriteWithFile:@"grossinis_sister1.png"];
+		CCSprite *sp11 = [CCSprite spriteWithFile:@"grossinis_sister1.png"];
 
-		Sprite *sp2 = [Sprite spriteWithFile:@"grossinis_sister2.png"];
-		Sprite *sp21 = [Sprite spriteWithFile:@"grossinis_sister2.png"];
+		CCSprite *sp2 = [CCSprite spriteWithFile:@"grossinis_sister2.png"];
+		CCSprite *sp21 = [CCSprite spriteWithFile:@"grossinis_sister2.png"];
 		
 		sp1.position = ccp(100,160);
 		sp2.position = ccp(380,160);
@@ -408,8 +408,8 @@ Class restartAction()
 
 -(void) addAndRemove:(ccTime) dt
 {
-	CocosNode *sp1 = [self getChildByTag:kTagSprite1];
-	CocosNode *sp2 = [self getChildByTag:kTagSprite2];
+	CCNode *sp1 = [self getChildByTag:kTagSprite1];
+	CCNode *sp2 = [self getChildByTag:kTagSprite2];
 	
 	[sp1 retain];
 	[sp2 retain];
@@ -439,7 +439,7 @@ Class restartAction()
 
 		CGSize s = [[Director sharedDirector] winSize];
 
-		Sprite *sp1 = [Sprite spriteWithFile:@"grossinis_sister1.png"];
+		CCSprite *sp1 = [CCSprite spriteWithFile:@"grossinis_sister1.png"];
 		[self addChild:sp1 z:0 tag:kTagSprite1];
 		
 		sp1.position = ccp(s.width/2, s.height/2);		
@@ -457,7 +457,7 @@ Class restartAction()
 	CGSize s = [[Director sharedDirector] winSize];
 
 	// if the node has timers, it crashes
-	CocosNode *explosion = [ParticleSun node];
+	CCNode *explosion = [ParticleSun node];
 	
 	// if it doesn't, it works Ok.
 //	CocosNode *explosion = [Sprite spriteWithFile:@"grossinis_sister2.png"];
@@ -498,9 +498,9 @@ Class restartAction()
 		
 		CGSize s = [[Director sharedDirector] winSize];
 		
-		Layer *sublayer = [Layer node];
+		CCLayer *sublayer = [CCLayer node];
 		
-		Sprite *sp1 = [Sprite spriteWithFile:@"grossinis_sister1.png"];
+		CCSprite *sp1 = [CCSprite spriteWithFile:@"grossinis_sister1.png"];
 		sp1.position = ccp(80, s.height/2);
 		
 		id move = [MoveBy actionWithDuration:3 position:ccp(350,0)];
@@ -546,7 +546,7 @@ Class restartAction()
 	//
 	
 	if( ( self=[super init]) ) {
-		Layer *layer = [Layer node];
+		CCLayer *layer = [CCLayer node];
 		NSLog(@"retain count after init is %d", [layer retainCount]);                // 1
 		
 		[self addChild:layer z:0];
@@ -604,7 +604,7 @@ Class restartAction()
 	// You can change anytime.
 	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];	
 	
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	[scene addChild: [nextAction() node]];
 			 
 	[[Director sharedDirector] runWithScene: scene];

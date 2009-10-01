@@ -1,7 +1,7 @@
 
 #import "cocos2d.h"
 
-@class Sprite;
+@class CCSprite;
 
 //CLASS INTERFACE
 @interface AppController : NSObject <UIAccelerometerDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIApplicationDelegate>
@@ -12,10 +12,10 @@
 
 @class Emitter;
 
-@interface ParticleDemo : ColorLayer
+@interface ParticleDemo : CCColorLayer
 {
 	ParticleSystem	*emitter;
-	Sprite			*background;
+	CCSprite			*background;
 }
 
 @property (readwrite,retain) ParticleSystem *emitter;

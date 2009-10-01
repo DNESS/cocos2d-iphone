@@ -7,7 +7,7 @@
 }
 @end
 
-@interface ActionManagerTest: Layer
+@interface ActionManagerTest: CCLayer
 {
     TextureAtlas *atlas;
 }

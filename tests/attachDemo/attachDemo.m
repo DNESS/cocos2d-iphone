@@ -25,7 +25,7 @@ enum {
 	kTagSprite = 1,
 };
 
-@interface LayerExample : Layer
+@interface LayerExample : CCLayer
 {}
 @end
 
@@ -38,8 +38,8 @@ enum {
 		
 		CGSize s = [[Director sharedDirector] winSize];
 
-		Sprite *grossini = [Sprite spriteWithFile:@"grossini.png"];
-		Label *label = [Label labelWithString:[NSString stringWithFormat:@"%dx%d",(int)s.width, (int)s.height] fontName:@"Marker Felt" fontSize:28];
+		CCSprite *grossini = [CCSprite spriteWithFile:@"grossini.png"];
+		CCLabel *label = [CCLabel labelWithString:[NSString stringWithFormat:@"%dx%d",(int)s.width, (int)s.height] fontName:@"Marker Felt" fontSize:28];
 		
 		[self addChild:label];
 		[self addChild:grossini z:0 tag:kTagSprite];
@@ -67,7 +67,7 @@ enum {
 	CGPoint location = [touch locationInView: [touch view]];
 	CGPoint convertedLocation = [[Director sharedDirector] convertToGL:location];
 	
-	CocosNode *s = [self getChildByTag:kTagSprite];
+	CCNode *s = [self getChildByTag:kTagSprite];
 	[s stopAllActions];
 	[s runAction: [MoveTo actionWithDuration:1 position:ccp(convertedLocation.x, convertedLocation.y)]];
 	float o = convertedLocation.x - [s position].x;
@@ -115,7 +115,7 @@ enum {
 	if( state == kStateEnd ) {
 		[[Director sharedDirector] attachInView:mainView withFrame:CGRectMake(0, 0, 250,350)];
 		
-		Scene *scene = [Scene node];
+		CCScene *scene = [CCScene node];
 		id node = [LayerExample node];
 		[scene addChild: node];
 		

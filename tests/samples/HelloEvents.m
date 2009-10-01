@@ -41,7 +41,7 @@ enum {
 		//
 		
 		// create and initialize a Label
-		Label* label = [Label labelWithString:@"Hello Events" fontName:@"Marker Felt" fontSize:64];
+		CCLabel* label = [CCLabel labelWithString:@"Hello Events" fontName:@"Marker Felt" fontSize:64];
 
 		// ask director the the window size
 		CGSize size = [[Director sharedDirector] winSize];
@@ -57,7 +57,7 @@ enum {
 		// Sprite
 		//
 		
-		Sprite *sprite = [Sprite spriteWithFile:@"grossini.png"];
+		CCSprite *sprite = [CCSprite spriteWithFile:@"grossini.png"];
 		sprite.position = ccp( 50, 50);
 		
 		// z is the z-order. Greater values means on top of lower values.
@@ -97,7 +97,7 @@ enum {
 		// The touches are always in "portrait" coordinates. You need to convert them to your current orientation
 		CGPoint convertedPoint = [[Director sharedDirector] convertToGL:location];
 		
-		CocosNode *sprite = [self getChildByTag:kTagSprite];
+		CCNode *sprite = [self getChildByTag:kTagSprite];
 		
 		// we stop the all running actions
 		[sprite stopAllActions];
@@ -116,7 +116,7 @@ enum {
 // This callback will be called because 'isAccelerometerEnabled' is YES.
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
 {	
-	CocosNode *sprite = [self getChildByTag:kTagSprite];
+	CCNode *sprite = [self getChildByTag:kTagSprite];
 
 	// Convert the coordinates to 'landscape' coords
 	// since they are always in 'portrait' coordinates
@@ -167,10 +167,10 @@ enum {
 	[window makeKeyAndVisible];
 	
 	// Create and initialize parent and empty Scene
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 
 	// Create and initialize our HelloEvents Layer
-	Layer *layer = [HelloEvents node];
+	CCLayer *layer = [HelloEvents node];
 	// add our HelloEvents Layer as a child of the main scene
 	[scene addChild:layer];
 

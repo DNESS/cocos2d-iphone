@@ -339,22 +339,22 @@ Class restartAction()
 		x = size.width;
 		y = size.height;
 		
-		CocosNode *node = [CocosNode node];
+		CCNode *node = [CCNode node];
 		[self addChild: node z:0 tag:kTagBackground];
 		
-		Sprite *bg = [Sprite spriteWithFile:@"background3.png"];
+		CCSprite *bg = [CCSprite spriteWithFile:@"background3.png"];
 		[node addChild: bg z:0];
 		bg.anchorPoint = CGPointZero;
 	//	bg.position = ccp(-100,-100);
 		
-		Sprite *grossini = [Sprite spriteWithFile:@"grossinis_sister2.png"];
+		CCSprite *grossini = [CCSprite spriteWithFile:@"grossinis_sister2.png"];
 		[node addChild:grossini z:1];
 		grossini.position = ccp(x/3,y/2);
 		id sc = [ScaleBy actionWithDuration:2 scale:5];
 		id sc_back = [sc reverse];
 		[grossini runAction: [RepeatForever actionWithAction: [Sequence actions:sc, sc_back, nil]]];
 
-		Sprite *tamara = [Sprite spriteWithFile:@"grossinis_sister1.png"];
+		CCSprite *tamara = [CCSprite spriteWithFile:@"grossinis_sister1.png"];
 		[node addChild:tamara z:1];
 		tamara.position = ccp(2*x/3,y/2);
 		id sc2 = [ScaleBy actionWithDuration:2 scale:5];
@@ -362,17 +362,17 @@ Class restartAction()
 		[tamara runAction: [RepeatForever actionWithAction: [Sequence actions:sc2, sc2_back, nil]]];
 		
 		
-		Label* label = [Label labelWithString:effectsList[actionIdx] fontName:@"Marker Felt" fontSize:32];
+		CCLabel* label = [CCLabel labelWithString:effectsList[actionIdx] fontName:@"Marker Felt" fontSize:32];
 		
 		[label setPosition: ccp(x/2,y-80)];
 		[self addChild: label];
 		label.tag = kTagLabel;
 		
 		// menu
-		MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-		MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-		MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
-		Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
+		CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
+		CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
+		CCMenuItemImage *item3 = [CCMenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
+		CCMenu *menu = [CCMenu menuWithItems:item1, item2, item3, nil];
 		menu.position = CGPointZero;
 		item1.position = ccp(size.width/2-100,30);
 		item2.position = ccp(size.width/2, 30);
@@ -390,7 +390,7 @@ Class restartAction()
 -(void)checkAnim:(ccTime)t
 {
 //	Scene *s2 = [Director sharedDirector].runningScene;
-	CocosNode *s2 = [self getChildByTag:kTagBackground];
+	CCNode *s2 = [self getChildByTag:kTagBackground];
 	if ( [s2 numberOfRunningActions] == 0 && s2.grid != nil )
 		s2.grid = nil;
 }
@@ -401,7 +401,7 @@ Class restartAction()
 	id s2 = [self getChildByTag:kTagBackground];
 	[s2 stopAllActions];
 	Class effect = nextAction();
-	Label *label = (Label *)[self getChildByTag:kTagLabel];
+	CCLabel *label = (CCLabel *)[self getChildByTag:kTagLabel];
 	[label setString:effectsList[actionIdx]];
 	[s2 runAction:[effect actionWithDuration:3]];
 }	
@@ -412,7 +412,7 @@ Class restartAction()
 	id s2 = [self getChildByTag:kTagBackground];
 	[s2 stopAllActions];
 	Class effect = backAction();
-	Label *label = (Label *)[self getChildByTag:kTagLabel];
+	CCLabel *label = (CCLabel *)[self getChildByTag:kTagLabel];
 	[label setString:effectsList[actionIdx]];
 	[s2 runAction:[effect actionWithDuration:3]];
 }	
@@ -423,7 +423,7 @@ Class restartAction()
 	id s2 = [self getChildByTag:kTagBackground];
 	[s2 stopAllActions];
 	Class effect = restartAction();
-	Label *label = (Label *)[self getChildByTag:kTagLabel];
+	CCLabel *label = (CCLabel *)[self getChildByTag:kTagLabel];
 	[label setString:effectsList[actionIdx]];
 	[s2 runAction:[effect actionWithDuration:3]];
 }	
@@ -458,7 +458,7 @@ Class restartAction()
 	// You can change anytime.
 	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
 	
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	[scene addChild: [TextLayer node] z:0 tag:kTagTextLayer];
 	
 	[[Director sharedDirector] runWithScene: scene];

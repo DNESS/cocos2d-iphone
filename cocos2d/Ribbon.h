@@ -13,7 +13,7 @@
  *
  */
 
-#import "CocosNode.h"
+#import "CCNode.h"
 #import "Texture2D.h"
 #import <OpenGLES/ES1/gl.h>
 
@@ -32,7 +32,7 @@
  *
  * @since v0.8.1
  */
-@interface Ribbon : CocosNode <CocosNodeTexture>
+@interface Ribbon : CCNode <CCNodeTexture>
 {
 	NSMutableArray* mSegments;
 	NSMutableArray* dSegments;

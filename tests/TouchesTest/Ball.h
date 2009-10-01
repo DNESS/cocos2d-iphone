@@ -4,7 +4,7 @@
 
 @class Paddle;
 
-@interface Ball : TextureNode {
+@interface Ball : CCTextureNode {
 @private
 	CGPoint velocity;
 }

@@ -40,7 +40,7 @@
 
 	GridBase *newgrid = [self grid];
 	
-	CocosNode *t = (CocosNode*) target;
+	CCNode *t = (CCNode*) target;
 	
 	if ( t.grid && t.grid.reuseGrid > 0 )
 	{
@@ -340,7 +340,7 @@
 {
 	[super start];
 
-	CocosNode *myTarget = (CocosNode*) [self target];
+	CCNode *myTarget = (CCNode*) [self target];
 	if ( myTarget.grid && myTarget.grid.active )
 		myTarget.grid.reuseGrid += t;
 }

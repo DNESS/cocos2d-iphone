@@ -14,7 +14,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "CocosNode.h"
+#import "CCNode.h"
 
 /** 
     A Camera is used in every CocosNode.

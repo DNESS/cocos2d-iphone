@@ -7,7 +7,7 @@
 }
 @end
 
-@interface TileDemo: Layer
+@interface TileDemo: CCLayer
 {
     TextureAtlas *atlas;
 }

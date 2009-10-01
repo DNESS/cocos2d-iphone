@@ -13,7 +13,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "CocosNode.h"
+#import "CCNode.h"
 #import "Ribbon.h"
 
 /**
@@ -33,7 +33,7 @@
  *
  * @since v0.8.1
  */
-@interface MotionStreak : CocosNode <CocosNodeTexture>
+@interface MotionStreak : CCNode <CCNodeTexture>
 {
 	Ribbon*	ribbon_;
 	float mSegThreshold;

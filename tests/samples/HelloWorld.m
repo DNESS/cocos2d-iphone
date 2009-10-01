@@ -25,7 +25,7 @@
 	if( (self=[super init] )) {
 		
 		// create and initialize a Label
-		Label* label = [Label labelWithString:@"Hello World" fontName:@"Marker Felt" fontSize:64];
+		CCLabel* label = [CCLabel labelWithString:@"Hello World" fontName:@"Marker Felt" fontSize:64];
 
 		// ask director the the window size
 		CGSize size = [[Director sharedDirector] winSize];
@@ -82,10 +82,10 @@
 	[window makeKeyAndVisible];
 	
 	// Create and initialize parent and empty Scene
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 
 	// Create and initialize our HelloWorld Layer
-	Layer *layer = [HelloWorld node];
+	CCLayer *layer = [HelloWorld node];
 	// add our HelloWorld Layer as a child of the main scene
 	[scene addChild:layer];
 

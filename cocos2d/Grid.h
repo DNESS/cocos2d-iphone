@@ -14,7 +14,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "CocosNode.h"
+#import "CCNode.h"
 #import "Camera.h"
 #import "ccTypes.h"
 

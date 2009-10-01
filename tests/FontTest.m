@@ -61,10 +61,10 @@ NSString* restartAction()
     
     // menu
     CGSize size = [Director sharedDirector].winSize;
-    MenuItemImage *item1 = [MenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
-    MenuItemImage *item2 = [MenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
-    MenuItemImage *item3 = [MenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
-    Menu *menu = [Menu menuWithItems:item1, item2, item3, nil];
+    CCMenuItemImage *item1 = [CCMenuItemImage itemFromNormalImage:@"b1.png" selectedImage:@"b2.png" target:self selector:@selector(backCallback:)];
+    CCMenuItemImage *item2 = [CCMenuItemImage itemFromNormalImage:@"r1.png" selectedImage:@"r2.png" target:self selector:@selector(restartCallback:)];
+    CCMenuItemImage *item3 = [CCMenuItemImage itemFromNormalImage:@"f1.png" selectedImage:@"f2.png" target:self selector:@selector(nextCallback:)];
+    CCMenu *menu = [CCMenu menuWithItems:item1, item2, item3, nil];
     menu.position = CGPointZero;
     item1.position = ccp(size.width/2-100,30);
     item2.position = ccp(size.width/2, 30);
@@ -85,10 +85,10 @@ NSString* restartAction()
 	[self removeChildByTag:kTagLabel4 cleanup:YES];
     
 	
-	Label *top = [Label labelWithString:aFont fontName:aFont fontSize:24];
-	Label *left = [Label labelWithString:@"alignment left" dimensions:CGSizeMake(480,50) alignment:UITextAlignmentLeft fontName:aFont fontSize:32];
-	Label *center = [Label labelWithString:@"alignment center" dimensions:CGSizeMake(480,50) alignment:UITextAlignmentCenter fontName:aFont fontSize:32];
-	Label *right = [Label labelWithString:@"alignment right" dimensions:CGSizeMake(480,50) alignment:UITextAlignmentRight fontName:aFont fontSize:32];
+	CCLabel *top = [CCLabel labelWithString:aFont fontName:aFont fontSize:24];
+	CCLabel *left = [CCLabel labelWithString:@"alignment left" dimensions:CGSizeMake(480,50) alignment:UITextAlignmentLeft fontName:aFont fontSize:32];
+	CCLabel *center = [CCLabel labelWithString:@"alignment center" dimensions:CGSizeMake(480,50) alignment:UITextAlignmentCenter fontName:aFont fontSize:32];
+	CCLabel *right = [CCLabel labelWithString:@"alignment right" dimensions:CGSizeMake(480,50) alignment:UITextAlignmentRight fontName:aFont fontSize:32];
 
 	CGSize s = [[Director sharedDirector] winSize];
 	
@@ -156,7 +156,7 @@ NSString* restartAction()
 	// You can change anytime.
 	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
 	
-	Scene *scene = [Scene node];
+	CCScene *scene = [CCScene node];
 	[scene addChild: [FontLayer node]];
 	
 	[[Director sharedDirector] runWithScene: scene];
