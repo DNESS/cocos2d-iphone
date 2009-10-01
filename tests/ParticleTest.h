@@ -14,11 +14,11 @@
 
 @interface ParticleDemo : CCColorLayer
 {
-	ParticleSystem	*emitter;
+	CCParticleSystem	*emitter;
 	CCSprite			*background;
 }
 
-@property (readwrite,retain) ParticleSystem *emitter;
+@property (readwrite,retain) CCParticleSystem *emitter;
 
 -(NSString*) title;
 @end

@@ -27,7 +27,7 @@
  - It can receive iPhone Touches
  - It can receive Accelerometer input
 */
-@interface CCLayer : CCNode <UIAccelerometerDelegate, StandardTouchDelegate, TargetedTouchDelegate>
+@interface CCLayer : CCNode <UIAccelerometerDelegate, CCStandardTouchDelegate, CCTargetedTouchDelegate>
 {
 	BOOL isTouchEnabled;
 	BOOL isAccelerometerEnabled;
@@ -62,7 +62,7 @@
 //
 // ColorLayer
 //
-/** ColorLayer is a subclass of Layer that implements the CocosNodeRGBA protocol.
+/** ColorLayer is a subclass of Layer that implements the CCNodeRGBA protocol.
  
  All features from Layer are valid, plus the following new features:
  - opacity
@@ -95,9 +95,9 @@
  */
 -(void) changeWidth:(GLfloat)w height:(GLfloat)h;
 
-/** Opacity: conforms to CocosNodeRGBA protocol */
+/** Opacity: conforms to CCNodeRGBA protocol */
 @property (nonatomic,readonly) GLubyte opacity;
-/** Opacity: conforms to CocosNodeRGBA protocol */
+/** Opacity: conforms to CCNodeRGBA protocol */
 @property (nonatomic,readonly) ccColor3B color;
 
 @end

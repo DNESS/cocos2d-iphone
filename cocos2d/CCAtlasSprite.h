@@ -13,7 +13,7 @@
  */
 
 #import "CCNode.h"
-#import "TextureAtlas.h"
+#import "CCTextureAtlas.h"
 
 @class CCAtlasSpriteManager;
 @class CCAtlasSpriteFrame;
@@ -25,7 +25,7 @@ enum {
 	CCAtlasSpriteIndexNotInitialized = 0xffffffff,
 };
 
-/** AtlasSprite is a CocosNode object that implements the CocosNodeFrames and CocosNodeRGBA protocols.
+/** AtlasSprite is a CocosNode object that implements the CCNodeFrames and CCNodeRGBA protocols.
  * 
  * AtlasSprite can be used as a replacement of Sprite.
  *
@@ -48,7 +48,7 @@ enum {
 @interface CCAtlasSprite : CCNode <CCNodeFrames, CCNodeRGBA>
 {
 	// weak reference
-	TextureAtlas *textureAtlas_;
+	CCTextureAtlas *textureAtlas_;
 	NSUInteger atlasIndex_;
 
 	// texture pixels
@@ -85,9 +85,9 @@ enum {
 @property (nonatomic,readwrite) BOOL flipX;
 /** whether or not the sprite is flipped vertically */
 @property (nonatomic,readwrite) BOOL flipY;
-/** opacity: conforms to CocosNodeRGBA protocol */
+/** opacity: conforms to CCNodeRGBA protocol */
 @property (nonatomic,readonly) GLubyte opacity;
-/** RGB colors: conforms to CocosNodeRGBA protocol */
+/** RGB colors: conforms to CCNodeRGBA protocol */
 @property (nonatomic,readonly) ccColor3B color;
 
 /** creates an AtlasSprite with an AtlasSpriteManager inidicating the Rect of the Atlas */

@@ -15,9 +15,9 @@
 #import "CCMenuItem.h"
 #import "CCLabel.h"
 #import "CCLabelAtlas.h"
-#import "IntervalAction.h"
+#import "CCIntervalAction.h"
 #import "CCSprite.h"
-#import "AtlasSprite.h"
+#import "CCAtlasSprite.h"
 #import "Support/CGPointExtension.h"
 
 static int _fontSize = kItemSize;
@@ -125,12 +125,12 @@ enum {
 
 @synthesize disabledColor = disabledColor_;
 
-+(id) itemWithLabel:(CCNode<CocosNodeLabel,CocosNodeRGBA>*)label target:(id)target selector:(SEL)selector
++(id) itemWithLabel:(CCNode<CCNodeLabel,CCNodeRGBA>*)label target:(id)target selector:(SEL)selector
 {
 	return [[[self alloc] initWithLabel:label target:target selector:selector] autorelease];
 }
 
--(id) initWithLabel:(CCNode<CocosNodeLabel,CocosNodeRGBA>*)label target:(id)target selector:(SEL)selector
+-(id) initWithLabel:(CCNode<CCNodeLabel,CCNodeRGBA>*)label target:(id)target selector:(SEL)selector
 {
 	if( (self=[super initWithTarget:target selector:selector]) ) {
 		self.label = label;
@@ -140,11 +140,11 @@ enum {
 	return self;
 }
 
--(CCNode<CocosNodeLabel, CocosNodeRGBA>*) label
+-(CCNode<CCNodeLabel, CCNodeRGBA>*) label
 {
 	return label_;
 }
--(void) setLabel:(CCNode<CocosNodeLabel, CocosNodeRGBA>*) label
+-(void) setLabel:(CCNode<CCNodeLabel, CCNodeRGBA>*) label
 {
 	[label_ release];
 	label_ = [label retain];
@@ -178,7 +178,7 @@ enum {
 	// subclass to change the default action
 	if(isEnabled) {		
 		[self stopActionByTag:kZoomActionTag];
-		Action *zoomAction = [ScaleTo actionWithDuration:0.1f scale:1.2f];
+		CCAction *zoomAction = [CCScaleTo actionWithDuration:0.1f scale:1.2f];
 		zoomAction.tag = kZoomActionTag;
 		[self runAction:zoomAction];
 	}
@@ -189,7 +189,7 @@ enum {
 	// subclass to change the default action
 	if(isEnabled) {
 		[self stopActionByTag:kZoomActionTag];
-		Action *zoomAction = [ScaleTo actionWithDuration:0.1f scale:1.0f];
+		CCAction *zoomAction = [CCScaleTo actionWithDuration:0.1f scale:1.0f];
 		zoomAction.tag = kZoomActionTag;
 		[self runAction:zoomAction];
 	}
@@ -336,19 +336,19 @@ enum {
 
 @synthesize normalImage=normalImage_, selectedImage=selectedImage_, disabledImage=disabledImage_;
 
-+(id) itemFromNormalSprite:(CCNode<CocosNodeRGBA>*)normalSprite selectedSprite:(CCNode<CocosNodeRGBA>*)selectedSprite
++(id) itemFromNormalSprite:(CCNode<CCNodeRGBA>*)normalSprite selectedSprite:(CCNode<CCNodeRGBA>*)selectedSprite
 {
 	return [self itemFromNormalSprite:normalSprite selectedSprite:selectedSprite disabledSprite:nil target:nil selector:nil];
 }
-+(id) itemFromNormalSprite:(CCNode<CocosNodeRGBA>*)normalSprite selectedSprite:(CCNode<CocosNodeRGBA>*)selectedSprite target:(id)target selector:(SEL)selector
++(id) itemFromNormalSprite:(CCNode<CCNodeRGBA>*)normalSprite selectedSprite:(CCNode<CCNodeRGBA>*)selectedSprite target:(id)target selector:(SEL)selector
 {
 	return [self itemFromNormalSprite:normalSprite selectedSprite:selectedSprite disabledSprite:nil target:target selector:selector];
 }
-+(id) itemFromNormalSprite:(CCNode<CocosNodeRGBA>*)normalSprite selectedSprite:(CCNode<CocosNodeRGBA>*)selectedSprite disabledSprite:(CCNode<CocosNodeRGBA>*)disabledSprite target:(id)target selector:(SEL)selector
++(id) itemFromNormalSprite:(CCNode<CCNodeRGBA>*)normalSprite selectedSprite:(CCNode<CCNodeRGBA>*)selectedSprite disabledSprite:(CCNode<CCNodeRGBA>*)disabledSprite target:(id)target selector:(SEL)selector
 {
 	return [[[self alloc] initFromNormalSprite:normalSprite selectedSprite:selectedSprite disabledSprite:disabledSprite target:target selector:selector] autorelease];
 }
--(id) initFromNormalSprite:(CCNode<CocosNodeRGBA>*)normalSprite selectedSprite:(CCNode<CocosNodeRGBA>*)selectedSprite disabledSprite:(CCNode<CocosNodeRGBA>*)disabledSprite target:(id)target selector:(SEL)selector
+-(id) initFromNormalSprite:(CCNode<CCNodeRGBA>*)normalSprite selectedSprite:(CCNode<CCNodeRGBA>*)selectedSprite disabledSprite:(CCNode<CCNodeRGBA>*)disabledSprite target:(id)target selector:(SEL)selector
 {
 	if( (self=[super initWithTarget:target selector:selector]) ) {
 		
@@ -398,7 +398,7 @@ enum {
 	}
 }
 
-#pragma mark MenuItemImage - CocosNodeRGBA protocol
+#pragma mark MenuItemImage - CCNodeRGBA protocol
 - (void) setOpacity: (GLubyte)opacity
 {
 	[normalImage_ setOpacity:opacity];
@@ -430,7 +430,7 @@ enum {
 #pragma mark MenuItemAtlasSprite
 @implementation CCMenuItemAtlasSprite
 
--(id) initFromNormalSprite:(CCNode<CocosNodeRGBA>*)normalSprite selectedSprite:(CCNode<CocosNodeRGBA>*)selectedSprite disabledSprite:(CCNode<CocosNodeRGBA>*)disabledSprite target:(id)target selector:(SEL)selector
+-(id) initFromNormalSprite:(CCNode<CCNodeRGBA>*)normalSprite selectedSprite:(CCNode<CCNodeRGBA>*)selectedSprite disabledSprite:(CCNode<CCNodeRGBA>*)disabledSprite target:(id)target selector:(SEL)selector
 {
 	if( (self=[super initFromNormalSprite:normalSprite selectedSprite:selectedSprite disabledSprite:disabledSprite target:target selector:selector]) ) {
 		
@@ -538,9 +538,9 @@ enum {
 
 -(id) initFromNormalImage: (NSString*) normalI selectedImage:(NSString*)selectedI disabledImage: (NSString*) disabledI target:(id)t selector:(SEL)sel
 {
-	CCNode<CocosNodeRGBA> *normalImage = [CCSprite spriteWithFile:normalI];
-	CCNode<CocosNodeRGBA> *selectedImage = [CCSprite spriteWithFile:selectedI]; 
-	CCNode<CocosNodeRGBA> *disabledImage = nil;
+	CCNode<CCNodeRGBA> *normalImage = [CCSprite spriteWithFile:normalI];
+	CCNode<CCNodeRGBA> *selectedImage = [CCSprite spriteWithFile:selectedI]; 
+	CCNode<CCNodeRGBA> *disabledImage = nil;
 
 	if(disabledI)
 		disabledImage = [CCSprite spriteWithFile:disabledI];
@@ -582,7 +582,7 @@ enum {
 		while(i) {
 			z++;
 			[subItems_ addObject:i];
-			i = va_arg(args, MenuItem*);
+			i = va_arg(args, CCMenuItem*);
 		}
 
 		selectedIndex_ = NSUIntegerMax;
@@ -653,19 +653,19 @@ enum {
 	return [subItems_ objectAtIndex:selectedIndex_];
 }
 
-#pragma mark MenuItemToggle - CocosNodeRGBA protocol
+#pragma mark MenuItemToggle - CCNodeRGBA protocol
 
 - (void) setOpacity: (GLubyte)opacity
 {
 	opacity_ = opacity;
-	for(CCMenuItem<CocosNodeRGBA>* item in subItems_)
+	for(CCMenuItem<CCNodeRGBA>* item in subItems_)
 		[item setOpacity:opacity];
 }
 
 - (void) setColor:(ccColor3B)color
 {
 	color_ = color;
-	for(CCMenuItem<CocosNodeRGBA>* item in subItems_)
+	for(CCMenuItem<CCNodeRGBA>* item in subItems_)
 		[item setColor:color];
 }
 

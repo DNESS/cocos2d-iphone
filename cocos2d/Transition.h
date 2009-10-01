@@ -13,7 +13,7 @@
  */
 
 #import "CCScene.h"
-@class IntervalAction;
+@class CCIntervalAction;
 @class CCNode;
 
 /** Transition can Ease the actions of the scene protocol.
@@ -23,7 +23,7 @@
 /** returns the Ease action that will be performed on a linear action.
  @since v0.8.2
  */
--(IntervalAction*) easeActionWithAction:(IntervalAction*)action;
+-(CCIntervalAction*) easeActionWithAction:(CCIntervalAction*)action;
 @end
 
 /** Orientation Type used by some transitions
@@ -93,7 +93,7 @@ typedef enum {
 /** initializes the scenes */
 -(void) initScenes;
 /** returns the action that will be performed */
--(IntervalAction*) action;
+-(CCIntervalAction*) action;
 @end
 
 /** MoveInR Transition.
@@ -125,7 +125,7 @@ typedef enum {
 /** initializes the scenes */
 -(void) initScenes;
 /** returns the action that will be performed by the incomming and outgoing scene */
--(IntervalAction*) action;
+-(CCIntervalAction*) action;
 @end
 
 /** SlideInR Transition.
@@ -232,7 +232,7 @@ typedef enum {
  */
 @interface CCSplitColsTransition : CCTransitionScene <CCTransitionEaseScene>
 {}
--(IntervalAction*) action;
+-(CCIntervalAction*) action;
 @end
 
 /** SplitRows Transition.
@@ -247,7 +247,7 @@ typedef enum {
  */
 @interface CCFadeTRTransition : CCTransitionScene <CCTransitionEaseScene>
 {}
--(IntervalAction*) actionWithSize:(ccGridSize) vector;
+-(CCIntervalAction*) actionWithSize:(ccGridSize) vector;
 @end
 
 /** FadeBLTransition.

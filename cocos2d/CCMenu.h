@@ -66,9 +66,9 @@ typedef enum  {
 -(void) alignItemsInRows: (NSNumber *) rows vaList: (va_list) args;
 
 
-/** conforms to CocosNodeRGBA protocol */
+/** conforms to CCNodeRGBA protocol */
 @property (nonatomic,readonly) GLubyte opacity;
-/** conforms to CocosNodeRGBA protocol */
+/** conforms to CCNodeRGBA protocol */
 @property (nonatomic,readonly) ccColor3B color;
 
 @end

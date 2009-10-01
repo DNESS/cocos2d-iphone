@@ -13,8 +13,8 @@
  */
 
 #import "CCPageTurnTransition.h"
-#import	"PageTurn3DAction.h"
-#import "Director.h"
+#import	"CCPageTurn3DAction.h"
+#import "CCDirector.h"
 
 @implementation CCPageTurnTransition
 
@@ -47,7 +47,7 @@
 {
 	[super onEnter];
 	
-	CGSize s = [[Director sharedDirector] winSize];
+	CGSize s = [[CCDirector sharedDirector] winSize];
 	int x,y;
 	if( s.width > s.height)
 	{
@@ -62,10 +62,10 @@
 	
 	if(! back_ )
 	{
-		[outScene runAction: [Sequence actions:
+		[outScene runAction: [CCSequence actions:
 							  action,
-							  [CallFunc actionWithTarget:self selector:@selector(finish)],
-							  [StopGrid action],
+							  [CCCallFunc actionWithTarget:self selector:@selector(finish)],
+							  [CCStopGrid action],
 							  nil]
 		 ];
 	}
@@ -73,29 +73,29 @@
 	{
 		// to prevent initial flicker
 		inScene.visible = NO;
-		[inScene runAction: [Sequence actions:
-							 [Show action],
+		[inScene runAction: [CCSequence actions:
+							 [CCShow action],
 							 action,
-							 [CallFunc actionWithTarget:self selector:@selector(finish)],
-							 [StopGrid action],
+							 [CCCallFunc actionWithTarget:self selector:@selector(finish)],
+							 [CCStopGrid action],
 							 nil]
 		 ];
 	}
 	
 }
 
--(IntervalAction*) actionWithSize: (ccGridSize) v
+-(CCIntervalAction*) actionWithSize: (ccGridSize) v
 {
 	if( back_ )
 	{
 		// Get hold of the PageTurn3DAction
-		return [ReverseTime actionWithAction:
-				[PageTurn3DAction actionWithSize:v duration:duration]];
+		return [CCReverseTime actionWithAction:
+				[CCPageTurn3DAction actionWithSize:v duration:duration]];
 	}
 	else
 	{
 		// Get hold of the PageTurn3DAction
-		return [PageTurn3DAction actionWithSize:v duration:duration];
+		return [CCPageTurn3DAction actionWithSize:v duration:duration];
 	}
 }
 

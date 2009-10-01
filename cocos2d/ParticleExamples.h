@@ -12,71 +12,71 @@
  *
  */
 
-#import "PointParticleSystem.h"
-#import "QuadParticleSystem.h"
+#import "CCPointParticleSystem.h"
+#import "CCQuadParticleSystem.h"
 
 //! Fire particle system
-@interface ParticleFire: PointParticleSystem
+@interface CCParticleFire: CCPointParticleSystem
 {
 }
 @end
 
 //! Fireworks particle system
-@interface ParticleFireworks : PointParticleSystem
+@interface CCParticleFireworks : CCPointParticleSystem
 {
 }
 @end
 
 //! Sun particle system
-@interface ParticleSun : PointParticleSystem
+@interface CCParticleSun : CCPointParticleSystem
 {
 }
 @end
 
 //! Galaxy particle system
-@interface ParticleGalaxy : PointParticleSystem
+@interface CCParticleGalaxy : CCPointParticleSystem
 {
 }
 @end
 
 //! Flower particle system
-@interface ParticleFlower : PointParticleSystem
+@interface CCParticleFlower : CCPointParticleSystem
 {
 }
 @end
 
 //! Meteor particle system
-@interface ParticleMeteor : PointParticleSystem
+@interface CCParticleMeteor : CCPointParticleSystem
 {
 }
 @end
 
 //! Spiral particle system
-@interface ParticleSpiral : PointParticleSystem
+@interface CCParticleSpiral : CCPointParticleSystem
 {
 }
 @end
 
 //! Explosion particle system
-@interface ParticleExplosion : PointParticleSystem
+@interface CCParticleExplosion : CCPointParticleSystem
 {
 }
 @end
 
 //! Smoke particle system
-@interface ParticleSmoke : PointParticleSystem
+@interface CCParticleSmoke : CCPointParticleSystem
 {
 }
 @end
 
 //! Snow particle system
-@interface ParticleSnow : PointParticleSystem
+@interface CCParticleSnow : CCPointParticleSystem
 {
 }
 @end
 
 //! Rain particle system
-@interface ParticleRain : PointParticleSystem
+@interface CCParticleRain : CCPointParticleSystem
 {
 }
 @end

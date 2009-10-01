@@ -17,8 +17,8 @@
 #import <stdarg.h>
 
 #import "CCLayer.h"
-#import "Director.h"
-#import "TouchDispatcher.h"
+#import "CCDirector.h"
+#import "CCTouchDispatcher.h"
 #import "ccMacros.h"
 #import "Support/CGPointExtension.h"
 
@@ -32,7 +32,7 @@
 {
 	if( (self=[super init]) ) {
 	
-		CGSize s = [[Director sharedDirector] winSize];
+		CGSize s = [[CCDirector sharedDirector] winSize];
 		anchorPoint_ = ccp(0.5f, 0.5f);
 		[self setContentSize:s];
 		self.relativeAnchorPoint = NO;
@@ -48,7 +48,7 @@
 
 -(void) registerWithTouchDispatcher
 {
-	[[TouchDispatcher sharedDispatcher] addStandardDelegate:self priority:0];
+	[[CCTouchDispatcher sharedDispatcher] addStandardDelegate:self priority:0];
 }
 
 -(BOOL) isAccelerometerEnabled
@@ -82,7 +82,7 @@
 			if( enabled )
 				[self registerWithTouchDispatcher];
 			else
-				[[TouchDispatcher sharedDispatcher] removeDelegate:self];
+				[[CCTouchDispatcher sharedDispatcher] removeDelegate:self];
 		}
 	}
 }
@@ -105,7 +105,7 @@
 -(void) onExit
 {
 	if( isTouchEnabled )
-		[[TouchDispatcher sharedDispatcher] removeDelegate:self];
+		[[CCTouchDispatcher sharedDispatcher] removeDelegate:self];
 	
 	if( isAccelerometerEnabled )
 		[[UIAccelerometer sharedAccelerometer] setDelegate:nil];
@@ -170,7 +170,7 @@
 
 - (id) initWithColor:(ccColor4B)color
 {
-	CGSize s = [[Director sharedDirector] winSize];
+	CGSize s = [[CCDirector sharedDirector] winSize];
 	return [self initWithColor:color width:s.width height:s.height];
 }
 
@@ -279,10 +279,10 @@
 		
 		[layers addObject: layer];
 		
-		CCLayer *l = va_arg(params,Layer*);
+		CCLayer *l = va_arg(params,CCLayer*);
 		while( l ) {
 			[layers addObject: l];
-			l = va_arg(params,Layer*);
+			l = va_arg(params,CCLayer*);
 		}
 		
 		enabledLayer = 0;

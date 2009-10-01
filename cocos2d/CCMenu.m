@@ -14,8 +14,8 @@
 
 
 #import "CCMenu.h"
-#import "Director.h"
-#import "TouchDispatcher.h"
+#import "CCDirector.h"
+#import "CCTouchDispatcher.h"
 #import "Support/CGPointExtension.h"
 
 enum {
@@ -58,7 +58,7 @@ enum {
 		self.isTouchEnabled = YES;
 		
 		// menu in the center of the screen
-		CGSize s = [[Director sharedDirector] winSize];
+		CGSize s = [[CCDirector sharedDirector] winSize];
 		
 		self.relativeAnchorPoint = NO;
 		anchorPoint_ = ccp(0.5f, 0.5f);
@@ -67,7 +67,7 @@ enum {
 		// XXX: in v0.7, winSize should return the visible size
 		// XXX: so the bar calculation should be done there
 		CGRect r = [[UIApplication sharedApplication] statusBarFrame];
-		ccDeviceOrientation orientation = [[Director sharedDirector] deviceOrientation];
+		ccDeviceOrientation orientation = [[CCDirector sharedDirector] deviceOrientation];
 		if( orientation == CCDeviceOrientationLandscapeLeft || orientation == CCDeviceOrientationLandscapeRight )
 			s.height -= r.size.width;
 		else
@@ -78,11 +78,11 @@ enum {
 		
 		if (item) {
 			[self addChild: item z:z];
-			CCMenuItem *i = va_arg(args, MenuItem*);
+			CCMenuItem *i = va_arg(args, CCMenuItem*);
 			while(i) {
 				z++;
 				[self addChild: i z:z];
-				i = va_arg(args, MenuItem*);
+				i = va_arg(args, CCMenuItem*);
 			}
 		}
 	//	[self alignItemsVertically];
@@ -173,7 +173,7 @@ enum {
 
 -(void) registerWithTouchDispatcher
 {
-	[[TouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
+	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
 }
 
 -(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
@@ -299,7 +299,7 @@ enum {
     }
 	NSAssert( !columnsOccupied, @"Too many rows/columns for available menu items." );
 
-    CGSize winSize = [[Director sharedDirector] winSize];
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
     
     row = 0; rowHeight = 0; rowColumns = 0;
 	float w, x, y = height / 2;
@@ -377,7 +377,7 @@ enum {
     }
 	NSAssert( !rowsOccupied, @"Too many rows/columns for available menu items.");
     
-    CGSize winSize = [[Director sharedDirector] winSize];
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
     
     column = 0; columnWidth = 0; columnRows = 0;
 	float x = -width / 2, y;
@@ -415,7 +415,7 @@ enum {
 - (void) setOpacity:(GLubyte)newOpacity
 {
 	opacity_ = newOpacity;
-	for(id<CocosNodeRGBA> item in children)
+	for(id<CCNodeRGBA> item in children)
 		[item setOpacity:opacity_];
 }
 
@@ -424,14 +424,14 @@ enum {
 	color_.r=r;
 	color_.g=g;
 	color_.b=b;
-	for(id<CocosNodeRGBA> item in children)
+	for(id<CCNodeRGBA> item in children)
 		[item setColor:color_];
 }
 
 -(void) setColor:(ccColor3B)color
 {
 	color_ = color;
-	for(id<CocosNodeRGBA> item in children)
+	for(id<CCNodeRGBA> item in children)
 		[item setColor:color_];
 }
 
@@ -440,7 +440,7 @@ enum {
 -(CCMenuItem *) itemForTouch: (UITouch *) touch;
 {
 	CGPoint touchLocation = [touch locationInView: [touch view]];
-	touchLocation = [[Director sharedDirector] convertToGL: touchLocation];
+	touchLocation = [[CCDirector sharedDirector] convertToGL: touchLocation];
 	
 	for( CCMenuItem* item in children ) {
 		CGPoint local = [item convertToNodeSpace:touchLocation];

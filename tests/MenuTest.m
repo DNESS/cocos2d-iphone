@@ -56,17 +56,17 @@ enum {
 		// Font Item
 		CCMenuItemFont *item6 = [CCMenuItemFont itemFromString: @"Quit" target:self selector:@selector(onQuit:)];
 		
-		id color_action = [TintBy actionWithDuration:0.5f red:0 green:-255 blue:-255];
+		id color_action = [CCTintBy actionWithDuration:0.5f red:0 green:-255 blue:-255];
 		id color_back = [color_action reverse];
-		id seq = [Sequence actions:color_action, color_back, nil];
-		[item6 runAction:[RepeatForever actionWithAction:seq]];
+		id seq = [CCSequence actions:color_action, color_back, nil];
+		[item6 runAction:[CCRepeatForever actionWithAction:seq]];
 
 		CCMenu *menu = [CCMenu menuWithItems: item1, item2, item3, item4, item5, item6, nil];
 		[menu alignItemsVertically];
 		
 		
 		// elastic effect
-		CGSize s = [[Director sharedDirector] winSize];
+		CGSize s = [[CCDirector sharedDirector] winSize];
 		int i=0;
 		for( CCNode *child in [menu children] ) {
 			CGPoint dstPoint = child.position;
@@ -75,8 +75,8 @@ enum {
 				offset = -offset;
 			child.position = ccp( dstPoint.x + offset, dstPoint.y);
 			[child runAction: 
-			 [EaseElasticOut actionWithAction:
-			  [MoveBy actionWithDuration:2 position:ccp(dstPoint.x - offset,0)]
+			 [CCEaseElasticOut actionWithAction:
+			  [CCMoveBy actionWithDuration:2 position:ccp(dstPoint.x - offset,0)]
 									   period: 0.35f]
 			];
 			i++;
@@ -127,7 +127,7 @@ enum {
 
 -(void) onQuit: (id) sender
 {
-	[[Director sharedDirector] end];
+	[[CCDirector sharedDirector] end];
 	
 	// HA HA... no more terminate on sdk v3.0
 	// http://developer.apple.com/iphone/library/qa/qa2008/qa1561.html
@@ -277,18 +277,18 @@ enum {
 	item2.position = ccp(100,200);
 	item3.position = ccp(350,100);
 	
-	id jump = [JumpBy actionWithDuration:3 position:ccp(400,0) height:50 jumps:4];
-	[item2 runAction: [RepeatForever actionWithAction:
-				 [Sequence actions: jump, [jump reverse], nil]
+	id jump = [CCJumpBy actionWithDuration:3 position:ccp(400,0) height:50 jumps:4];
+	[item2 runAction: [CCRepeatForever actionWithAction:
+				 [CCSequence actions: jump, [jump reverse], nil]
 								   ]
 	 ];
-	id spin1 = [RotateBy actionWithDuration:3 angle:360];
+	id spin1 = [CCRotateBy actionWithDuration:3 angle:360];
 	id spin2 = [[spin1 copy] autorelease];
 	id spin3 = [[spin1 copy] autorelease];
 	
-	[item1 runAction: [RepeatForever actionWithAction:spin1]];
-	[item2 runAction: [RepeatForever actionWithAction:spin2]];
-	[item3 runAction: [RepeatForever actionWithAction:spin3]];
+	[item1 runAction: [CCRepeatForever actionWithAction:spin1]];
+	[item2 runAction: [CCRepeatForever actionWithAction:spin2]];
+	[item3 runAction: [CCRepeatForever actionWithAction:spin3]];
 	
 	[self addChild: menu];
 	
@@ -435,24 +435,24 @@ enum {
 //	[Director useFastDirector];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation: CCDeviceOrientationLandscapeRight];
+	[[CCDirector sharedDirector] setDeviceOrientation: CCDeviceOrientationLandscapeRight];
 
 	// show FPS
-	[[Director sharedDirector] setDisplayFPS:YES];
+	[[CCDirector sharedDirector] setDisplayFPS:YES];
 
 	// multiple touches or not ?
 //	[[Director sharedDirector] setMultipleTouchEnabled:YES];
 	
 	// frames per second
-	[[Director sharedDirector] setAnimationInterval:1.0/60];	
+	[[CCDirector sharedDirector] setAnimationInterval:1.0/60];	
 
 	// attach cocos2d to a window
-	[[Director sharedDirector] attachInView:window];
+	[[CCDirector sharedDirector] attachInView:window];
 	
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change anytime.
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];	
+	[CCTexture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];	
 
 	CCScene *scene = [CCScene node];
 
@@ -460,30 +460,30 @@ enum {
 	[scene addChild: layer z:0];
 
 	[window makeKeyAndVisible];
-	[[Director sharedDirector] runWithScene: scene];
+	[[CCDirector sharedDirector] runWithScene: scene];
 }
 
 // getting a call, pause the game
 -(void) applicationWillResignActive:(UIApplication *)application
 {
-	[[Director sharedDirector] pause];
+	[[CCDirector sharedDirector] pause];
 }
 
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-	[[Director sharedDirector] resume];
+	[[CCDirector sharedDirector] resume];
 }
 
 // purge memroy
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-	[[TextureMgr sharedTextureMgr] removeAllTextures];
+	[[CCTextureMgr sharedTextureMgr] removeAllTextures];
 }
 
 // next delta time will be zero
 -(void) applicationSignificantTimeChange:(UIApplication *)application
 {
-	[[Director sharedDirector] setNextDeltaTimeZero:YES];
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 - (void) dealloc

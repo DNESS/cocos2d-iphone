@@ -14,14 +14,14 @@
 
 #import "ccMacros.h"
 #import "Grid.h"
-#import "Texture2D.h"
-#import "Director.h"
-#import "Grabber.h"
+#import "CCTexture2D.h"
+#import "CCDirector.h"
+#import "CCGrabber.h"
 
 #import "Support/glu.h"
 #import "Support/CGPointExtension.h"
 
-@implementation GridBase
+@implementation CCGridBase
 
 @synthesize active;
 @synthesize reuseGrid;
@@ -39,20 +39,20 @@
 		reuseGrid = 0;
 		gridSize = gSize;
 		
-		CGSize	win = [[Director sharedDirector] winSize];
+		CGSize	win = [[CCDirector sharedDirector] winSize];
 	
 		if ( self.texture == nil )
 		{
-			Texture2DPixelFormat	format = [Director sharedDirector].pixelFormat == kRGB565 ? kTexture2DPixelFormat_RGB565 : kTexture2DPixelFormat_RGBA8888;
+			Texture2DPixelFormat	format = [CCDirector sharedDirector].pixelFormat == kRGB565 ? kTexture2DPixelFormat_RGB565 : kTexture2DPixelFormat_RGBA8888;
 			
 			void *data = malloc((int)(kTextureSize * kTextureSize * 4));
 			memset(data, 0, (int)(kTextureSize * kTextureSize * 4));
 			
-			texture = [[Texture2D alloc] initWithData:data pixelFormat:format pixelsWide:kTextureSize pixelsHigh:kTextureSize contentSize:win];
+			texture = [[CCTexture2D alloc] initWithData:data pixelFormat:format pixelsWide:kTextureSize pixelsHigh:kTextureSize contentSize:win];
 			free( data );
 		}
 		
-		grabber = [[Grabber alloc] init];
+		grabber = [[CCGrabber alloc] init];
 		[grabber grab:self.texture];
 
 		step.x = win.width / gridSize.x;
@@ -79,7 +79,7 @@
 // This routine can be merged with Director
 -(void)applyLandscape
 {
-	ccDeviceOrientation orientation  = [[Director sharedDirector] deviceOrientation];
+	ccDeviceOrientation orientation  = [[CCDirector sharedDirector] deviceOrientation];
 
 	switch (orientation) {
 		case CCDeviceOrientationLandscapeLeft:
@@ -104,7 +104,7 @@
 
 -(void)set2DProjection
 {
-	CGSize	winSize = [[Director sharedDirector] winSize];
+	CGSize	winSize = [[CCDirector sharedDirector] winSize];
 	
 	glLoadIdentity();
 	glViewport(0, 0, winSize.width, winSize.height);
@@ -117,7 +117,7 @@
 // This routine can be merged with Director
 -(void)set3DProjection
 {
-	CGSize	winSize = [[Director sharedDirector] displaySize];
+	CGSize	winSize = [[CCDirector sharedDirector] displaySize];
 	
 	glViewport(0, 0, winSize.width, winSize.height);
 	glMatrixMode(GL_PROJECTION);
@@ -126,7 +126,7 @@
 	
 	glMatrixMode(GL_MODELVIEW);	
 	glLoadIdentity();
-	gluLookAt( winSize.width/2, winSize.height/2, [Camera getZEye],
+	gluLookAt( winSize.width/2, winSize.height/2, [CCCamera getZEye],
 			  winSize.width/2, winSize.height/2, 0,
 			  0.0f, 1.0f, 0.0f
 			  );
@@ -138,7 +138,7 @@
 	[grabber beforeRender:self.texture];
 }
 
--(void)afterDraw:(Camera *)camera
+-(void)afterDraw:(CCCamera *)camera
 {
 	[grabber afterRender:self.texture];
 	
@@ -172,11 +172,11 @@
 
 ////////////////////////////////////////////////////////////
 
-@implementation Grid3D
+@implementation CCGrid3D
 
 +(id)gridWithSize:(ccGridSize)gridSize
 {
-	return [[[Grid3D alloc] initWithSize:gridSize] autorelease];
+	return [[[CCGrid3D alloc] initWithSize:gridSize] autorelease];
 }
 
 -(id)initWithSize:(ccGridSize)gSize
@@ -331,11 +331,11 @@
 
 ////////////////////////////////////////////////////////////
 
-@implementation TiledGrid3D
+@implementation CCTiledGrid3D
 
 +(id)gridWithSize:(ccGridSize)gridSize
 {
-	return [[[TiledGrid3D alloc] initWithSize:gridSize] autorelease];
+	return [[[CCTiledGrid3D alloc] initWithSize:gridSize] autorelease];
 }
 
 -(id)initWithSize:(ccGridSize)gSize

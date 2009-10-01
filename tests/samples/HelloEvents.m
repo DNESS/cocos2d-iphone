@@ -44,7 +44,7 @@ enum {
 		CCLabel* label = [CCLabel labelWithString:@"Hello Events" fontName:@"Marker Felt" fontSize:64];
 
 		// ask director the the window size
-		CGSize size = [[Director sharedDirector] winSize];
+		CGSize size = [[CCDirector sharedDirector] winSize];
 	
 		// position the label on the center of the screen
 		// "ccp" is a helper macro that creates a point. It means: "CoCos Point"
@@ -95,7 +95,7 @@ enum {
 		
 		// IMPORTANT:
 		// The touches are always in "portrait" coordinates. You need to convert them to your current orientation
-		CGPoint convertedPoint = [[Director sharedDirector] convertToGL:location];
+		CGPoint convertedPoint = [[CCDirector sharedDirector] convertToGL:location];
 		
 		CCNode *sprite = [self getChildByTag:kTagSprite];
 		
@@ -103,7 +103,7 @@ enum {
 		[sprite stopAllActions];
 		
 		// and we run a new action
-		[sprite runAction: [MoveTo actionWithDuration:1 position:convertedPoint]];
+		[sprite runAction: [CCMoveTo actionWithDuration:1 position:convertedPoint]];
 		
 		// no other handlers will receive this event
 		return kEventHandled;
@@ -148,8 +148,8 @@ enum {
 
 	// Try to use CADisplayLink director
 	// if it fails (SDK < 3.1) use Threaded director
-	if( ! [Director setDirectorType:CCDirectorTypeDisplayLink] )
-		[Director setDirectorType:CCDirectorTypeThreadMainLoop];
+	if( ! [CCDirector setDirectorType:CCDirectorTypeDisplayLink] )
+		[CCDirector setDirectorType:CCDirectorTypeThreadMainLoop];
 
 	// create an initilize the main UIWindow
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -158,10 +158,10 @@ enum {
 	[window setMultipleTouchEnabled:NO];
 
 	// Attach cocos2d to the window
-	[[Director sharedDirector] attachInWindow:window];
+	[[CCDirector sharedDirector] attachInWindow:window];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
+	[[CCDirector sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
 
 	// Make the window visible
 	[window makeKeyAndVisible];
@@ -175,7 +175,7 @@ enum {
 	[scene addChild:layer];
 
 	// Run!
-	[[Director sharedDirector] runWithScene: scene];
+	[[CCDirector sharedDirector] runWithScene: scene];
 }
 
 - (void) dealloc

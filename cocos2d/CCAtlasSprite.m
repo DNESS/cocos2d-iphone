@@ -370,9 +370,9 @@
 }
 
 //
-// CocosNodeFrames protocol
+// CCNodeFrames protocol
 //
-#pragma mark AtlasSprite - CocosNodeFrames protocol
+#pragma mark AtlasSprite - CCNodeFrames protocol
 -(void) setDisplayFrame:(id)newFrame
 {
 	CCAtlasSpriteFrame *frame = (CCAtlasSpriteFrame*)newFrame;
@@ -408,7 +408,7 @@
 	return [CCAtlasSpriteFrame frameWithRect:rect_];
 }
 // XXX: duplicated code. Sprite.m and AtlasSprite.m share this same piece of code
--(void) addAnimation: (id<CocosAnimation>) anim
+-(void) addAnimation: (id<CCAnimation>) anim
 {
 	// lazy alloc
 	if( ! animations )
@@ -417,7 +417,7 @@
 	[animations setObject:anim forKey:[anim name]];
 }
 // XXX: duplicated code. Sprite.m and AtlasSprite.m share this same piece of code
--(id<CocosAnimation>)animationByName: (NSString*) animationName
+-(id<CCAnimation>)animationByName: (NSString*) animationName
 {
 	NSAssert( animationName != nil, @"animationName parameter must be non nil");
     return [animations objectForKey:animationName];
@@ -464,10 +464,10 @@
 		if( frame ) {
 			[frames addObject:frame];
 			
-			CCAtlasSpriteFrame *frame2 = va_arg(args, AtlasSpriteFrame*);
+			CCAtlasSpriteFrame *frame2 = va_arg(args, CCAtlasSpriteFrame*);
 			while(frame2) {
 				[frames addObject:frame2];
-				frame2 = va_arg(args, AtlasSpriteFrame*);
+				frame2 = va_arg(args, CCAtlasSpriteFrame*);
 			}	
 		}
 	}

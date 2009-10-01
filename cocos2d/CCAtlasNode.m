@@ -51,7 +51,7 @@
 		blendFunc_.dst = CC_BLEND_DST;
 		
 		// retained
-		self.textureAtlas = [TextureAtlas textureAtlasWithFile:tile capacity:c];
+		self.textureAtlas = [CCTextureAtlas textureAtlasWithFile:tile capacity:c];
 		
 		[self updateBlendFunc];
 		[self updateOpacityModifyRGB];
@@ -157,14 +157,14 @@
 	}
 }
 
--(void) setTexture:(Texture2D*)texture
+-(void) setTexture:(CCTexture2D*)texture
 {
 	textureAtlas_.texture = texture;
 	[self updateBlendFunc];
 	[self updateOpacityModifyRGB];
 }
 
--(Texture2D*) texture
+-(CCTexture2D*) texture
 {
 	return textureAtlas_.texture;
 }

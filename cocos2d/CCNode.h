@@ -15,16 +15,16 @@
 
 #import <OpenGLES/ES1/gl.h>
 
-#import "Action.h"
+#import "CCAction.h"
 #import "ccTypes.h"
-#import "Support/Texture2D.h"
+#import "Support/CCTexture2D.h"
 
 enum {
 	kCocosNodeTagInvalid = -1,
 };
 
-@class Camera;
-@class GridBase;
+@class CCCamera;
+@class CCGridBase;
 
 /** CocosNode is the main element. Anything thats gets drawn or contains things that get drawn is a CocosNode.
  The most popular CocosNodes are: Scene, Layer, Sprite, Menu.
@@ -90,10 +90,10 @@ enum {
 	BOOL visible;
 	
 	// a Camera
-	Camera *camera;
+	CCCamera *camera;
 	
 	// a Grid
-	GridBase *grid;
+	CCGridBase *grid;
 	
 	// z-order value
 	int zOrder;
@@ -140,9 +140,9 @@ enum {
 @property(nonatomic,readwrite,assign) CGPoint position;
 /** A Camera object that lets you move the node using camera coordinates.
  * If you use the Camera then position, scale & rotation won't be used */
-@property(nonatomic,readonly) Camera* camera;
+@property(nonatomic,readonly) CCCamera* camera;
 /** A Grid object that is used when applying Effects */
-@property(nonatomic,readwrite,retain) GridBase* grid;
+@property(nonatomic,readwrite,retain) CCGridBase* grid;
 /** Whether of not the node is visible. Default is YES */
 @property(nonatomic,readwrite,assign) BOOL visible;
 /** The transformation anchor point in absolute pixels.
@@ -294,11 +294,11 @@ enum {
  @since v0.7.1
  @return An Action pointer
  */
--(Action*) runAction: (Action*) action;
+-(CCAction*) runAction: (CCAction*) action;
 /** Removes all actions from the running action list */
 -(void) stopAllActions;
 /** Removes an action from the running action list */
--(void) stopAction: (Action*) action;
+-(void) stopAction: (CCAction*) action;
 /** Removes an action from the running action list given its tag
  @since v0.7.1
 */
@@ -307,7 +307,7 @@ enum {
  @since v0.7.1
  @return the Action the with the given tag
  */
--(Action*) getActionByTag:(int) tag;
+-(CCAction*) getActionByTag:(int) tag;
 /** Returns the numbers of actions that are running plus the ones that are schedule to run (actions in actionsToAdd and actions arrays). 
  * Composable actions are counted as 1 action. Example:
  *    If you are running 1 Sequence of 7 actions, it will return 1.
@@ -452,9 +452,9 @@ enum {
  */
 @protocol CCNodeTexture <NSObject>
 /** returns the used texture */
--(Texture2D*) texture;
+-(CCTexture2D*) texture;
 /** sets a new texture. it will be retained */
--(void) setTexture:(Texture2D*)texture;
+-(void) setTexture:(CCTexture2D*)texture;
 /** set the source blending function for the texture */
 -(void) setBlendFunc:(ccBlendFunc)blendFunc;
 /** returns the blending function used for the texture */
@@ -492,8 +492,8 @@ enum {
 /** returns the current displayed frame */
 -(id) displayFrame;
 /** returns an Animation given it's name */
--(id<CocosAnimation>)animationByName: (NSString*) animationName;
+-(id<CCAnimation>)animationByName: (NSString*) animationName;
 /** adds an Animation to the Sprite */
--(void) addAnimation: (id<CocosAnimation>) animation;
+-(void) addAnimation: (id<CCAnimation>) animation;
 @end
 

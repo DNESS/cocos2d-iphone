@@ -13,7 +13,7 @@
  */
 
 #import "TiledGridAction.h"
-#import "Director.h"
+#import "CCDirector.h"
 #import "ccMacros.h"
 #import "Support/CGPointExtension.h"
 
@@ -25,7 +25,7 @@ typedef struct
 } Tile;
 
 
-@implementation ShakyTiles3D
+@implementation CCShakyTiles3D
 
 +(id)actionWithRange:(int)range shakeZ:(BOOL)shakeZ grid:(ccGridSize)gridSize duration:(ccTime)d
 {
@@ -81,7 +81,7 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-@implementation ShatteredTiles3D
+@implementation CCShatteredTiles3D
 
 +(id)actionWithRange:(int)range shatterZ:(BOOL)sz grid:(ccGridSize)gridSize duration:(ccTime)d
 {
@@ -143,7 +143,7 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-@implementation ShuffleTiles
+@implementation CCShuffleTiles
 
 +(id)actionWithSeed:(int)s grid:(ccGridSize)gridSize duration:(ccTime)d
 {
@@ -265,7 +265,7 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-@implementation FadeOutTRTiles
+@implementation CCFadeOutTRTiles
 
 -(float)testFunc:(ccGridSize)pos time:(ccTime)time
 {
@@ -330,7 +330,7 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-@implementation FadeOutBLTiles
+@implementation CCFadeOutBLTiles
 
 -(float)testFunc:(ccGridSize)pos time:(ccTime)time
 {
@@ -345,7 +345,7 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-@implementation FadeOutUpTiles
+@implementation CCFadeOutUpTiles
 
 -(float)testFunc:(ccGridSize)pos time:(ccTime)time
 {
@@ -372,7 +372,7 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-@implementation FadeOutDownTiles
+@implementation CCFadeOutDownTiles
 
 -(float)testFunc:(ccGridSize)pos time:(ccTime)time
 {
@@ -386,7 +386,7 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-@implementation TurnOffTiles
+@implementation CCTurnOffTiles
 
 +(id)actionWithSeed:(int)s grid:(ccGridSize)gridSize duration:(ccTime)d
 {
@@ -475,7 +475,7 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-@implementation WavesTiles3D
+@implementation CCWavesTiles3D
 
 @synthesize amplitude;
 @synthesize amplitudeRate;
@@ -520,7 +520,7 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-@implementation JumpTiles3D
+@implementation CCJumpTiles3D
 
 @synthesize amplitude;
 @synthesize amplitudeRate;
@@ -578,7 +578,7 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-@implementation SplitRows
+@implementation CCSplitRows
 
 +(id)actionWithRows:(int)r duration:(ccTime)d
 {
@@ -593,7 +593,7 @@ typedef struct
 -(void)start
 {
 	[super start];
-	winSize = [[Director sharedDirector] winSize];
+	winSize = [[CCDirector sharedDirector] winSize];
 }
 
 -(void)update:(ccTime)time
@@ -621,7 +621,7 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-@implementation SplitCols
+@implementation CCSplitCols
 
 +(id)actionWithCols:(int)c duration:(ccTime)d
 {
@@ -636,7 +636,7 @@ typedef struct
 -(void)start
 {
 	[super start];
-	winSize = [[Director sharedDirector] winSize];
+	winSize = [[CCDirector sharedDirector] winSize];
 }
 
 -(void)update:(ccTime)time

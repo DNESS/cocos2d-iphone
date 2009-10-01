@@ -17,7 +17,7 @@
 #import <OpenGLES/ES1/glext.h>
 
 #import "ccConfig.h"
-#import "TextureMgr.h"
+#import "CCTextureMgr.h"
 #import "CCTextureNode.h"
 #import "ccMacros.h"
 #import "DrawingPrimitives.h"
@@ -49,7 +49,7 @@
 	[super dealloc];
 }
 
--(void) setTexture:(Texture2D*) texture
+-(void) setTexture:(CCTexture2D*) texture
 {
 	[texture_ release];
 	texture_ = [texture retain];
@@ -61,7 +61,7 @@
 	opacityModifyRGB_ = [texture hasPremultipliedAlpha];
 }
 
--(Texture2D*) texture
+-(CCTexture2D*) texture
 {
 	return texture_;
 }

@@ -70,7 +70,7 @@ CDSourceWrapper *toneSource;
 {
 	[super init];
 	
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
+	[CCTexture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
 	CCSprite* bg = [CCSprite spriteWithFile:@"bg.png"];
 	[bg setPosition:CGPointMake(480/2, 320/2)]; 
 	[self addChild:bg ];
@@ -387,7 +387,7 @@ CDSourceWrapper *toneSource;
 -(void) onQuit: (id) sender
 {
 	
-	[[Director sharedDirector] end];
+	[[CCDirector sharedDirector] end];
 	if( [[UIApplication sharedApplication] respondsToSelector:@selector(terminate)] )
 		[[UIApplication sharedApplication] performSelector:@selector(terminate)];
 }
@@ -423,17 +423,17 @@ CDSourceWrapper *toneSource;
 	window.multipleTouchEnabled = TRUE;
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation: CCDeviceOrientationLandscapeLeft];
+	[[CCDirector sharedDirector] setDeviceOrientation: CCDeviceOrientationLandscapeLeft];
 	
 	// show FPS
-	[[Director sharedDirector] setDisplayFPS:NO];
+	[[CCDirector sharedDirector] setDisplayFPS:NO];
 	
 	
 	// frames per second
-	[[Director sharedDirector] setAnimationInterval:1.0/60];	
+	[[CCDirector sharedDirector] setAnimationInterval:1.0/60];	
 	
 	// attach cocos2d to a window
-	[[Director sharedDirector] attachInView:window];
+	[[CCDirector sharedDirector] attachInView:window];
 	
 	//Set up audio engine
 	[self setUpAudioManager:nil];
@@ -443,30 +443,30 @@ CDSourceWrapper *toneSource;
 	[scene addChild: [DenshionLayer node]];
 	
 	[window makeKeyAndVisible];
-	[[Director sharedDirector] runWithScene: scene];
+	[[CCDirector sharedDirector] runWithScene: scene];
 }
 
 // getting a call, pause the game
 -(void) applicationWillResignActive:(UIApplication *)application
 {
-	[[Director sharedDirector] pause];
+	[[CCDirector sharedDirector] pause];
 }
 
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-	[[Director sharedDirector] resume];
+	[[CCDirector sharedDirector] resume];
 }
 
 // purge memroy
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-	[[TextureMgr sharedTextureMgr] removeAllTextures];
+	[[CCTextureMgr sharedTextureMgr] removeAllTextures];
 }
 
 // next delta time will be zero
 -(void) applicationSignificantTimeChange:(UIApplication *)application
 {
-	[[Director sharedDirector] setNextDeltaTimeZero:YES];
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 - (void) dealloc

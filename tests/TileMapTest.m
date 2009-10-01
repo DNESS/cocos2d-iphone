@@ -69,7 +69,7 @@ Class restartAction()
 
 		self.isTouchEnabled = YES;
 
-		CGSize s = [[Director sharedDirector] winSize];
+		CGSize s = [[CCDirector sharedDirector] winSize];
 			
 		CCLabel* label = [CCLabel labelWithString:[self title] fontName:@"Arial" fontSize:32];
 		[self addChild: label z:1];
@@ -102,7 +102,7 @@ Class restartAction()
 
 -(void) registerWithTouchDispatcher
 {
-	[[TouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 }
 
 -(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
@@ -123,8 +123,8 @@ Class restartAction()
 	CGPoint touchLocation = [touch locationInView: [touch view]];	
 	CGPoint prevLocation = [touch previousLocationInView: [touch view]];	
 	
-	touchLocation = [[Director sharedDirector] convertToGL: touchLocation];
-	prevLocation = [[Director sharedDirector] convertToGL: prevLocation];
+	touchLocation = [[CCDirector sharedDirector] convertToGL: touchLocation];
+	prevLocation = [[CCDirector sharedDirector] convertToGL: prevLocation];
 	
 	CGPoint diff = ccpSub(touchLocation,prevLocation);
 	
@@ -137,21 +137,21 @@ Class restartAction()
 {
 	CCScene *s = [CCScene node];
 	[s addChild: [restartAction() node]];
-	[[Director sharedDirector] replaceScene: s];
+	[[CCDirector sharedDirector] replaceScene: s];
 }
 
 -(void) nextCallback: (id) sender
 {
 	CCScene *s = [CCScene node];
 	[s addChild: [nextAction() node]];
-	[[Director sharedDirector] replaceScene: s];
+	[[CCDirector sharedDirector] replaceScene: s];
 }
 
 -(void) backCallback: (id) sender
 {
 	CCScene *s = [CCScene node];
 	[s addChild: [backAction() node]];
-	[[Director sharedDirector] replaceScene: s];
+	[[CCDirector sharedDirector] replaceScene: s];
 }
 
 -(NSString*) title
@@ -314,12 +314,12 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	[[Director sharedDirector] set3Dprojection];	
+	[[CCDirector sharedDirector] set3Dprojection];	
 }
 
 -(void) onExit
 {
-	[[Director sharedDirector] set2Dprojection];
+	[[CCDirector sharedDirector] set2Dprojection];
 	[super onExit];
 }
 
@@ -347,7 +347,7 @@ Class restartAction()
 			[[child texture] setAntiAliasTexParameters];
 		}
 
-		[map runAction:[ScaleBy actionWithDuration:2 scale:0.5f]];
+		[map runAction:[CCScaleBy actionWithDuration:2 scale:0.5f]];
 		
 	}	
 	return self;
@@ -447,7 +447,7 @@ Class restartAction()
 		// move map to the center of the screen
 		CGSize ms = [map mapSize];
 		CGSize ts = [map tileSize];
-		[map runAction:[MoveTo actionWithDuration:1.0f position:ccp( -ms.width * ts.width/2, -ms.height * ts.height/2 ) ]];
+		[map runAction:[CCMoveTo actionWithDuration:1.0f position:ccp( -ms.width * ts.width/2, -ms.height * ts.height/2 ) ]];
 		
 	}	
 	return self;
@@ -505,7 +505,7 @@ Class restartAction()
 		// move map to the center of the screen
 		CGSize ms = [map mapSize];
 		CGSize ts = [map tileSize];
-		[map runAction:[MoveTo actionWithDuration:1.0f position:ccp( -ms.width * ts.width/2, -ms.height * ts.height/2 ) ]];
+		[map runAction:[CCMoveTo actionWithDuration:1.0f position:ccp( -ms.width * ts.width/2, -ms.height * ts.height/2 ) ]];
 		
 	}	
 	return self;
@@ -566,11 +566,11 @@ Class restartAction()
 		CCAtlasSprite *tile = [layer tileAt:ccp(0,63)];
 		tile.anchorPoint = ccp(0.5f, 0.5f);
 
-		id move = [MoveBy actionWithDuration:2 position:ccp(240,160)];
-		id rotate = [RotateBy actionWithDuration:2 angle:360];
-		id scale = [ScaleBy actionWithDuration:2 scale:5];
-		id opacity = [FadeOut actionWithDuration:2];
-		id seq = [Sequence actions:move, rotate, scale, opacity, nil];
+		id move = [CCMoveBy actionWithDuration:2 position:ccp(240,160)];
+		id rotate = [CCRotateBy actionWithDuration:2 angle:360];
+		id scale = [CCScaleBy actionWithDuration:2 scale:5];
+		id opacity = [CCFadeOut actionWithDuration:2];
+		id seq = [CCSequence actions:move, rotate, scale, opacity, nil];
 		
 		gid = [layer tileGIDAt:ccp(0,63)];
 		NSLog(@"Tile GID at:(0,63) is: %d", gid);
@@ -683,20 +683,20 @@ Class restartAction()
 	[window setMultipleTouchEnabled:NO];
 	
 	// must be called before any othe call to the director
-	[Director setDirectorType:CCDirectorTypeDisplayLink];
+	[CCDirector setDirectorType:CCDirectorTypeDisplayLink];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
-	[[Director sharedDirector] setAnimationInterval:1.0/60];
-	[[Director sharedDirector] setDisplayFPS:YES];
+	[[CCDirector sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
+	[[CCDirector sharedDirector] setAnimationInterval:1.0/60];
+	[[CCDirector sharedDirector] setDisplayFPS:YES];
 
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change anytime.
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
+	[CCTexture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
 	
 	// create an openGL view inside a window
-	[[Director sharedDirector] attachInView:window];	
+	[[CCDirector sharedDirector] attachInView:window];	
 	[window makeKeyAndVisible];		
 	
 	CCScene *scene = [CCScene node];
@@ -705,34 +705,34 @@ Class restartAction()
 	//
 	// Run all the test with 2d projection
 	//
-	[[Director sharedDirector] set2Dprojection];
+	[[CCDirector sharedDirector] set2Dprojection];
 	
 
-	[[Director sharedDirector] runWithScene: scene];
+	[[CCDirector sharedDirector] runWithScene: scene];
 }
 
 // getting a call, pause the game
 -(void) applicationWillResignActive:(UIApplication *)application
 {
-	[[Director sharedDirector] pause];
+	[[CCDirector sharedDirector] pause];
 }
 
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-	[[Director sharedDirector] resume];
+	[[CCDirector sharedDirector] resume];
 }
 
 // purge memroy
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-	[[TextureMgr sharedTextureMgr] removeAllTextures];
+	[[CCTextureMgr sharedTextureMgr] removeAllTextures];
 }
 
 // next delta time will be zero
 -(void) applicationSignificantTimeChange:(UIApplication *)application
 {
-	[[Director sharedDirector] setNextDeltaTimeZero:YES];
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 - (void) dealloc

@@ -13,7 +13,7 @@
  */
 
 #import "CCNode.h"
-#import "TextureAtlas.h"
+#import "CCTextureAtlas.h"
 #import "ccMacros.h"
 
 #pragma mark AtlasSpriteManager
@@ -32,20 +32,20 @@
 @interface CCAtlasSpriteManager : CCNode <CCNodeTexture>
 {
 	unsigned int totalSprites_;
-	TextureAtlas *textureAtlas_;
+	CCTextureAtlas *textureAtlas_;
 	ccBlendFunc	blendFunc_;
 }
 
 /** returns the TextureAtlas that is used */
-@property (nonatomic,readwrite,retain) TextureAtlas * textureAtlas;
+@property (nonatomic,readwrite,retain) CCTextureAtlas * textureAtlas;
 
 /** conforms to CocosNodeTexture protocol */
 @property (nonatomic,readwrite) ccBlendFunc blendFunc;
 
 /** creates an AtlasSpriteManager with a texture2d */
-+(id)spriteManagerWithTexture:(Texture2D *)tex;
++(id)spriteManagerWithTexture:(CCTexture2D *)tex;
 /** creates an AtlasSpriteManager with a texture2d and capacity */
-+(id)spriteManagerWithTexture:(Texture2D *)tex capacity:(NSUInteger)capacity;
++(id)spriteManagerWithTexture:(CCTexture2D *)tex capacity:(NSUInteger)capacity;
 /** creates an AtlasSpriteManager with a file image (.png, .jpeg, .pvr, etc).
  The file will be loaded using the TextureMgr.
  */
@@ -56,7 +56,7 @@
 +(id)spriteManagerWithFile:(NSString*)fileImage capacity:(NSUInteger)capacity;
 
 /** initializes an AtlasSpriteManager with a texture2d and capacity */
--(id)initWithTexture:(Texture2D *)tex capacity:(NSUInteger)capacity;
+-(id)initWithTexture:(CCTexture2D *)tex capacity:(NSUInteger)capacity;
 /** initializes an AtlasSpriteManager with a file image (.png, .jpeg, .pvr, etc).
  The file will be loaded using the TextureMgr.
  */

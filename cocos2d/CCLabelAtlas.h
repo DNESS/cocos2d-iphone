@@ -13,7 +13,7 @@
  */
 
 #import "CCAtlasNode.h"
-#import "TextureAtlas.h"
+#import "CCTextureAtlas.h"
 
 /** LabelAtlas is a subclass of AtlasNode.
  

@@ -89,7 +89,7 @@
 	}
 }
 
-#pragma mark LabelAtlas - CocosNodeLabel
+#pragma mark LabelAtlas - CCNodeLabel
 
 - (void) setString:(NSString*) newString
 {

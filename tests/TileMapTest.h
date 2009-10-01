@@ -9,7 +9,7 @@
 
 @interface TileDemo: CCLayer
 {
-    TextureAtlas *atlas;
+    CCTextureAtlas *atlas;
 }
 -(NSString*) title;
 -(NSString*) subtitle;

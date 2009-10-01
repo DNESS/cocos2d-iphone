@@ -12,7 +12,7 @@
  *
  */
 
-#import "TextureMgr.h"
+#import "CCTextureMgr.h"
 #import "CCSprite.h"
 #import "ccMacros.h"
 #import "Support/CGPointExtension.h"
@@ -37,7 +37,7 @@
 	self = [super init];
 	if( self ) {
 		// texture is retained
-		self.texture = [[TextureMgr sharedTextureMgr] addImage: filename];
+		self.texture = [[CCTextureMgr sharedTextureMgr] addImage: filename];
 		
 		// lazy alloc
 		animations = nil;
@@ -59,7 +59,7 @@
 	if( self ) {
 		// XXX: possible bug. See issue #349. New API should be added
 		NSString *key = [NSString stringWithFormat:@"%08X",(unsigned long)image];
-		self.texture = [[TextureMgr sharedTextureMgr] addCGImage:image forKey:key];
+		self.texture = [[CCTextureMgr sharedTextureMgr] addCGImage:image forKey:key];
 
 
 		// lazy alloc
@@ -71,12 +71,12 @@
 
 #pragma mark Sprite - Texture2D
 
-+ (id)  spriteWithTexture:(Texture2D*) tex
++ (id)  spriteWithTexture:(CCTexture2D*) tex
 {
 	return [[[self alloc] initWithTexture:tex] autorelease];
 }
 
-- (id) initWithTexture:(Texture2D*) tex
+- (id) initWithTexture:(CCTexture2D*) tex
 {
 	if( (self = [super init]) ) {
 		// texture is retained
@@ -102,7 +102,7 @@
 }
 
 //
-// CocosNodeFrames protocol
+// CCNodeFrames protocol
 //
 -(void) setDisplayFrame:(id)frame
 {
@@ -115,7 +115,7 @@
 		[self initAnimationDictionary];
 	
 	CCAnimation *a = [animations objectForKey: animationName];
-	Texture2D *frame = [[a frames] objectAtIndex:frameIndex];
+	CCTexture2D *frame = [[a frames] objectAtIndex:frameIndex];
 	self.texture = frame;	
 }
 
@@ -127,7 +127,7 @@
 {
 	return texture_;
 }
--(void) addAnimation: (id<CocosAnimation>) anim
+-(void) addAnimation: (id<CCAnimation>) anim
 {
 	// lazy alloc
 	if( ! animations )
@@ -135,7 +135,7 @@
 	
 	[animations setObject:anim forKey:[anim name]];
 }
--(id<CocosAnimation>)animationByName: (NSString*) animationName
+-(id<CCAnimation>)animationByName: (NSString*) animationName
 {
 	NSAssert( animationName != nil, @"animationName parameter must be non nil");
     return [animations objectForKey:animationName];
@@ -189,12 +189,12 @@
 	delay = d;
 
 	if( image ) {
-		Texture2D *tex = [[TextureMgr sharedTextureMgr] addImage: image];
+		CCTexture2D *tex = [[CCTextureMgr sharedTextureMgr] addImage: image];
 		[frames addObject:tex];
 
 		NSString *filename = va_arg(args, NSString*);
 		while(filename) {
-			tex = [[TextureMgr sharedTextureMgr] addImage: filename];
+			tex = [[CCTextureMgr sharedTextureMgr] addImage: filename];
 			[frames addObject:tex];
 		
 			filename = va_arg(args, NSString*);
@@ -205,7 +205,7 @@
 
 -(void) addFrameWithFilename: (NSString*) filename
 {
-	Texture2D *tex = [[TextureMgr sharedTextureMgr] addImage: filename];
+	CCTexture2D *tex = [[CCTextureMgr sharedTextureMgr] addImage: filename];
 	[frames addObject:tex];
 }
 
@@ -222,7 +222,7 @@
 	return s;
 }
 
--(id) initWithName:(NSString*)n delay:(float)d firstTexture:(Texture2D*)tex vaList:(va_list)args
+-(id) initWithName:(NSString*)n delay:(float)d firstTexture:(CCTexture2D*)tex vaList:(va_list)args
 {
 	self = [super init];
 	if( self ) {
@@ -233,18 +233,18 @@
 		if( tex ) {
 			[frames addObject:tex];
 			
-			Texture2D *newTex = va_arg(args, Texture2D*);
+			CCTexture2D *newTex = va_arg(args, CCTexture2D*);
 			while(newTex) {
 				[frames addObject:newTex];
 				
-				newTex = va_arg(args, Texture2D*);
+				newTex = va_arg(args, CCTexture2D*);
 			}	
 		}
 	}
 	return self;
 }
 
--(void) addFrameWithTexture: (Texture2D*) tex
+-(void) addFrameWithTexture: (CCTexture2D*) tex
 {
 	[frames addObject:tex];
 }

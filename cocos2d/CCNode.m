@@ -16,12 +16,12 @@
 
 #import "ccConfig.h"
 #import "CCNode.h"
-#import "Camera.h"
+#import "CCCamera.h"
 #import "Grid.h"
-#import "Scheduler.h"
+#import "CCScheduler.h"
 #import "ccMacros.h"
-#import "Director.h"
-#import "ActionManager.h"
+#import "CCDirector.h"
+#import "CCActionManager.h"
 #import "Support/CGPointExtension.h"
 #import "Support/ccArray.h"
 #import "Support/TransformUtils.h"
@@ -241,10 +241,10 @@
 }
 
 // camera: lazy alloc
--(Camera*) camera
+-(CCCamera*) camera
 {
 	if( ! camera )
-		camera = [[Camera alloc] init];
+		camera = [[CCCamera alloc] init];
 
 	return camera;
 }
@@ -533,40 +533,40 @@
 
 #pragma mark CocosNode Actions
 
--(Action*) runAction:(Action*) action
+-(CCAction*) runAction:(CCAction*) action
 {
 	NSAssert( action != nil, @"Argument must be non-nil");
 	
-	[[ActionManager sharedManager] addAction:action target:self paused:!isRunning];
+	[[CCActionManager sharedManager] addAction:action target:self paused:!isRunning];
 	return action;
 }
 
 -(void) stopAllActions
 {
-	[[ActionManager sharedManager] removeAllActionsFromTarget:self];
+	[[CCActionManager sharedManager] removeAllActionsFromTarget:self];
 }
 
--(void) stopAction: (Action*) action
+-(void) stopAction: (CCAction*) action
 {
-	[[ActionManager sharedManager] removeAction:action];
+	[[CCActionManager sharedManager] removeAction:action];
 }
 
 -(void) stopActionByTag:(int)aTag
 {
 	NSAssert( aTag != kActionTagInvalid, @"Invalid tag");
-	[[ActionManager sharedManager] removeActionByTag:aTag target:self];
+	[[CCActionManager sharedManager] removeActionByTag:aTag target:self];
 }
 
--(Action*) getActionByTag:(int) aTag
+-(CCAction*) getActionByTag:(int) aTag
 {
 	NSAssert( aTag != kActionTagInvalid, @"Invalid tag");
 
-	return [[ActionManager sharedManager] getActionByTag:aTag target:self];
+	return [[CCActionManager sharedManager] getActionByTag:aTag target:self];
 }
 
 -(int) numberOfRunningActions
 {
-	return [[ActionManager sharedManager] numberOfRunningActionsInTarget:self];
+	return [[CCActionManager sharedManager] numberOfRunningActionsInTarget:self];
 }
 
 #pragma mark CocosNode Timers 
@@ -595,10 +595,10 @@
 		return;
 	}
 	
-	Timer *timer = [Timer timerWithTarget:self selector:selector interval:interval];
+	CCTimer *timer = [CCTimer timerWithTarget:self selector:selector interval:interval];
 	
 	if( isRunning )
-		[[Scheduler sharedScheduler] scheduleTimer:timer];
+		[[CCScheduler sharedScheduler] scheduleTimer:timer];
 	
 	[scheduledSelectors setObject:timer forKey:key ];
 }
@@ -609,7 +609,7 @@
 	if (selector == nil)
 		return;
 	
-	Timer *timer = nil;
+	CCTimer *timer = nil;
 	NSString *key = NSStringFromSelector(selector);
 
 	if( ! (timer = [scheduledSelectors objectForKey:key] ) )
@@ -621,23 +621,23 @@
 	[scheduledSelectors removeObjectForKey: key];
 
 	if( isRunning )
-		[[Scheduler sharedScheduler] unscheduleTimer:timer];
+		[[CCScheduler sharedScheduler] unscheduleTimer:timer];
 }
 
 - (void) activateTimers
 {
 	for( id key in scheduledSelectors )
-		[[Scheduler sharedScheduler] scheduleTimer: [scheduledSelectors objectForKey:key]];
+		[[CCScheduler sharedScheduler] scheduleTimer: [scheduledSelectors objectForKey:key]];
 	
-	[[ActionManager sharedManager] resumeAllActionsForTarget:self];
+	[[CCActionManager sharedManager] resumeAllActionsForTarget:self];
 }
 
 - (void) deactivateTimers
 {
 	for( id key in scheduledSelectors )
-		[[Scheduler sharedScheduler] unscheduleTimer: [scheduledSelectors objectForKey:key]];
+		[[CCScheduler sharedScheduler] unscheduleTimer: [scheduledSelectors objectForKey:key]];
 
-	[[ActionManager sharedManager] pauseAllActionsForTarget:self];
+	[[CCActionManager sharedManager] pauseAllActionsForTarget:self];
 }
 
 
@@ -715,7 +715,7 @@
 - (CGPoint)convertToWindowSpace:(CGPoint)nodePoint
 {
     CGPoint worldPoint = [self convertToWorldSpace:nodePoint];
-	return [[Director sharedDirector] convertToUI:worldPoint];
+	return [[CCDirector sharedDirector] convertToUI:worldPoint];
 }
 
 // convenience methods which take a UITouch instead of CGPoint
@@ -723,14 +723,14 @@
 - (CGPoint)convertTouchToNodeSpace:(UITouch *)touch
 {
 	CGPoint point = [touch locationInView: [touch view]];
-	point = [[Director sharedDirector] convertToGL: point];
+	point = [[CCDirector sharedDirector] convertToGL: point];
 	return [self convertToNodeSpace:point];
 }
 
 - (CGPoint)convertTouchToNodeSpaceAR:(UITouch *)touch
 {
 	CGPoint point = [touch locationInView: [touch view]];
-	point = [[Director sharedDirector] convertToGL: point];
+	point = [[CCDirector sharedDirector] convertToGL: point];
 	return [self convertToNodeSpaceAR:point];
 }
 

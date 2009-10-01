@@ -9,7 +9,7 @@
 
 @interface ActionManagerTest: CCLayer
 {
-    TextureAtlas *atlas;
+    CCTextureAtlas *atlas;
 }
 -(NSString*) title;
 @end

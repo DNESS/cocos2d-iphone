@@ -15,14 +15,14 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Support/Texture2D.h"
+#import "Support/CCTexture2D.h"
 
 #import "CCTextureNode.h"
 
 #pragma mark Sprite
 
 @class CCAnimation;
-/** Sprite is a subclass of TextureNode that implements the CocosNodeFrames protocol.
+/** Sprite is a subclass of TextureNode that implements the CCNodeFrames protocol.
  *
  * Sprite supports ALL CocosNode transformations, but in contrast to AtlasSprite it is much slower.
  * ONLY use Sprite if you can't achieve the same with effect with AtlasSprite, otherwise the use of
@@ -49,9 +49,9 @@
 /** creates an sprite from a CGImageRef image */
 - (id) initWithCGImage:(CGImageRef)image;
 /** creates an sprite with a Texture2D instance */
-+(id) spriteWithTexture:(Texture2D*) tex;
++(id) spriteWithTexture:(CCTexture2D*) tex;
 /** initializes the sprite with a Texture2D instance */
--(id) initWithTexture:(Texture2D*) tex;
+-(id) initWithTexture:(CCTexture2D*) tex;
 @end
 
 #pragma mark Animation
@@ -66,7 +66,7 @@
 
 @property (nonatomic,readwrite,copy) NSString * name;
 
-// CocosAnimation
+// CCAnimation
 @property (nonatomic,readwrite,assign) float delay;
 @property (nonatomic,readwrite,retain) NSMutableArray *frames;
 
@@ -80,7 +80,7 @@
 +(id) animationWithName: (NSString*) name delay:(float)delay textures:tex1,... NS_REQUIRES_NIL_TERMINATION;
 
 /** initializes an Animation with name, delay and frames from Texture2D objects */
--(id) initWithName: (NSString*) name delay:(float)delay firstTexture:(Texture2D*)tex vaList:(va_list) args;
+-(id) initWithName: (NSString*) name delay:(float)delay firstTexture:(CCTexture2D*)tex vaList:(va_list) args;
 
 
 
@@ -96,5 +96,5 @@
 -(void) addFrameWithFilename: (NSString*) filename;
 
 /** adds a frame from a Texture2D object to an Animation */
--(void) addFrameWithTexture: (Texture2D*) tex;
+-(void) addFrameWithTexture: (CCTexture2D*) tex;
 @end

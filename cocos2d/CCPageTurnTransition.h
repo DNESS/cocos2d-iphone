@@ -43,6 +43,6 @@
  */
 -(id) initWithDuration:(ccTime) t scene:(CCScene*)s backwards:(BOOL) back;
 
--(IntervalAction*) actionWithSize:(ccGridSize) vector;
+-(CCIntervalAction*) actionWithSize:(ccGridSize) vector;
 
 @end

@@ -9,14 +9,14 @@
 
 @interface AtlasDemo: CCLayer
 {
-    TextureAtlas *atlas;
+    CCTextureAtlas *atlas;
 }
 -(NSString*) title;
 @end
 
 @interface Atlas1 : AtlasDemo
 {
-	TextureAtlas *textureAtlas;
+	CCTextureAtlas *textureAtlas;
 }
 @end
 

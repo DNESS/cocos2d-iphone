@@ -26,7 +26,7 @@
 	CGPoint screenSize;
 	CGPoint halfCloudsSize;
 	cpBB visibleArea;
-	Action * rotateForever;
+	CCAction * rotateForever;
 	CCLabel * label;
 	double accels[3];
 	int num_g;

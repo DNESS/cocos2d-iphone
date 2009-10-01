@@ -15,14 +15,14 @@
 
 // cocos2d
 #import "ParticleExamples.h"
-#import "TextureMgr.h"
-#import "Director.h"
+#import "CCTextureMgr.h"
+#import "CCDirector.h"
 #import "Support/CGPointExtension.h"
 
 //
 // ParticleFireworks
 //
-@implementation ParticleFireworks
+@implementation CCParticleFireworks
 -(id) init
 {
 	return [self initWithTotalParticles:1500];
@@ -85,7 +85,7 @@
 	startSizeVar = 2.0f;
 	endSize = kParticleStartSizeEqualToEndSize;
 
-	self.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.png"];
+	self.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.png"];
 
 	// additive
 	blendAdditive = NO;
@@ -97,7 +97,7 @@
 //
 // ParticleFire
 //
-@implementation ParticleFire
+@implementation CCParticleFire
 -(id) init
 {
 	return [self initWithTotalParticles:250];
@@ -161,7 +161,7 @@
 	endColorVar.b = 0.0f;
 	endColorVar.a = 0.0f;
 	
-	self.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.png"];
+	self.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.png"];
 	
 	// additive
 	blendAdditive = YES;
@@ -173,7 +173,7 @@
 //
 // ParticleSun
 //
-@implementation ParticleSun
+@implementation CCParticleSun
 -(id) init
 {
 	return [self initWithTotalParticles:350];
@@ -240,7 +240,7 @@
 	endColorVar.b = 0.0f;
 	endColorVar.a = 0.0f;
 	
-	self.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.png"];
+	self.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.png"];
 	
 	return self;
 }
@@ -249,7 +249,7 @@
 //
 // ParticleGalaxy
 //
-@implementation ParticleGalaxy
+@implementation CCParticleGalaxy
 -(id) init
 {
 	return [self initWithTotalParticles:200];
@@ -317,7 +317,7 @@
 	endColorVar.b = 0.0f;
 	endColorVar.a = 0.0f;
 	
-	self.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.png"];
+	self.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.png"];
 
 	// additive
 	blendAdditive = YES;
@@ -329,7 +329,7 @@
 //
 // ParticleFlower
 //
-@implementation ParticleFlower
+@implementation CCParticleFlower
 -(id) init
 {
 	return [self initWithTotalParticles:250];
@@ -397,7 +397,7 @@
 	endColorVar.b = 0.0f;
 	endColorVar.a = 0.0f;
 	
-	self.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.png"];
+	self.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.png"];
 
 	// additive
 	blendAdditive = YES;
@@ -409,7 +409,7 @@
 //
 // ParticleMeteor
 //
-@implementation ParticleMeteor
+@implementation CCParticleMeteor
 -(id) init
 {
 	return [self initWithTotalParticles:150];
@@ -477,7 +477,7 @@
 	endColorVar.b = 0.0f;
 	endColorVar.a = 0.0f;
 	
-	self.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.png"];
+	self.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.png"];
 	
 	// additive
 	blendAdditive = YES;
@@ -489,7 +489,7 @@
 //
 // ParticleSpiral
 //
-@implementation ParticleSpiral
+@implementation CCParticleSpiral
 -(id) init
 {
 	return [self initWithTotalParticles:500];
@@ -557,7 +557,7 @@
 	endColorVar.b = 0.5f;
 	endColorVar.a = 0.0f;
 	
-	self.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.png"];
+	self.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.png"];
 
 	// additive
 	blendAdditive = NO;
@@ -569,7 +569,7 @@
 //
 // ParticleExplosion
 //
-@implementation ParticleExplosion
+@implementation CCParticleExplosion
 -(id) init
 {
 	return [self initWithTotalParticles:700];
@@ -637,7 +637,7 @@
 	endColorVar.b = 0.5f;
 	endColorVar.a = 0.0f;
 	
-	self.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.png"];
+	self.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.png"];
 
 	// additive
 	blendAdditive = NO;
@@ -649,7 +649,7 @@
 //
 // ParticleSmoke
 //
-@implementation ParticleSmoke
+@implementation CCParticleSmoke
 -(id) init
 {
 	return [self initWithTotalParticles:200];
@@ -713,7 +713,7 @@
 	endColorVar.b = 0.0f;
 	endColorVar.a = 0.0f;
 	
-	self.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.png"];
+	self.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.png"];
 	
 	// additive
 	blendAdditive = NO;
@@ -722,7 +722,7 @@
 }
 @end
 
-@implementation ParticleSnow
+@implementation CCParticleSnow
 -(id) init
 {
 	return [self initWithTotalParticles:700];
@@ -758,10 +758,10 @@
 	
 	// emitter position
 	self.position = (CGPoint) {
-		[[Director sharedDirector] winSize].width / 2,
-		[[Director sharedDirector] winSize].height + 10
+		[[CCDirector sharedDirector] winSize].width / 2,
+		[[CCDirector sharedDirector] winSize].height + 10
 	};
-	posVar = ccp( [[Director sharedDirector] winSize].width / 2, 0 );
+	posVar = ccp( [[CCDirector sharedDirector] winSize].width / 2, 0 );
 	
 	// life of particles
 	life = 45;
@@ -793,7 +793,7 @@
 	endColorVar.b = 0.0f;
 	endColorVar.a = 0.0f;
 	
-	self.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.png"];
+	self.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.png"];
 	
 	// additive
 	blendAdditive = NO;
@@ -802,7 +802,7 @@
 }
 @end
 
-@implementation ParticleRain
+@implementation CCParticleRain
 -(id) init
 {
 	return [self initWithTotalParticles:1000];
@@ -838,10 +838,10 @@
 	
 	// emitter position
 	self.position = (CGPoint) {
-		[[Director sharedDirector] winSize].width / 2,
-		[[Director sharedDirector] winSize].height
+		[[CCDirector sharedDirector] winSize].width / 2,
+		[[CCDirector sharedDirector] winSize].height
 	};
-	posVar = ccp( [[Director sharedDirector] winSize].width / 2, 0 );
+	posVar = ccp( [[CCDirector sharedDirector] winSize].width / 2, 0 );
 	
 	// life of particles
 	life = 4.5f;
@@ -873,7 +873,7 @@
 	endColorVar.b = 0.0f;
 	endColorVar.a = 0.0f;
 	
-	self.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.png"];
+	self.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.png"];
 	
 	// additive
 	blendAdditive = NO;

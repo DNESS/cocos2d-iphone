@@ -273,16 +273,16 @@ void drawCollisions(void *ptr, void *data)
 	
 	// must be called before any othe call to the director
 	// FastDirector is faster, but consumes more battery
-	[Director useFastDirector];
+	[CCDirector useFastDirector];
 	
 	// before creating any layer, set the landscape mode
 //	[[Director sharedDirector] setLandscape: YES];
-	[[Director sharedDirector] setDisplayFPS:YES];
+	[[CCDirector sharedDirector] setDisplayFPS:YES];
 
 	// Fast Director doesn't support setAnimationInterval yet
 //	[[Director sharedDirector] setAnimationInterval:1.0/60];
 	
-	[[Director sharedDirector] attachInView:window];
+	[[CCDirector sharedDirector] attachInView:window];
 	
 	CCScene *scene = [CCScene node];
 	
@@ -292,25 +292,25 @@ void drawCollisions(void *ptr, void *data)
 	
 	[window makeKeyAndVisible];
 
-	[[Director sharedDirector] runWithScene: scene];
+	[[CCDirector sharedDirector] runWithScene: scene];
 }
 
 // getting a call, pause the game
 -(void) applicationWillResignActive:(UIApplication *)application
 {
-	[[Director sharedDirector] pause];
+	[[CCDirector sharedDirector] pause];
 }
 
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-	[[Director sharedDirector] resume];
+	[[CCDirector sharedDirector] resume];
 }
 
 // next delta time will be zero
 -(void) applicationSignificantTimeChange:(UIApplication *)application
 {
-	[[Director sharedDirector] setNextDeltaTimeZero:YES];
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 - (void) dealloc

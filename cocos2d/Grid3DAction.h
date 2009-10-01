@@ -12,10 +12,10 @@
  *
  */
 
-#import "GridAction.h"
+#import "CCGridAction.h"
 
 /** Waves3D action */
-@interface Waves3D : Grid3DAction
+@interface CCWaves3D : CCGrid3DAction
 {
 	int waves;
 	float amplitude;
@@ -35,7 +35,7 @@
 ////////////////////////////////////////////////////////////
 
 /** FlipX3D action */
-@interface FlipX3D : Grid3DAction
+@interface CCFlipX3D : CCGrid3DAction
 {
 }
 
@@ -49,7 +49,7 @@
 ////////////////////////////////////////////////////////////
 
 /** FlipY3D action */
-@interface FlipY3D : FlipX3D
+@interface CCFlipY3D : CCFlipX3D
 {
 }
 
@@ -58,7 +58,7 @@
 ////////////////////////////////////////////////////////////
 
 /** Lens3D action */
-@interface Lens3D : Grid3DAction
+@interface CCLens3D : CCGrid3DAction
 {
 	CGPoint	position;
 	float	radius;
@@ -81,7 +81,7 @@
 ////////////////////////////////////////////////////////////
 
 /** Ripple3D action */
-@interface Ripple3D : Grid3DAction
+@interface CCRipple3D : CCGrid3DAction
 {
 	CGPoint	position;
 	float	radius;
@@ -107,7 +107,7 @@
 ////////////////////////////////////////////////////////////
 
 /** Shaky3D action */
-@interface Shaky3D : Grid3DAction
+@interface CCShaky3D : CCGrid3DAction
 {
 	int randrange;
 	BOOL	shakeZ;
@@ -123,7 +123,7 @@
 ////////////////////////////////////////////////////////////
 
 /** Liquid action */
-@interface Liquid : Grid3DAction
+@interface CCLiquid : CCGrid3DAction
 {
 	int waves;
 	float amplitude;
@@ -146,7 +146,7 @@
 ////////////////////////////////////////////////////////////
 
 /** Waves action */
-@interface Waves : Grid3DAction
+@interface CCWaves : CCGrid3DAction
 {
 	int		waves;
 	float	amplitude;
@@ -170,7 +170,7 @@
 ////////////////////////////////////////////////////////////
 
 /** Twirl action */
-@interface Twirl : Grid3DAction
+@interface CCTwirl : CCGrid3DAction
 {
 	CGPoint	position;
 	int		twirls;

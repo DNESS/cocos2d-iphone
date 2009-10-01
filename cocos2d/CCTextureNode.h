@@ -15,12 +15,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Support/Texture2D.h"
+#import "Support/CCTexture2D.h"
 
 #import "CCNode.h"
 
 
-/** TextureNode is a subclass of CocosNode that implements the CocosNodeRGBA
+/** TextureNode is a subclass of CocosNode that implements the CCNodeRGBA
  * and CocosNodeTexture protocol.
  *
  * As the name implies it, it knows how to render a textures.
@@ -32,7 +32,7 @@
 @interface CCTextureNode : CCNode <CCNodeRGBA, CCNodeTexture> {
 
 	// texture
-	Texture2D *texture_;
+	CCTexture2D *texture_;
 
 	// blend func
 	ccBlendFunc	blendFunc_;
@@ -45,13 +45,13 @@
 }
 
 /** conforms to CocosNodeTexture protocol */
-@property (nonatomic,readwrite,retain) Texture2D *texture;
+@property (nonatomic,readwrite,retain) CCTexture2D *texture;
 
 /** conforms to CocosNodeTexture protocol */
 @property (nonatomic,readwrite) ccBlendFunc blendFunc;
 
-/** conforms to CocosNodeRGBA protocol */
+/** conforms to CCNodeRGBA protocol */
 @property (nonatomic,readonly) GLubyte opacity;
-/** conforms to CocosNodeRGBA protocol */
+/** conforms to CCNodeRGBA protocol */
 @property (nonatomic,readwrite) ccColor3B color;
 @end

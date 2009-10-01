@@ -220,7 +220,7 @@ Class restartTransition()
 
 		float x,y;
 		
-		CGSize size = [[Director sharedDirector] winSize];
+		CGSize size = [[CCDirector sharedDirector] winSize];
 		x = size.width;
 		y = size.height;
 
@@ -264,7 +264,7 @@ Class restartTransition()
 	Class transition = nextTransition();
 	CCScene *s2 = [CCScene node];
 	[s2 addChild: [TextLayer2 node]];
-	[[Director sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
+	[[CCDirector sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
 
 }	
 
@@ -273,7 +273,7 @@ Class restartTransition()
 	Class transition = backTransition();
 	CCScene *s2 = [CCScene node];
 	[s2 addChild: [TextLayer2 node]];
-	[[Director sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
+	[[CCDirector sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
 }	
 
 -(void) restartCallback:(id) sender
@@ -281,7 +281,7 @@ Class restartTransition()
 	Class transition = restartTransition();
 	CCScene *s2 = [CCScene node];
 	[s2 addChild: [TextLayer2 node]];
-	[[Director sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
+	[[CCDirector sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
 }	
 -(void) onEnter
 {
@@ -309,7 +309,7 @@ Class restartTransition()
 			
 		float x,y;
 		
-		CGSize size = [[Director sharedDirector] winSize];
+		CGSize size = [[CCDirector sharedDirector] winSize];
 		x = size.width;
 		y = size.height;
 		
@@ -349,7 +349,7 @@ Class restartTransition()
 	Class transition = nextTransition();
 	CCScene *s2 = [CCScene node];
 	[s2 addChild: [TextLayer node]];
-	[[Director sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
+	[[CCDirector sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
 }	
 
 -(void) backCallback:(id) sender
@@ -357,7 +357,7 @@ Class restartTransition()
 	Class transition = backTransition();
 	CCScene *s2 = [CCScene node];
 	[s2 addChild: [TextLayer node]];
-	[[Director sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
+	[[CCDirector sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
 }	
 
 -(void) restartCallback:(id) sender
@@ -365,7 +365,7 @@ Class restartTransition()
 	Class transition = restartTransition();
 	CCScene *s2 = [CCScene node];
 	[s2 addChild: [TextLayer node]];
-	[[Director sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
+	[[CCDirector sharedDirector] replaceScene: [transition transitionWithDuration:TRANSITION_DURATION scene:s2]];
 }
 -(void) step:(ccTime)dt
 {
@@ -409,51 +409,51 @@ Class restartTransition()
 	// Create a depth buffer of 16 bits
 	// Needed for some transitions
 	// These means that openGL z-order will be taken into account
-	[[Director sharedDirector] setDepthBufferFormat:kDepthBuffer16];
+	[[CCDirector sharedDirector] setDepthBufferFormat:kDepthBuffer16];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
-	[[Director sharedDirector] setDisplayFPS:YES];
+	[[CCDirector sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
+	[[CCDirector sharedDirector] setDisplayFPS:YES];
 
-	[[Director sharedDirector] attachInView:window];
+	[[CCDirector sharedDirector] attachInView:window];
 	
 	// frames per second
-	[[Director sharedDirector] setAnimationInterval:1.0/60];	
+	[[CCDirector sharedDirector] setAnimationInterval:1.0/60];	
 	
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change anytime.
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
+	[CCTexture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
 
 	CCScene *scene = [CCScene node];
 	[scene addChild: [TextLayer node]];
 	
 	[window makeKeyAndVisible];
 			 
-	[[Director sharedDirector] runWithScene: scene];
+	[[CCDirector sharedDirector] runWithScene: scene];
 }
 
 // getting a call, pause the game
 -(void) applicationWillResignActive:(UIApplication *)application
 {
-	[[Director sharedDirector] pause];
+	[[CCDirector sharedDirector] pause];
 }
 
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-	[[Director sharedDirector] resume];
+	[[CCDirector sharedDirector] resume];
 }
 
 // purge memroy
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-	[[TextureMgr sharedTextureMgr] removeAllTextures];
+	[[CCTextureMgr sharedTextureMgr] removeAllTextures];
 }
 
 // next delta time will be zero
 -(void) applicationSignificantTimeChange:(UIApplication *)application
 {
-	[[Director sharedDirector] setNextDeltaTimeZero:YES];
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 - (void) dealloc

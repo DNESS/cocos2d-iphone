@@ -40,20 +40,20 @@
 -(void) onPushScene: (id) sender
 {
 	CCScene * scene = [[CCScene node] addChild: [Layer2 node] z:0];
-	[[Director sharedDirector] pushScene: scene];
+	[[CCDirector sharedDirector] pushScene: scene];
 //	[[Director sharedDirector] replaceScene:scene];
 }
 
 -(void) onPushSceneTran: (id) sender
 {
 	CCScene * scene = [[CCScene node] addChild: [Layer2 node] z:0];
-	[[Director sharedDirector] pushScene: [CCSlideInTTransition transitionWithDuration:1 scene:scene]];
+	[[CCDirector sharedDirector] pushScene: [CCSlideInTTransition transitionWithDuration:1 scene:scene]];
 }
 
 
 -(void) onQuit: (id) sender
 {
-	[[Director sharedDirector] popScene];
+	[[CCDirector sharedDirector] popScene];
 
 	// HA HA... no more terminate on sdk v3.0
 	// http://developer.apple.com/iphone/library/qa/qa2008/qa1561.html
@@ -103,17 +103,17 @@
 
 -(void) onGoBack:(id) sender
 {
-	[[Director sharedDirector] popScene];
+	[[CCDirector sharedDirector] popScene];
 }
 
 -(void) onReplaceScene:(id) sender
 {
-	[[Director sharedDirector] replaceScene: [ [CCScene node] addChild: [Layer3 node] z:0] ];
+	[[CCDirector sharedDirector] replaceScene: [ [CCScene node] addChild: [Layer3 node] z:0] ];
 }
 -(void) onReplaceSceneTran:(id) sender
 {
 	CCScene *s = [[CCScene node] addChild: [Layer3 node] z:0];
-	[[Director sharedDirector] replaceScene: [CCFlipXTransition transitionWithDuration:2 scene:s]];
+	[[CCDirector sharedDirector] replaceScene: [CCFlipXTransition transitionWithDuration:2 scene:s]];
 }
 @end
 
@@ -124,7 +124,7 @@
 		self.isTouchEnabled = YES;
 		id label = [CCLabel labelWithString:@"Touch to popScene" fontName:@"Marker Felt" fontSize:32];
 		[self addChild:label];
-		CGSize s = [[Director sharedDirector] winSize];
+		CGSize s = [[CCDirector sharedDirector] winSize];
 		[label setPosition:ccp(s.width/2, s.height/2)];
 		
 		[self schedule:@selector(testDealloc:)];
@@ -143,7 +143,7 @@
 }
 - (BOOL)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	[[Director sharedDirector] popScene];
+	[[CCDirector sharedDirector] popScene];
 	return kEventHandled;
 }
 @end
@@ -164,22 +164,22 @@
 //	[Director useFastDirector];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation: CCDeviceOrientationLandscapeRight];
+	[[CCDirector sharedDirector] setDeviceOrientation: CCDeviceOrientationLandscapeRight];
 
 	// attach the OpenGL view to a window
-	[[Director sharedDirector] attachInView:window];
+	[[CCDirector sharedDirector] attachInView:window];
 	
 	// show FPS
-	[[Director sharedDirector] setDisplayFPS:YES];
+	[[CCDirector sharedDirector] setDisplayFPS:YES];
 	
 	// frames per second
-	[[Director sharedDirector] setAnimationInterval:1.0/60];	
+	[[CCDirector sharedDirector] setAnimationInterval:1.0/60];	
 	
 	
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change anytime.
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
+	[CCTexture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
 	
 	CCScene *scene = [CCScene node];
 
@@ -187,30 +187,30 @@
 	
 	[window makeKeyAndVisible];
 
-	[[Director sharedDirector] runWithScene: scene];
+	[[CCDirector sharedDirector] runWithScene: scene];
 }
 
 // getting a call, pause the game
 -(void) applicationWillResignActive:(UIApplication *)application
 {
-	[[Director sharedDirector] pause];
+	[[CCDirector sharedDirector] pause];
 }
 
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-	[[Director sharedDirector] resume];
+	[[CCDirector sharedDirector] resume];
 }
 
 // purge memroy
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-	[[TextureMgr sharedTextureMgr] removeAllTextures];
+	[[CCTextureMgr sharedTextureMgr] removeAllTextures];
 }
 
 // next delta time will be zero
 -(void) applicationSignificantTimeChange:(UIApplication *)application
 {
-	[[Director sharedDirector] setNextDeltaTimeZero:YES];
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 - (void) dealloc

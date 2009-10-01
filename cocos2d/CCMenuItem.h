@@ -57,7 +57,7 @@
 @end
 
 /** An abstract class for "label" MenuItems 
- Any CocosNode that supports the CocosNodeLabel protocol can be added.
+ Any CocosNode that supports the CCNodeLabel protocol can be added.
  Supported nodes:
    - BitmapFontAtlas
    - LabelAtlas
@@ -73,14 +73,14 @@
 /** the color that will be used to disable the item */
 @property (nonatomic,readwrite) ccColor3B disabledColor;
 
-/** Label that is rendered. It can be any CocosNode that implements the CocosNodeLabel */
-@property (nonatomic,readwrite,retain) CCNode<CocosNodeLabel, CocosNodeRGBA>* label;
+/** Label that is rendered. It can be any CocosNode that implements the CCNodeLabel */
+@property (nonatomic,readwrite,retain) CCNode<CCNodeLabel, CCNodeRGBA>* label;
 
 /** creates a MenuItemLabel with a Label, target and selector */
-+(id) itemWithLabel:(CCNode<CocosNodeLabel,CocosNodeRGBA>*)label target:(id)target selector:(SEL)selector;
++(id) itemWithLabel:(CCNode<CCNodeLabel,CCNodeRGBA>*)label target:(id)target selector:(SEL)selector;
 
 /** initializes a MenuItemLabel with a Label, target and selector */
--(id) initWithLabel:(CCNode<CocosNodeLabel,CocosNodeRGBA>*)label target:(id)target selector:(SEL)selector;
+-(id) initWithLabel:(CCNode<CCNodeLabel,CCNodeRGBA>*)label target:(id)target selector:(SEL)selector;
 
 /** sets a new string to the inner label */
 -(void) setString:(NSString*)label;
@@ -138,7 +138,7 @@
 -(id) initFromString: (NSString*) value target:(id) r selector:(SEL) s;
 @end
 
-/** MenuItemSprite accepts CocosNode<CocosNodeRGBA> objects as items.
+/** MenuItemSprite accepts CocosNode<CCNodeRGBA> objects as items.
  The images has 3 different states:
  - unselected image
  - selected image
@@ -153,24 +153,24 @@
 }
 
 /** the image used when the item is not selected */
-@property (nonatomic,readwrite,retain) CCNode<CocosNodeRGBA> *normalImage;
+@property (nonatomic,readwrite,retain) CCNode<CCNodeRGBA> *normalImage;
 /** the image used when the item is selected */
-@property (nonatomic,readwrite,retain) CCNode<CocosNodeRGBA> *selectedImage;
+@property (nonatomic,readwrite,retain) CCNode<CCNodeRGBA> *selectedImage;
 /** the image used when the item is disabled */
-@property (nonatomic,readwrite,retain) CCNode<CocosNodeRGBA> *disabledImage;
+@property (nonatomic,readwrite,retain) CCNode<CCNodeRGBA> *disabledImage;
 
 /** creates a menu item with a normal and selected image*/
-+(id) itemFromNormalSprite:(CCNode<CocosNodeRGBA>*)normalSprite selectedSprite:(CCNode<CocosNodeRGBA>*)selectedSprite;
++(id) itemFromNormalSprite:(CCNode<CCNodeRGBA>*)normalSprite selectedSprite:(CCNode<CCNodeRGBA>*)selectedSprite;
 /** creates a menu item with a normal and selected image with target/selector */
-+(id) itemFromNormalSprite:(CCNode<CocosNodeRGBA>*)normalSprite selectedSprite:(CCNode<CocosNodeRGBA>*)selectedSprite target:(id)target selector:(SEL)selector;
++(id) itemFromNormalSprite:(CCNode<CCNodeRGBA>*)normalSprite selectedSprite:(CCNode<CCNodeRGBA>*)selectedSprite target:(id)target selector:(SEL)selector;
 /** creates a menu item with a normal,selected  and disabled image with target/selector */
-+(id) itemFromNormalSprite:(CCNode<CocosNodeRGBA>*)normalSprite selectedSprite:(CCNode<CocosNodeRGBA>*)selectedSprite disabledSprite:(CCNode<CocosNodeRGBA>*)disabledSprite target:(id)target selector:(SEL)selector;
++(id) itemFromNormalSprite:(CCNode<CCNodeRGBA>*)normalSprite selectedSprite:(CCNode<CCNodeRGBA>*)selectedSprite disabledSprite:(CCNode<CCNodeRGBA>*)disabledSprite target:(id)target selector:(SEL)selector;
 /** initializes a menu item with a normal, selected  and disabled image with target/selector */
--(id) initFromNormalSprite:(CCNode<CocosNodeRGBA>*)normalSprite selectedSprite:(CCNode<CocosNodeRGBA>*)selectedSprite disabledSprite:(CCNode<CocosNodeRGBA>*)disabledSprite target:(id)target selector:(SEL)selector;
+-(id) initFromNormalSprite:(CCNode<CCNodeRGBA>*)normalSprite selectedSprite:(CCNode<CCNodeRGBA>*)selectedSprite disabledSprite:(CCNode<CCNodeRGBA>*)disabledSprite target:(id)target selector:(SEL)selector;
 
 @end
 
-/** MenuItemAtlasCocosNode<CocosNodeRGBA> accepts AtlasCocosNode<CocosNodeRGBA> objects as items.
+/** MenuItemAtlasCocosNode<CCNodeRGBA> accepts AtlasCocosNode<CCNodeRGBA> objects as items.
  The images has 3 different states:
  - unselected image
  - selected image
@@ -225,9 +225,9 @@
 	ccColor3B	color_;
 }
 
-/** conforms with CocosNodeRGBA protocol */
+/** conforms with CCNodeRGBA protocol */
 @property (nonatomic,readonly) GLubyte opacity;
-/** conforms with CocosNodeRGBA protocol */
+/** conforms with CCNodeRGBA protocol */
 @property (nonatomic,readonly) ccColor3B color;
 
 /** returns the selected item */

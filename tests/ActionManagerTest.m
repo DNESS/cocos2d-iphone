@@ -57,7 +57,7 @@ Class restartAction()
 	[super init];
 
 
-	CGSize s = [[Director sharedDirector] winSize];
+	CGSize s = [[CCDirector sharedDirector] winSize];
 		
 	CCLabel* label = [CCLabel labelWithString:[self title] fontName:@"Arial" fontSize:32];
 	[self addChild: label z:1];
@@ -87,21 +87,21 @@ Class restartAction()
 {
 	CCScene *s = [CCScene node];
 	[s addChild: [restartAction() node]];
-	[[Director sharedDirector] replaceScene: s];
+	[[CCDirector sharedDirector] replaceScene: s];
 }
 
 -(void) nextCallback: (id) sender
 {
 	CCScene *s = [CCScene node];
 	[s addChild: [nextAction() node]];
-	[[Director sharedDirector] replaceScene: s];
+	[[CCDirector sharedDirector] replaceScene: s];
 }
 
 -(void) backCallback: (id) sender
 {
 	CCScene *s = [CCScene node];
 	[s addChild: [backAction() node]];
-	[[Director sharedDirector] replaceScene: s];
+	[[CCDirector sharedDirector] replaceScene: s];
 }
 
 -(NSString*) title
@@ -123,17 +123,17 @@ Class restartAction()
 		[self addChild:child z:1];
 
 		//Sum of all action's duration is 1.5 second.
-		[child runAction:[RotateBy actionWithDuration:1.5f angle:90]];
-		[child runAction:[Sequence actions:
-						  [DelayTime actionWithDuration:1.4f],
-						  [FadeOut actionWithDuration:1.1f],
+		[child runAction:[CCRotateBy actionWithDuration:1.5f angle:90]];
+		[child runAction:[CCSequence actions:
+						  [CCDelayTime actionWithDuration:1.4f],
+						  [CCFadeOut actionWithDuration:1.1f],
 						  nil]
 		];
 		
 		//After 1.5 second, self will be removed.
-		[self runAction:[Sequence actions:
-						 [DelayTime actionWithDuration:1.4f],
-						 [CallFunc actionWithTarget:self selector:@selector(removeThis)],
+		[self runAction:[CCSequence actions:
+						 [CCDelayTime actionWithDuration:1.4f],
+						 [CCCallFunc actionWithTarget:self selector:@selector(removeThis)],
 						 nil]
 		];
 	}
@@ -166,10 +166,10 @@ Class restartAction()
 		[self addChild:grossini];
 		[grossini setPosition:ccp(200,200)];
 
-		[grossini runAction: [Sequence actions: 
-							  [MoveBy actionWithDuration:1
+		[grossini runAction: [CCSequence actions: 
+							  [CCMoveBy actionWithDuration:1
 												position:ccp(150,0)],
-							  [CallFuncN actionWithTarget:self
+							  [CCCallFuncN actionWithTarget:self
 												 selector:@selector(bugMe:)],
 							  nil]
 		];
@@ -181,7 +181,7 @@ Class restartAction()
 - (void)bugMe:(CCNode *)node
 {
 	[node stopAllActions]; //After this stop next action not working, if remove this stop everything is working
-	[node runAction:[ScaleTo actionWithDuration:2 scale:2]];
+	[node runAction:[CCScaleTo actionWithDuration:2 scale:2]];
 }
 
 -(NSString *) title
@@ -207,46 +207,46 @@ Class restartAction()
 //	[Director useFastDirector];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
-	[[Director sharedDirector] setAnimationInterval:1.0/60];
-	[[Director sharedDirector] setDisplayFPS:YES];
+	[[CCDirector sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
+	[[CCDirector sharedDirector] setAnimationInterval:1.0/60];
+	[[CCDirector sharedDirector] setDisplayFPS:YES];
 	
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change anytime.
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];	
+	[CCTexture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];	
 
 	// create an openGL view inside a window
-	[[Director sharedDirector] attachInView:window];	
+	[[CCDirector sharedDirector] attachInView:window];	
 	[window makeKeyAndVisible];	
 	
 	CCScene *scene = [CCScene node];
 	[scene addChild: [nextAction() node]];
 			 
-	[[Director sharedDirector] runWithScene: scene];
+	[[CCDirector sharedDirector] runWithScene: scene];
 }
 
 // getting a call, pause the game
 -(void) applicationWillResignActive:(UIApplication *)application
 {
-	[[Director sharedDirector] pause];
+	[[CCDirector sharedDirector] pause];
 }
 
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-	[[Director sharedDirector] resume];
+	[[CCDirector sharedDirector] resume];
 }
 
 // purge memroy
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-	[[TextureMgr sharedTextureMgr] removeAllTextures];
+	[[CCTextureMgr sharedTextureMgr] removeAllTextures];
 }
 
 // next delta time will be zero
 -(void) applicationSignificantTimeChange:(UIApplication *)application
 {
-	[[Director sharedDirector] setNextDeltaTimeZero:YES];
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 - (void) dealloc

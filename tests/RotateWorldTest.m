@@ -15,7 +15,7 @@
 		return nil;
 	float x,y;
 	
-	CGSize size = [[Director sharedDirector] winSize];
+	CGSize size = [[CCDirector sharedDirector] winSize];
 	x = size.width;
 	y = size.height;
 
@@ -44,7 +44,7 @@
 		return nil;
 	float x,y;
 	
-	CGSize size = [[Director sharedDirector] winSize];
+	CGSize size = [[CCDirector sharedDirector] winSize];
 	x = size.width;
 	y = size.height;
 	
@@ -60,7 +60,7 @@
 	[spriteSister1 setPosition: ccp(40,y/2)];
 	[spriteSister2 setPosition: ccp(x-40,y/2)];
 
-	Action *rot = [RotateBy actionWithDuration:16 angle:-3600];
+	CCAction *rot = [CCRotateBy actionWithDuration:16 angle:-3600];
 	
 	[self addChild: sprite];
 	[self addChild: spriteSister1];
@@ -68,17 +68,17 @@
 	
 	[sprite runAction: rot];
 
-	IntervalAction *jump1 = [JumpBy actionWithDuration:4 position:ccp(-400,0) height:100 jumps:4];
-	IntervalAction *jump2 = [jump1 reverse];
+	CCIntervalAction *jump1 = [CCJumpBy actionWithDuration:4 position:ccp(-400,0) height:100 jumps:4];
+	CCIntervalAction *jump2 = [jump1 reverse];
 	
-	IntervalAction *rot1 = [RotateBy actionWithDuration:4 angle:360*2];
-	IntervalAction *rot2 = [rot1 reverse];
+	CCIntervalAction *rot1 = [CCRotateBy actionWithDuration:4 angle:360*2];
+	CCIntervalAction *rot2 = [rot1 reverse];
 	
-	[spriteSister1 runAction: [Repeat actionWithAction: [Sequence actions:jump2, jump1, nil] times:5 ] ];
-	[spriteSister2 runAction: [Repeat actionWithAction: [Sequence actions:[[jump1 copy] autorelease], [[jump2 copy] autorelease], nil] times:5 ] ];
+	[spriteSister1 runAction: [CCRepeat actionWithAction: [CCSequence actions:jump2, jump1, nil] times:5 ] ];
+	[spriteSister2 runAction: [CCRepeat actionWithAction: [CCSequence actions:[[jump1 copy] autorelease], [[jump2 copy] autorelease], nil] times:5 ] ];
 	
-	[spriteSister1 runAction: [Repeat actionWithAction: [Sequence actions: rot1, rot2, nil] times:5 ] ];
-	[spriteSister2 runAction: [Repeat actionWithAction: [Sequence actions: [[rot2 copy] autorelease], [[rot1 copy] autorelease], nil] times:5 ] ];
+	[spriteSister1 runAction: [CCRepeat actionWithAction: [CCSequence actions: rot1, rot2, nil] times:5 ] ];
+	[spriteSister2 runAction: [CCRepeat actionWithAction: [CCSequence actions: [[rot2 copy] autorelease], [[rot1 copy] autorelease], nil] times:5 ] ];
 	
 	
 	return self;
@@ -97,7 +97,7 @@
 		return nil;
 	float x,y;
 	
-	CGSize size = [[Director sharedDirector] winSize];
+	CGSize size = [[CCDirector sharedDirector] winSize];
 	x = size.width;
 	y = size.height;
 	
@@ -125,7 +125,7 @@
 	[self addChild: green];
 	[self addChild: red];
 
-	Action * rot = [RotateBy actionWithDuration:8 angle:720];
+	CCAction * rot = [CCRotateBy actionWithDuration:8 angle:720];
 	
 	[blue runAction: rot];
 	[red runAction: [[rot copy] autorelease]];
@@ -157,21 +157,21 @@
 //	[Director useFastDirector];
 	
 	// Attach cocos2d to the window
-	[[Director sharedDirector] attachInWindow:window];
+	[[CCDirector sharedDirector] attachInWindow:window];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
+	[[CCDirector sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
 
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change anytime.
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
+	[CCTexture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
 	
 	// Show FPS, useful when debugging performance
-	[[Director sharedDirector] setDisplayFPS:YES];
+	[[CCDirector sharedDirector] setDisplayFPS:YES];
 
 	// frames per second
-	[[Director sharedDirector] setAnimationInterval:1.0/60];
+	[[CCDirector sharedDirector] setAnimationInterval:1.0/60];
 
 	CCScene *scene = [CCScene node];
 
@@ -179,35 +179,35 @@
 	
 	[scene addChild: mainLayer];
 	
-	[scene runAction: [RotateBy actionWithDuration: 4 angle:-360]];
+	[scene runAction: [CCRotateBy actionWithDuration: 4 angle:-360]];
 	
 	// Make the window visible
 	[window makeKeyAndVisible];
 	 
-	[[Director sharedDirector] runWithScene: scene];
+	[[CCDirector sharedDirector] runWithScene: scene];
 }
 
 // getting a call, pause the game
 -(void) applicationWillResignActive:(UIApplication *)application
 {
-	[[Director sharedDirector] pause];
+	[[CCDirector sharedDirector] pause];
 }
 
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-	[[Director sharedDirector] resume];
+	[[CCDirector sharedDirector] resume];
 }
 
 // purge memroy
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-	[[TextureMgr sharedTextureMgr] removeAllTextures];
+	[[CCTextureMgr sharedTextureMgr] removeAllTextures];
 }
 
 // next delta time will be zero
 -(void) applicationSignificantTimeChange:(UIApplication *)application
 {
-	[[Director sharedDirector] setNextDeltaTimeZero:YES];
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 - (void) dealloc

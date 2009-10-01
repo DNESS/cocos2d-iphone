@@ -21,67 +21,67 @@ enum {
 
 #pragma mark - Classes
 
-@interface Shaky3DDemo : Shaky3D 
+@interface Shaky3DDemo : CCShaky3D 
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface Waves3DDemo : Waves3D 
+@interface Waves3DDemo : CCWaves3D 
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface FlipX3DDemo : FlipX3D
+@interface FlipX3DDemo : CCFlipX3D
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface FlipY3DDemo : FlipY3D
+@interface FlipY3DDemo : CCFlipY3D
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface Lens3DDemo : Lens3D
+@interface Lens3DDemo : CCLens3D
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface Ripple3DDemo : Ripple3D
+@interface Ripple3DDemo : CCRipple3D
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface LiquidDemo : Liquid 
+@interface LiquidDemo : CCLiquid 
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface WavesDemo : Waves
+@interface WavesDemo : CCWaves
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface TwirlDemo : Twirl 
+@interface TwirlDemo : CCTwirl 
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface ShakyTiles3DDemo : ShakyTiles3D
+@interface ShakyTiles3DDemo : CCShakyTiles3D
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface ShatteredTiles3DDemo : ShatteredTiles3D 
+@interface ShatteredTiles3DDemo : CCShatteredTiles3D 
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface ShuffleTilesDemo : ShuffleTiles 
+@interface ShuffleTilesDemo : CCShuffleTiles 
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface FadeOutTRTilesDemo : FadeOutTRTiles 
+@interface FadeOutTRTilesDemo : CCFadeOutTRTiles 
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface FadeOutBLTilesDemo : FadeOutBLTiles 
+@interface FadeOutBLTilesDemo : CCFadeOutBLTiles 
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface FadeOutUpTilesDemo : FadeOutUpTiles 
+@interface FadeOutUpTilesDemo : CCFadeOutUpTiles 
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface FadeOutDownTilesDemo : FadeOutDownTiles 
+@interface FadeOutDownTilesDemo : CCFadeOutDownTiles 
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface TurnOffTilesDemo : TurnOffTiles 
+@interface TurnOffTilesDemo : CCTurnOffTiles 
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface WavesTiles3DDemo : WavesTiles3D 
+@interface WavesTiles3DDemo : CCWavesTiles3D 
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface JumpTiles3DDemo : JumpTiles3D 
+@interface JumpTiles3DDemo : CCJumpTiles3D 
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface SplitRowsDemo : SplitRows
+@interface SplitRowsDemo : CCSplitRows
 +(id) actionWithDuration:(ccTime)t;
 @end
-@interface SplitColsDemo : SplitCols
+@interface SplitColsDemo : CCSplitCols
 +(id) actionWithDuration:(ccTime)t;
 @end
 
@@ -101,34 +101,34 @@ enum {
 @implementation FlipX3DDemo
 +(id) actionWithDuration:(ccTime)t
 {
-	id flipx  = [FlipX3D actionWithDuration:t];
+	id flipx  = [CCFlipX3D actionWithDuration:t];
 	id flipx_back = [flipx reverse];
-	id delay = [DelayTime actionWithDuration:2];
+	id delay = [CCDelayTime actionWithDuration:2];
 	
-	return [Sequence actions: flipx, delay, flipx_back, nil];	
+	return [CCSequence actions: flipx, delay, flipx_back, nil];	
 }
 @end
 @implementation FlipY3DDemo
 +(id) actionWithDuration:(ccTime)t
 {
-	id flipy = [FlipY3D actionWithDuration:t];
+	id flipy = [CCFlipY3D actionWithDuration:t];
 	id flipy_back = [flipy reverse];
-	id delay = [DelayTime actionWithDuration:2];
+	id delay = [CCDelayTime actionWithDuration:2];
 	
-	return [Sequence actions: flipy, delay, flipy_back, nil];
+	return [CCSequence actions: flipy, delay, flipy_back, nil];
 }
 @end
 @implementation Lens3DDemo
 +(id) actionWithDuration:(ccTime)t
 {
-	CGSize size = [[Director sharedDirector] winSize];
+	CGSize size = [[CCDirector sharedDirector] winSize];
 	return [self actionWithPosition:ccp(size.width/2,size.height/2) radius:240 grid:ccg(15,10) duration:t];
 }
 @end
 @implementation Ripple3DDemo
 +(id) actionWithDuration:(ccTime)t
 {
-	CGSize size = [[Director sharedDirector] winSize];
+	CGSize size = [[CCDirector sharedDirector] winSize];
 	return [self actionWithPosition:ccp(size.width/2,size.height/2) radius:240 waves:4 amplitude:160 grid:ccg(32,24) duration:t];
 }
 @end
@@ -147,7 +147,7 @@ enum {
 @implementation TwirlDemo
 +(id) actionWithDuration:(ccTime)t
 {
-	CGSize size = [[Director sharedDirector] winSize];
+	CGSize size = [[CCDirector sharedDirector] winSize];
 	return [self actionWithPosition:ccp(size.width/2, size.height/2) twirls:1 amplitude:2.5f grid:ccg(12,8) duration:t];
 }
 @end
@@ -166,61 +166,61 @@ enum {
 @implementation ShuffleTilesDemo
 +(id) actionWithDuration:(ccTime)t
 {
-	id shuffle = [ShuffleTiles actionWithSeed:25 grid:ccg(16,12) duration:t];
+	id shuffle = [CCShuffleTiles actionWithSeed:25 grid:ccg(16,12) duration:t];
 	id shuffle_back = [shuffle reverse];
-	id delay = [DelayTime actionWithDuration:2];
+	id delay = [CCDelayTime actionWithDuration:2];
 
-	return [Sequence actions: shuffle, delay, shuffle_back, nil];
+	return [CCSequence actions: shuffle, delay, shuffle_back, nil];
 }
 @end
 @implementation FadeOutTRTilesDemo
 +(id) actionWithDuration:(ccTime)t
 {
-	id fadeout = [FadeOutTRTiles actionWithSize:ccg(16,12) duration:t];
+	id fadeout = [CCFadeOutTRTiles actionWithSize:ccg(16,12) duration:t];
 	id back = [fadeout reverse];
-	id delay = [DelayTime actionWithDuration:0.5f];
+	id delay = [CCDelayTime actionWithDuration:0.5f];
 
-	return [Sequence actions: fadeout, delay, back, nil];
+	return [CCSequence actions: fadeout, delay, back, nil];
 }
 @end
 @implementation FadeOutBLTilesDemo
 +(id) actionWithDuration:(ccTime)t
 {
-	id fadeout = [FadeOutBLTiles actionWithSize:ccg(16,12) duration:t];
+	id fadeout = [CCFadeOutBLTiles actionWithSize:ccg(16,12) duration:t];
 	id back = [fadeout reverse];
-	id delay = [DelayTime actionWithDuration:0.5f];
+	id delay = [CCDelayTime actionWithDuration:0.5f];
 	
-	return [Sequence actions: fadeout, delay, back, nil];
+	return [CCSequence actions: fadeout, delay, back, nil];
 }
 @end
 @implementation FadeOutUpTilesDemo
 +(id) actionWithDuration:(ccTime)t
 {
-	id fadeout = [FadeOutUpTiles actionWithSize:ccg(16,12) duration:t];
+	id fadeout = [CCFadeOutUpTiles actionWithSize:ccg(16,12) duration:t];
 	id back = [fadeout reverse];
-	id delay = [DelayTime actionWithDuration:0.5f];
+	id delay = [CCDelayTime actionWithDuration:0.5f];
 	
-	return [Sequence actions: fadeout, delay, back, nil];
+	return [CCSequence actions: fadeout, delay, back, nil];
 }
 @end
 @implementation FadeOutDownTilesDemo
 +(id) actionWithDuration:(ccTime)t
 {
-	id fadeout = [FadeOutDownTiles actionWithSize:ccg(16,12) duration:t];
+	id fadeout = [CCFadeOutDownTiles actionWithSize:ccg(16,12) duration:t];
 	id back = [fadeout reverse];
-	id delay = [DelayTime actionWithDuration:0.5f];
+	id delay = [CCDelayTime actionWithDuration:0.5f];
 	
-	return [Sequence actions: fadeout, delay, back, nil];
+	return [CCSequence actions: fadeout, delay, back, nil];
 }
 @end
 @implementation TurnOffTilesDemo
 +(id) actionWithDuration:(ccTime)t
 {
-	id action = [TurnOffTiles actionWithSeed:25 grid:ccg(48,32) duration:t];
+	id action = [CCTurnOffTiles actionWithSeed:25 grid:ccg(48,32) duration:t];
 	id back = [action reverse];
-	id delay = [DelayTime actionWithDuration:0.5f];
+	id delay = [CCDelayTime actionWithDuration:0.5f];
 	
-	return [Sequence actions: action, delay, back, nil];
+	return [CCSequence actions: action, delay, back, nil];
 }
 @end
 @implementation WavesTiles3DDemo
@@ -335,7 +335,7 @@ Class restartAction()
 	
 		float x,y;
 		
-		CGSize size = [[Director sharedDirector] winSize];
+		CGSize size = [[CCDirector sharedDirector] winSize];
 		x = size.width;
 		y = size.height;
 		
@@ -350,16 +350,16 @@ Class restartAction()
 		CCSprite *grossini = [CCSprite spriteWithFile:@"grossinis_sister2.png"];
 		[node addChild:grossini z:1];
 		grossini.position = ccp(x/3,y/2);
-		id sc = [ScaleBy actionWithDuration:2 scale:5];
+		id sc = [CCScaleBy actionWithDuration:2 scale:5];
 		id sc_back = [sc reverse];
-		[grossini runAction: [RepeatForever actionWithAction: [Sequence actions:sc, sc_back, nil]]];
+		[grossini runAction: [CCRepeatForever actionWithAction: [CCSequence actions:sc, sc_back, nil]]];
 
 		CCSprite *tamara = [CCSprite spriteWithFile:@"grossinis_sister1.png"];
 		[node addChild:tamara z:1];
 		tamara.position = ccp(2*x/3,y/2);
-		id sc2 = [ScaleBy actionWithDuration:2 scale:5];
+		id sc2 = [CCScaleBy actionWithDuration:2 scale:5];
 		id sc2_back = [sc2 reverse];
-		[tamara runAction: [RepeatForever actionWithAction: [Sequence actions:sc2, sc2_back, nil]]];
+		[tamara runAction: [CCRepeatForever actionWithAction: [CCSequence actions:sc2, sc2_back, nil]]];
 		
 		
 		CCLabel* label = [CCLabel labelWithString:effectsList[actionIdx] fontName:@"Marker Felt" fontSize:32];
@@ -445,23 +445,23 @@ Class restartAction()
 //	[Director useFastDirector];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeRight];
-	[[Director sharedDirector] setAnimationInterval:1.0/60];
-	[[Director sharedDirector] setDisplayFPS:YES];
+	[[CCDirector sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeRight];
+	[[CCDirector sharedDirector] setAnimationInterval:1.0/60];
+	[[CCDirector sharedDirector] setDisplayFPS:YES];
 	
 	// create an openGL view inside a window
-	[[Director sharedDirector] attachInView:window];	
+	[[CCDirector sharedDirector] attachInView:window];	
 	[window makeKeyAndVisible];	
 	
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change anytime.
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
+	[CCTexture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
 	
 	CCScene *scene = [CCScene node];
 	[scene addChild: [TextLayer node] z:0 tag:kTagTextLayer];
 	
-	[[Director sharedDirector] runWithScene: scene];
+	[[CCDirector sharedDirector] runWithScene: scene];
 }
 
 - (void) dealloc
@@ -474,24 +474,24 @@ Class restartAction()
 // getting a call, pause the game
 -(void) applicationWillResignActive:(UIApplication *)application
 {
-	[[Director sharedDirector] pause];
+	[[CCDirector sharedDirector] pause];
 }
 
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-	[[Director sharedDirector] resume];
+	[[CCDirector sharedDirector] resume];
 }
 
 // purge memroy
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-	[[TextureMgr sharedTextureMgr] removeAllTextures];
+	[[CCTextureMgr sharedTextureMgr] removeAllTextures];
 }
 
 // next delta time will be zero
 -(void) applicationSignificantTimeChange:(UIApplication *)application
 {
-	[[Director sharedDirector] setNextDeltaTimeZero:YES];
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 @end

@@ -29,7 +29,7 @@
     if ((self = [super init])) {
         isTouchEnabled = YES;
         
-		CGSize size = [[Director sharedDirector] winSize];
+		CGSize size = [[CCDirector sharedDirector] winSize];
 		
         // init sound manager/OpenAL support
         [PASoundMgr sharedSoundManager];
@@ -81,9 +81,9 @@
         [source2 setGain:.5f];
         [source2 playAtPosition:source2.position];
         
-        id move = [MoveBy actionWithDuration:2 position:ccp(size.width-10,0)];
-        id sequence = [Sequence actions:move,[move reverse],nil];
-        [source2Sprite runAction:[RepeatForever actionWithAction:sequence]];
+        id move = [CCMoveBy actionWithDuration:2 position:ccp(size.width-10,0)];
+        id sequence = [CCSequence actions:move,[move reverse],nil];
+        [source2Sprite runAction:[CCRepeatForever actionWithAction:sequence]];
         
         // schedule selector for updating openal listener and sources position with the sprites' position
         [self schedule:@selector(loop:)];
@@ -93,7 +93,7 @@
 
 -(void) newOrientation
 {
-	ccDeviceOrientation orientation = [[Director sharedDirector] deviceOrientation];
+	ccDeviceOrientation orientation = [[CCDirector sharedDirector] deviceOrientation];
 	switch (orientation) {
 		case CCDeviceOrientationLandscapeLeft:
 			orientation = CCDeviceOrientationPortrait;
@@ -108,7 +108,7 @@
 			orientation = CCDeviceOrientationLandscapeLeft;
 			break;
 	}
-	[[Director sharedDirector] setDeviceOrientation:orientation];
+	[[CCDirector sharedDirector] setDeviceOrientation:orientation];
 }
 
 - (void)selectedBackForwardMenuItem:(id)sender {
@@ -116,7 +116,7 @@
 	[self newOrientation];
 	CCScene *scene = [CCScene node];
 	[scene addChild: [SoundEngineTest node]];
-	[[Director sharedDirector] replaceScene: scene];
+	[[CCDirector sharedDirector] replaceScene: scene];
 }
 
 - (void)selectedCenterMenuItem:(id)sender {
@@ -139,7 +139,7 @@
 {
 	UITouch *touch = [touches anyObject];	
 	CGPoint point = [touch locationInView: [touch view]];
-    point = [[Director sharedDirector] convertToGL: point];
+    point = [[CCDirector sharedDirector] convertToGL: point];
     listenerSprite.position = ccp(point.x, point.y);
     return kEventHandled;
 }    
@@ -171,40 +171,40 @@
 	[window setUserInteractionEnabled:YES];	
 	[window setMultipleTouchEnabled:NO];
 	
-	[[Director sharedDirector] setDeviceOrientation: CCDeviceOrientationPortrait];
-	[[Director sharedDirector] setAnimationInterval:1.0/60];
+	[[CCDirector sharedDirector] setDeviceOrientation: CCDeviceOrientationPortrait];
+	[[CCDirector sharedDirector] setAnimationInterval:1.0/60];
     
 	// create an openGL view inside a window
-	[[Director sharedDirector] attachInView:window];	
+	[[CCDirector sharedDirector] attachInView:window];	
 	[window makeKeyAndVisible];		
 	
 	CCScene *scene = [CCScene node];
 	[scene addChild: [SoundEngineTest node]];
     
-	[[Director sharedDirector] runWithScene: scene];
+	[[CCDirector sharedDirector] runWithScene: scene];
 }
 
 // getting a call, pause the game
 -(void) applicationWillResignActive:(UIApplication *)application
 {
-	[[Director sharedDirector] pause];
+	[[CCDirector sharedDirector] pause];
 }
 
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-	[[Director sharedDirector] resume];
+	[[CCDirector sharedDirector] resume];
 }
 
 // purge memroy
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-	[[TextureMgr sharedTextureMgr] removeAllTextures];
+	[[CCTextureMgr sharedTextureMgr] removeAllTextures];
 }
 
 // next delta time will be zero
 -(void) applicationSignificantTimeChange:(UIApplication *)application
 {
-	[[Director sharedDirector] setNextDeltaTimeZero:YES];
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 - (void) dealloc

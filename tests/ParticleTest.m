@@ -68,7 +68,7 @@ Class restartAction()
 
 		self.isTouchEnabled = YES;
 		
-		CGSize s = [[Director sharedDirector] winSize];
+		CGSize s = [[CCDirector sharedDirector] winSize];
 		CCLabel* label = [CCLabel labelWithString:[self title] fontName:@"Arial" fontSize:32];
 		[self addChild:label z:100];
 		[label setPosition: ccp(s.width/2, s.height-50)];
@@ -128,7 +128,7 @@ Class restartAction()
 
 -(void) registerWithTouchDispatcher
 {
-	[[TouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:NO];
+	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:NO];
 }
 
 -(BOOL) ccTouchBegan:(UITouch*)touch withEvent:(UIEvent*)event
@@ -143,7 +143,7 @@ Class restartAction()
 - (void)ccTouchEnded:(UITouch*)touch withEvent:(UIEvent *)event
 {
 	CGPoint location = [touch locationInView: [touch view]];
-	CGPoint convertedLocation = [[Director sharedDirector] convertToGL:location];
+	CGPoint convertedLocation = [[CCDirector sharedDirector] convertToGL:location];
 	
 	CGPoint	pos = [background convertToWorldSpace:CGPointZero];
 	emitter.position = ccpSub(convertedLocation, pos);	
@@ -184,19 +184,19 @@ Class restartAction()
 {
 	CCScene *s = [CCScene node];
 	[s addChild: [nextAction() node]];
-	[[Director sharedDirector] replaceScene: s];
+	[[CCDirector sharedDirector] replaceScene: s];
 }
 
 -(void) backCallback: (id) sender
 {
 	CCScene *s = [CCScene node];
 	[s addChild: [backAction() node]];
-	[[Director sharedDirector] replaceScene: s];
+	[[CCDirector sharedDirector] replaceScene: s];
 }
 
 -(void) setEmitterPosition
 {
-	CGSize s = [[Director sharedDirector] winSize];
+	CGSize s = [[CCDirector sharedDirector] winSize];
 	emitter.position = ccp(s.width/2, s.height/2);
 }
 
@@ -208,10 +208,10 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	self.emitter = [ParticleFireworks node];
+	self.emitter = [CCParticleFireworks node];
 	[background addChild: emitter z:10];
 	
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"stars.png"];
+	emitter.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"stars.png"];
 	
 	[self setEmitterPosition];
 }
@@ -227,10 +227,10 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	self.emitter = [ParticleFire node];
+	self.emitter = [CCParticleFire node];
 	[background addChild: emitter z:10];
 	
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.pvr"];
+	emitter.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.pvr"];
 	CGPoint p = emitter.position;
 	emitter.position = ccp(p.x, 100);
 	
@@ -248,10 +248,10 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	self.emitter = [ParticleSun node];
+	self.emitter = [CCParticleSun node];
 	[background addChild: emitter z:10];
 
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.pvr"];
+	emitter.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.pvr"];
 	
 	[self setEmitterPosition];
 }
@@ -267,10 +267,10 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	self.emitter = [ParticleGalaxy node];
+	self.emitter = [CCParticleGalaxy node];
 	[background addChild: emitter z:10];
 	
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.pvr"];
+	emitter.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.pvr"];
 	
 	[self setEmitterPosition];
 }
@@ -287,9 +287,9 @@ Class restartAction()
 {
 	[super onEnter];
 
-	self.emitter = [ParticleFlower node];
+	self.emitter = [CCParticleFlower node];
 	[background addChild: emitter z:10];
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"stars.png"];
+	emitter.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"stars.png"];
 	
 	[self setEmitterPosition];
 }
@@ -305,9 +305,9 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	self.emitter = [[QuadParticleSystem alloc] initWithTotalParticles:50];
+	self.emitter = [[CCQuadParticleSystem alloc] initWithTotalParticles:50];
 	[background addChild: emitter z:10];
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"stars.png"];
+	emitter.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"stars.png"];
 	
 	// duration
 	emitter.duration = -1;
@@ -383,10 +383,10 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	self.emitter = [[QuadParticleSystem alloc] initWithTotalParticles:200];
+	self.emitter = [[CCQuadParticleSystem alloc] initWithTotalParticles:200];
 	[background addChild: emitter z:10];
 	[emitter release];
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"stars2.png"];
+	emitter.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"stars2.png"];
 	
 	// duration
 	emitter.duration = -1;
@@ -463,10 +463,10 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	self.emitter = [ParticleMeteor node];
+	self.emitter = [CCParticleMeteor node];
 	[background addChild: emitter z:10];
 	
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.pvr"];
+	emitter.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.pvr"];
 	
 	[self setEmitterPosition];
 }
@@ -482,10 +482,10 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	self.emitter = [ParticleSpiral node];
+	self.emitter = [CCParticleSpiral node];
 	[background addChild: emitter z:10];
 	
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.pvr"];
+	emitter.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.pvr"];
 	
 	[self setEmitterPosition];
 }
@@ -501,10 +501,10 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	self.emitter = [ParticleExplosion node];
+	self.emitter = [CCParticleExplosion node];
 	[background addChild: emitter z:10];
 	
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"stars.png"];
+	emitter.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"stars.png"];
 	
 	emitter.autoRemoveOnFinish = YES;
 	
@@ -522,7 +522,7 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	self.emitter = [ParticleSmoke node];
+	self.emitter = [CCParticleSmoke node];
 	[background addChild: emitter z:10];
 	
 	CGPoint p = emitter.position;
@@ -542,7 +542,7 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	self.emitter = [ParticleSnow node];
+	self.emitter = [CCParticleSnow node];
 	[background addChild: emitter z:10];
 	
 	CGPoint p = emitter.position;
@@ -570,7 +570,7 @@ Class restartAction()
 	
 	emitter.emissionRate = emitter.totalParticles/emitter.life;
 	
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"snow.png"];
+	emitter.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"snow.png"];
 	
 	[self setEmitterPosition];
 
@@ -587,14 +587,14 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	self.emitter = [ParticleRain node];
+	self.emitter = [CCParticleRain node];
 	[background addChild: emitter z:10];
 	
 	CGPoint p = emitter.position;
 	emitter.position = ccp( p.x, p.y-100);
 	emitter.life = 4;
 	
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.pvr"];
+	emitter.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"fire.pvr"];
 	
 	[self setEmitterPosition];
 
@@ -611,11 +611,11 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	self.emitter = [[PointParticleSystem alloc] initWithTotalParticles:1000];
+	self.emitter = [[CCPointParticleSystem alloc] initWithTotalParticles:1000];
 	[background addChild: emitter z:10];
 	[emitter release];
 	
-	CGSize s = [[Director sharedDirector] winSize];
+	CGSize s = [[CCDirector sharedDirector] winSize];
 	
 	// duration
 	emitter.duration = -1;
@@ -689,11 +689,11 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	self.emitter = [[ParticleFlower alloc] initWithTotalParticles:500];
+	self.emitter = [[CCParticleFlower alloc] initWithTotalParticles:500];
 	[background addChild: emitter z:10];
 	[emitter release];
 
-	emitter.texture = [[TextureMgr sharedTextureMgr] addImage: @"stars.png"];
+	emitter.texture = [[CCTextureMgr sharedTextureMgr] addImage: @"stars.png"];
 	emitter.lifeVar = 0;
 	emitter.life = 10;
 	emitter.speed = 100;
@@ -727,26 +727,26 @@ Class restartAction()
 //	[Director useFastDirector];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
-	[[Director sharedDirector] setDisplayFPS: YES];
+	[[CCDirector sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
+	[[CCDirector sharedDirector] setDisplayFPS: YES];
 
 	// AnimationInterval doesn't work with FastDirector, yet
 //	[[Director sharedDirector] setAnimationInterval: 1.0/60];
 
 	// create OpenGL view and attach it to a window
-	[[Director sharedDirector] attachInView:window];
+	[[CCDirector sharedDirector] attachInView:window];
 	
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change anytime.
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];	
+	[CCTexture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];	
 
 	CCScene *scene = [CCScene node];
 	[scene addChild: [nextAction() node]];
 	
 	[window makeKeyAndVisible];
 			 
-	[[Director sharedDirector] runWithScene: scene];
+	[[CCDirector sharedDirector] runWithScene: scene];
 }
 
 - (void) dealloc
@@ -759,24 +759,24 @@ Class restartAction()
 // getting a call, pause the game
 -(void) applicationWillResignActive:(UIApplication *)application
 {
-	[[Director sharedDirector] pause];
+	[[CCDirector sharedDirector] pause];
 }
 
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-	[[Director sharedDirector] resume];
+	[[CCDirector sharedDirector] resume];
 }
 
 // purge memroy
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-	[[TextureMgr sharedTextureMgr] removeAllTextures];
+	[[CCTextureMgr sharedTextureMgr] removeAllTextures];
 }
 
 // next delta time will be zero
 -(void) applicationSignificantTimeChange:(UIApplication *)application
 {
-	[[Director sharedDirector] setNextDeltaTimeZero:YES];
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 @end

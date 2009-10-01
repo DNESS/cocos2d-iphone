@@ -14,14 +14,14 @@
 
 
 #import "CCScene.h"
-#import "Director.h"
+#import "CCDirector.h"
 #import "Support/CGPointExtension.h"
 
 @implementation CCScene
 -(id) init
 {
 	if( (self=[super init]) ) {
-		CGSize s = [[Director sharedDirector] winSize];
+		CGSize s = [[CCDirector sharedDirector] winSize];
 		self.relativeAnchorPoint = NO;
 		anchorPoint_ = ccp(0.5f, 0.5f);
 		[self setContentSize:s];	

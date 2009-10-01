@@ -55,12 +55,12 @@ const int defaultCapacity = 29;
 /*
  * creation with Texture2D
  */
-+(id)spriteManagerWithTexture:(Texture2D *)tex
++(id)spriteManagerWithTexture:(CCTexture2D *)tex
 {
 	return [[[CCAtlasSpriteManager alloc] initWithTexture:tex capacity:defaultCapacity] autorelease];
 }
 
-+(id)spriteManagerWithTexture:(Texture2D *)tex capacity:(NSUInteger)capacity
++(id)spriteManagerWithTexture:(CCTexture2D *)tex capacity:(NSUInteger)capacity
 {
 	return [[[CCAtlasSpriteManager alloc] initWithTexture:tex capacity:capacity] autorelease];
 }
@@ -82,14 +82,14 @@ const int defaultCapacity = 29;
 /*
  * init with Texture2D
  */
--(id)initWithTexture:(Texture2D *)tex capacity:(NSUInteger)capacity
+-(id)initWithTexture:(CCTexture2D *)tex capacity:(NSUInteger)capacity
 {
 	if( (self=[super init])) {
 		
 		blendFunc_.src = CC_BLEND_SRC;
 		blendFunc_.dst = CC_BLEND_DST;
 		totalSprites_ = 0;
-		textureAtlas_ = [[TextureAtlas alloc] initWithTexture:tex capacity:capacity];
+		textureAtlas_ = [[CCTextureAtlas alloc] initWithTexture:tex capacity:capacity];
 		
 		[self updateBlendFunc];
 		
@@ -110,7 +110,7 @@ const int defaultCapacity = 29;
 		blendFunc_.src = CC_BLEND_SRC;
 		blendFunc_.dst = CC_BLEND_DST;
 		totalSprites_ = 0;
-		textureAtlas_ = [[TextureAtlas alloc] initWithFile:fileImage capacity:capacity];
+		textureAtlas_ = [[CCTextureAtlas alloc] initWithFile:fileImage capacity:capacity];
 		
 		[self updateBlendFunc];
 		
@@ -347,13 +347,13 @@ const int defaultCapacity = 29;
 	}
 }
 
--(void) setTexture:(Texture2D*)texture
+-(void) setTexture:(CCTexture2D*)texture
 {
 	textureAtlas_.texture = texture;
 	[self updateBlendFunc];
 }
 
--(Texture2D*) texture
+-(CCTexture2D*) texture
 {
 	return textureAtlas_.texture;
 }

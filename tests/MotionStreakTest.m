@@ -56,7 +56,7 @@ Class restartAction()
 {
 	if( (self = [super init]) ) {
 		
-		CGSize s = [[Director sharedDirector] winSize];	
+		CGSize s = [[CCDirector sharedDirector] winSize];	
 		CCLabel* label = [CCLabel labelWithString:[self title] fontName:@"Arial" fontSize:32];
 		[self addChild:label z:0 tag:kTagLabel];
 		[label setPosition: ccp(s.width/2, s.height-50)];
@@ -79,28 +79,28 @@ Class restartAction()
 -(void) dealloc
 {
 	[super dealloc];
-	[[TextureMgr sharedTextureMgr] removeUnusedTextures];
+	[[CCTextureMgr sharedTextureMgr] removeUnusedTextures];
 }
 
 -(void) restartCallback: (id) sender
 {
 	CCScene *s = [CCScene node];
 	[s addChild: [restartAction() node]];
-	[[Director sharedDirector] replaceScene: s];
+	[[CCDirector sharedDirector] replaceScene: s];
 }
 
 -(void) nextCallback: (id) sender
 {
 	CCScene *s = [CCScene node];
 	[s addChild: [nextAction() node]];
-	[[Director sharedDirector] replaceScene: s];
+	[[CCDirector sharedDirector] replaceScene: s];
 }
 
 -(void) backCallback: (id) sender
 {
 	CCScene *s = [CCScene node];
 	[s addChild: [backAction() node]];
-	[[Director sharedDirector] replaceScene: s];
+	[[CCDirector sharedDirector] replaceScene: s];
 }
 
 -(NSString*) title
@@ -125,7 +125,7 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	CGSize s = [[Director sharedDirector] winSize];
+	CGSize s = [[CCDirector sharedDirector] winSize];
   
 	// the root object just rotates around
 	root = [CCSprite spriteWithFile:@"r1.png"];
@@ -138,16 +138,16 @@ Class restartAction()
 	[target setPosition:ccp(100,0)];
 
 	// create the streak object and add it to the scene
-	streak = [MotionStreak streakWithFade:2 minSeg:3 image:@"streak.png" width:32 length:32 color:ccc4(0,255,0,255)];
+	streak = [CCMotionStreak streakWithFade:2 minSeg:3 image:@"streak.png" width:32 length:32 color:ccc4(0,255,0,255)];
 	[self addChild:streak];
 	// schedule an update on each frame so we can syncronize the streak with the target
 	[self schedule:@selector(onUpdate:)];
   
-	id a1 = [RotateBy actionWithDuration:2 angle:360];
+	id a1 = [CCRotateBy actionWithDuration:2 angle:360];
 
-	id action1 = [RepeatForever actionWithAction:a1];
-	id motion = [MoveBy actionWithDuration:2 position:ccp(100,0)];
-	[root runAction:[RepeatForever actionWithAction:[Sequence actions:motion, [motion reverse], nil]]];
+	id action1 = [CCRepeatForever actionWithAction:a1];
+	id motion = [CCMoveBy actionWithDuration:2 position:ccp(100,0)];
+	[root runAction:[CCRepeatForever actionWithAction:[CCSequence actions:motion, [motion reverse], nil]]];
 	[root runAction:action1];
 }
 
@@ -178,10 +178,10 @@ Class restartAction()
 	
 	self.isTouchEnabled = YES;
 
-	CGSize s = [[Director sharedDirector] winSize];
+	CGSize s = [[CCDirector sharedDirector] winSize];
 		
 	// create the streak object and add it to the scene
-	streak = [MotionStreak streakWithFade:3 minSeg:3 image:@"streak.png" width:64 length:32 color:ccc4(255,255,255,255)];
+	streak = [CCMotionStreak streakWithFade:3 minSeg:3 image:@"streak.png" width:64 length:32 color:ccc4(255,255,255,255)];
 	[self addChild:streak];
 	
 	streak.position = ccp(s.width/2, s.height/2);
@@ -191,7 +191,7 @@ Class restartAction()
 {
 	UITouch *touch = [touches anyObject];
 	CGPoint touchLocation = [touch locationInView: [touch view]];	
-	touchLocation = [[Director sharedDirector] convertToGL: touchLocation];
+	touchLocation = [[CCDirector sharedDirector] convertToGL: touchLocation];
 	
 	[streak setPosition:touchLocation];
 	
@@ -213,41 +213,41 @@ Class restartAction()
 	[window setMultipleTouchEnabled:NO];
 
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
-	[[Director sharedDirector] setAnimationInterval:1.0/60];
-	[[Director sharedDirector] setDisplayFPS:YES];
+	[[CCDirector sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
+	[[CCDirector sharedDirector] setAnimationInterval:1.0/60];
+	[[CCDirector sharedDirector] setDisplayFPS:YES];
 
 	// create an openGL view inside a window
-	[[Director sharedDirector] attachInView:window];	
+	[[CCDirector sharedDirector] attachInView:window];	
 	[window makeKeyAndVisible];		
 
 	CCScene *scene = [CCScene node];
 	[scene addChild: [nextAction() node]];
 	
-	[[Director sharedDirector] runWithScene: scene];
+	[[CCDirector sharedDirector] runWithScene: scene];
 }
 
 // getting a call, pause the game
 -(void) applicationWillResignActive:(UIApplication *)application
 {
-	[[Director sharedDirector] pause];
+	[[CCDirector sharedDirector] pause];
 }
 
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-	[[Director sharedDirector] resume];
+	[[CCDirector sharedDirector] resume];
 }
 
 // purge memroy
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-	[[TextureMgr sharedTextureMgr] removeAllTextures];
+	[[CCTextureMgr sharedTextureMgr] removeAllTextures];
 }
 
 // next delta time will be zero
 -(void) applicationSignificantTimeChange:(UIApplication *)application
 {
-	[[Director sharedDirector] setNextDeltaTimeZero:YES];
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 - (void) dealloc

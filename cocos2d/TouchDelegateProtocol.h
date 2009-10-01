@@ -28,7 +28,7 @@
  handler, without bothering the other handlers.)
  @since v0.8
  */
-@protocol TargetedTouchDelegate <NSObject>
+@protocol CCTargetedTouchDelegate <NSObject>
 
 /** Return YES to claim the touch.
  @since v0.8
@@ -49,7 +49,7 @@
  To ignore the event (the event will be forwarded to the next delegate in the chain) the delegate should return kEventIgnored.
  @since v0.8
 */
-@protocol StandardTouchDelegate <NSObject>
+@protocol CCStandardTouchDelegate <NSObject>
 @optional
 - (BOOL)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 - (BOOL)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;

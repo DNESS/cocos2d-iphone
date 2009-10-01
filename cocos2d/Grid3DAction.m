@@ -15,7 +15,7 @@
 #import "Grid3DAction.h"
 #import "Support/CGPointExtension.h"
 
-@implementation Waves3D
+@implementation CCWaves3D
 
 @synthesize amplitude;
 @synthesize amplitudeRate;
@@ -55,7 +55,7 @@
 
 ////////////////////////////////////////////////////////////
 
-@implementation FlipX3D
+@implementation CCFlipX3D
 
 +(id) actionWithDuration:(ccTime)d
 {
@@ -145,7 +145,7 @@
 
 ////////////////////////////////////////////////////////////
 
-@implementation FlipY3D
+@implementation CCFlipY3D
 
 -(void)update:(ccTime)time
 {
@@ -215,7 +215,7 @@
 
 ////////////////////////////////////////////////////////////
 
-@implementation Lens3D
+@implementation CCLens3D
 
 @synthesize lensEffect;
 @synthesize position;
@@ -280,7 +280,7 @@
 
 ////////////////////////////////////////////////////////////
 
-@implementation Ripple3D
+@implementation CCRipple3D
 
 @synthesize position;
 @synthesize amplitude;
@@ -333,7 +333,7 @@
 
 ////////////////////////////////////////////////////////////
 
-@implementation Shaky3D
+@implementation CCShaky3D
 
 +(id)actionWithRange:(int)range shakeZ:(BOOL)sz grid:(ccGridSize)gridSize duration:(ccTime)d
 {
@@ -374,7 +374,7 @@
 
 ////////////////////////////////////////////////////////////
 
-@implementation Liquid
+@implementation CCLiquid
 
 @synthesize amplitude;
 @synthesize amplitudeRate;
@@ -416,7 +416,7 @@
 
 ////////////////////////////////////////////////////////////
 
-@implementation Waves
+@implementation CCWaves
 
 @synthesize amplitude;
 @synthesize amplitudeRate;
@@ -465,7 +465,7 @@
 
 ////////////////////////////////////////////////////////////
 
-@implementation Twirl
+@implementation CCTwirl
 
 @synthesize position;
 @synthesize amplitude;

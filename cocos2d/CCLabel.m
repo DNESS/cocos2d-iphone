@@ -69,10 +69,10 @@
 {
 	if( CGSizeEqualToSize( _dimensions, CGSizeZero ) )
 		// WARNING: double retain
-		self.texture = [[Texture2D alloc] initWithString:string fontName:_fontName fontSize:_fontSize];
+		self.texture = [[CCTexture2D alloc] initWithString:string fontName:_fontName fontSize:_fontSize];
 	else
 		// WARNING: double retain
-		self.texture = [[Texture2D alloc] initWithString:string dimensions:_dimensions alignment:_alignment fontName:_fontName fontSize:_fontSize];
+		self.texture = [[CCTexture2D alloc] initWithString:string dimensions:_dimensions alignment:_alignment fontName:_fontName fontSize:_fontSize];
 	
 	// end of warning. 1 retain only
 	[self.texture release];

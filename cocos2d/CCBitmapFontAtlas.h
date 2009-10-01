@@ -95,7 +95,7 @@ enum {
   - All inner characters are using an anchorPoint of (0.5f, 0.5f) and it is not recommend to change it
     because it might affect the rendering
  
- BitmapFontAtlas implements the protocol CocosNodeLabel, like Label and LabelAtlas.
+ BitmapFontAtlas implements the protocol CCNodeLabel, like Label and LabelAtlas.
  BitmapFontAtlas has the flexibility of Label, the speed of LabelAtlas and all the features of AtlasSprite.
  If in doubt, use BitmapFontAtlas instead of LabelAtlas / Label.
  
@@ -120,9 +120,9 @@ enum {
 	BOOL opacityModifyRGB_;
 }
 
-/** conforms to CocosNodeRGBA protocol */
+/** conforms to CCNodeRGBA protocol */
 @property (nonatomic,readonly) GLubyte opacity;
-/** conforms to CocosNodeRGBA protocol */
+/** conforms to CCNodeRGBA protocol */
 @property (nonatomic,readonly) ccColor3B color;
 
 

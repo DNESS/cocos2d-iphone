@@ -12,10 +12,10 @@
  *
  */
 
-#import "TextureAtlas.h"
+#import "CCTextureAtlas.h"
 #import "CCNode.h"
 
-/** AtlasNode is a subclass of CocosNode that implements the CocosNodeRGBA and
+/** AtlasNode is a subclass of CocosNode that implements the CCNodeRGBA and
  CocosNodeTexture protocol
  
  It knows how to render a TextureAtlas object.
@@ -27,7 +27,7 @@
 @interface CCAtlasNode : CCNode <CCNodeRGBA, CCNodeTexture> {
 
 	// texture atlas
-	TextureAtlas	*textureAtlas_;
+	CCTextureAtlas	*textureAtlas_;
 
 	// chars per row
 	int				itemsPerRow;
@@ -54,14 +54,14 @@
 }
 
 /** conforms to CocosNodeTexture protocol */
-@property (nonatomic,readwrite,retain) TextureAtlas *textureAtlas;
+@property (nonatomic,readwrite,retain) CCTextureAtlas *textureAtlas;
 
 /** conforms to CocosNodeTexture protocol */
 @property (nonatomic,readwrite) ccBlendFunc blendFunc;
 
-/** conforms to CocosNodeRGBA protocol */
+/** conforms to CCNodeRGBA protocol */
 @property (nonatomic,readonly) GLubyte opacity;
-/** conforms to CocosNodeRGBA protocol */
+/** conforms to CCNodeRGBA protocol */
 @property (nonatomic,readwrite) ccColor3B color;
 
 

@@ -18,7 +18,7 @@
 #import "CCTMXTiledMap.h"
 #import "TMXXMLParser.h"
 #import "CCAtlasSprite.h"
-#import "TextureMgr.h"
+#import "CCTextureMgr.h"
 #import "Support/CGPointExtension.h"
 
 #pragma mark -
@@ -207,9 +207,9 @@
 	float totalNumberOfTiles = layerInfo->layerSize.width * layerInfo->layerSize.height;
 	float capacity = totalNumberOfTiles * 0.35f + 1; // 35 percent is occupied ?
 	
-	Texture2D *tex = nil;
+	CCTexture2D *tex = nil;
 	if( tilesetInfo )
-		tex = [[TextureMgr sharedTextureMgr] addImage:tilesetInfo->sourceImage];
+		tex = [[CCTextureMgr sharedTextureMgr] addImage:tilesetInfo->sourceImage];
 
 	if((self=[super initWithTexture:tex capacity:capacity])) {		
 		self.layerName = layerInfo->name;

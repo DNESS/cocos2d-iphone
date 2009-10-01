@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "CCNode.h"
-#import "MotionStreak.h"
+#import "CCMotionStreak.h"
 
 @class CCSprite;
 
@@ -25,7 +25,7 @@
 {
 	CCNode* root;
 	CCNode* target;
-	MotionStreak* streak;
+	CCMotionStreak* streak;
 }
 @end
 
@@ -33,7 +33,7 @@
 {
 	CCNode* root;
 	CCNode* target;
-	MotionStreak* streak;
+	CCMotionStreak* streak;
 }
 @end
 

@@ -488,7 +488,7 @@ void FNTConfigRemoveCache( void )
 	[self setContentSize:tmpSize];
 }
 
-#pragma mark BitmapFontAtlas - CocosNodeLabel protocol
+#pragma mark BitmapFontAtlas - CCNodeLabel protocol
 - (void) setString:(NSString*) newString
 {	
 	[string_ release];
@@ -500,7 +500,7 @@ void FNTConfigRemoveCache( void )
 	[self createFontChars];
 }
 
-#pragma mark BitmapFontAtlas - CocosNodeRGBA protocol
+#pragma mark BitmapFontAtlas - CCNodeRGBA protocol
 
 -(void) setColor:(ccColor3B)color
 {

@@ -15,22 +15,22 @@
 #import <UIKit/UIKit.h>
 
 #import "CCNode.h"
-#import "Camera.h"
+#import "CCCamera.h"
 #import "ccTypes.h"
 
-@class Texture2D;
-@class Grabber;
+@class CCTexture2D;
+@class CCGrabber;
 
 /** Base class for other
  */
-@interface GridBase : NSObject
+@interface CCGridBase : NSObject
 {
 	BOOL		active;
 	int			reuseGrid;
 	ccGridSize	gridSize;
-	Texture2D *	texture;
+	CCTexture2D *	texture;
 	CGPoint		step;
-	Grabber *	grabber;
+	CCGrabber *	grabber;
 }
 
 /** wheter or not the grid is active */
@@ -42,13 +42,13 @@
 /** pixels between the grids */
 @property (nonatomic,readwrite) CGPoint step;
 /** texture used */
-@property (nonatomic, retain) Texture2D *texture;
+@property (nonatomic, retain) CCTexture2D *texture;
 /** grabber used */
-@property (nonatomic, retain) Grabber *grabber;
+@property (nonatomic, retain) CCGrabber *grabber;
 
 -(id)initWithSize:(ccGridSize)gridSize;
 -(void)beforeDraw;
--(void)afterDraw:(Camera*)camera;
+-(void)afterDraw:(CCCamera*)camera;
 -(void)blit;
 -(void)reuse;
 
@@ -59,7 +59,7 @@
 /**
  Grid3D is a 3D grid implementation. Each vertex has 3 dimensions: x,y,z
  */
-@interface Grid3D : GridBase
+@interface CCGrid3D : CCGridBase
 {
 	GLvoid		*texCoordinates;
 	GLvoid		*vertices;
@@ -89,7 +89,7 @@
  TiledGrid3D is a 3D grid implementation. It differs from Grid3D in that
  the tiles can be separated from the grid.
 */
-@interface TiledGrid3D : GridBase
+@interface CCTiledGrid3D : CCGridBase
 {
 	GLvoid		*texCoordinates;
 	GLvoid		*vertices;

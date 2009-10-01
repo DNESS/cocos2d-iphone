@@ -14,7 +14,7 @@
 	[super init];
 		
 	// sun
-	ParticleSystem* sun = [ParticleSun node];
+	CCParticleSystem* sun = [CCParticleSun node];
 	sun.position = ccp(480-32,320-32);
 
 	sun.totalParticles = 130;
@@ -42,11 +42,11 @@
 	CCSprite *sprite = [CCSprite spriteWithFile:@"grossini.png"];
 	sprite.position = ccp(40,50);
 	
-	id jump = [JumpBy actionWithDuration:3 position:ccp(400,0) height:50 jumps:4];
+	id jump = [CCJumpBy actionWithDuration:3 position:ccp(400,0) height:50 jumps:4];
 	
 	[self addChild:sprite];
-	[sprite runAction: [RepeatForever actionWithAction:
-					[Sequence actions: jump, [jump reverse], nil]
+	[sprite runAction: [CCRepeatForever actionWithAction:
+					[CCSequence actions: jump, [jump reverse], nil]
 						]
 	 ];
 
@@ -67,7 +67,7 @@
 
 -(void) pause: (id) sender
 {
-	[[Director sharedDirector] pause];
+	[[CCDirector sharedDirector] pause];
 	
 	// Dialog
 	UIAlertView* dialog = [[UIAlertView alloc] init];
@@ -81,7 +81,7 @@
 
 - (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {	
-	[[Director sharedDirector] resume];
+	[[CCDirector sharedDirector] resume];
 }
 
 -(void) step1: (ccTime) delta
@@ -123,19 +123,19 @@
 //	[Director useFastDirector];
 	
 	// before creating any layer, set the landscape mode
-	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
-	[[Director sharedDirector] setDisplayFPS:YES];
+	[[CCDirector sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
+	[[CCDirector sharedDirector] setDisplayFPS:YES];
 
 	// frames per second
-	[[Director sharedDirector] setAnimationInterval:1.0/60];
+	[[CCDirector sharedDirector] setAnimationInterval:1.0/60];
 	
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change anytime.
-	[Texture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];	
+	[CCTexture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];	
 
 	// create an openGL view inside a window
-	[[Director sharedDirector] attachInView:window];	
+	[[CCDirector sharedDirector] attachInView:window];	
 
 	CCScene *scene = [CCScene node];
 
@@ -143,30 +143,30 @@
 
 	[window makeKeyAndVisible];	
 
-	[[Director sharedDirector] runWithScene: scene];
+	[[CCDirector sharedDirector] runWithScene: scene];
 }
 
 // getting a call, pause the game
 -(void) applicationWillResignActive:(UIApplication *)application
 {
-	[[Director sharedDirector] pause];
+	[[CCDirector sharedDirector] pause];
 }
 
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-	[[Director sharedDirector] resume];
+	[[CCDirector sharedDirector] resume];
 }
 
 // purge memroy
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-	[[TextureMgr sharedTextureMgr] removeAllTextures];
+	[[CCTextureMgr sharedTextureMgr] removeAllTextures];
 }
 
 // next delta time will be zero
 -(void) applicationSignificantTimeChange:(UIApplication *)application
 {
-	[[Director sharedDirector] setNextDeltaTimeZero:YES];
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 - (void) dealloc
