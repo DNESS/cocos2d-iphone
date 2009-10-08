@@ -29,21 +29,29 @@ enum {
 	int	tag;
 }
 
-/** The "target". The action will modify the target properties */
-@property (nonatomic,readwrite,assign) id target;
+/** The "target". The action will modify the target properties.
+ The target will be set with the 'startWithTarget' method.
+ When the 'stop' method is called, target will be set to nil.
+ The target is 'assigned', it is not 'retained'.
+ */
+@property (nonatomic,readonly,assign) id target;
+
 /** The action tag. An identifier of the action */
 @property (nonatomic,readwrite,assign) int tag;
 
+/** Allocates and initializes the action */
 +(id) action;
+
+/** Initializes the action */
 -(id) init;
 
 -(id) copyWithZone: (NSZone*) zone;
 
-//! called before the action start
--(void) start;
 //! return YES if the action has finished
 -(BOOL) isDone;
-//! called after the action has finished
+//! called before the action start. It will also set the target.
+-(void) startWithTarget:(id)target;
+//! called after the action has finished. It will set the 'target' to nil.
 -(void) stop;
 //! called every frame with it's delta time. DON'T override unless you know what you are doing.
 -(void) step: (ccTime) dt;

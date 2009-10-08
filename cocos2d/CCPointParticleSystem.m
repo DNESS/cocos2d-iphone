@@ -81,9 +81,9 @@
 	
 	particleIdx = 0;
 	
-	// test performance with [self absolutePosition];
-//	CGPoint	absolutePosition = [self convertToWorldSpace:CGPointZero];
-	CGPoint	absolutePosition = position_;
+	CGPoint absolutePosition;
+	if( positionType_ == kPositionTypeFree )
+		absolutePosition = [self convertToWorldSpace:CGPointZero];
 	
 	while( particleIdx < particleCount )
 	{
@@ -161,6 +161,9 @@
 {
 //	int blendSrc, blendDst;
 //	int colorMode;
+    
+    if (!particleIdx)
+        return;
 	
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, texture_.name);

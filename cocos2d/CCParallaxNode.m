@@ -47,7 +47,6 @@
 }
 @end
 
-
 @implementation CCParallaxNode
 
 @synthesize parallaxArray=parallaxArray_;

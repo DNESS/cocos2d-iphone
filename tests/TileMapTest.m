@@ -12,8 +12,6 @@
 
 static int sceneIdx=-1;
 static NSString *transitions[] = {
-			@"TileMapTest",
-			@"TileMapEditTest",
 			@"TMXOrthoTest",
 			@"TMXOrthoTest2",
 			@"TMXOrthoTest3",
@@ -21,6 +19,7 @@ static NSString *transitions[] = {
 			@"TMXIsoTest",
 			@"TMXIsoTest1",
 			@"TMXIsoTest2",
+			@"TMXUncompressedTest",
 			@"TMXHexTest",
 			@"TMXReadWriteTest",
 			@"TMXTilesetTest",
@@ -164,120 +163,6 @@ Class restartAction()
 }
 @end
 
-
-#pragma mark -
-#pragma mark TileMapTest
-
-@implementation TileMapTest
--(id) init
-{
-	if( (self=[super init]) ) {
-	
-		
-		TileMapAtlas *map = [TileMapAtlas tileMapAtlasWithTileFile:@"tiles.png" mapFile:@"levelmap.tga" tileWidth:16 tileHeight:16];
-		// Convert it to "alias" (GL_LINEAR filtering)
-		[map.texture setAliasTexParameters];
-		
-		CGSize s = map.contentSize;
-		NSLog(@"ContentSize: %f, %f", s.width,s.height);
-
-		// If you are not going to use the Map, you can free it now
-		// NEW since v0.7
-		[map releaseMap];
-		
-		[self addChild:map z:0 tag:kTagTileMap];
-		
-		map.anchorPoint = ccp(0, 0.5f);
-		
-//		id s = [ScaleBy actionWithDuration:4 scale:0.8f];
-//		id scaleBack = [s reverse];
-//		
-//		id seq = [Sequence actions: s,
-//								scaleBack,
-//								nil];
-//		
-//		[map runAction:[RepeatForever actionWithAction:seq]];
-	}
-	
-	return self;
-}
-
--(NSString *) title
-{
-	return @"TileMapAtlas";
-}
-
-@end
-
-#pragma mark -
-#pragma mark TileMapEditTest
-
-@implementation TileMapEditTest
--(id) init
-{
-	if( (self=[super init]) ) {
-		
-		
-		TileMapAtlas *map = [TileMapAtlas tileMapAtlasWithTileFile:@"tiles.png" mapFile:@"levelmap.tga" tileWidth:16 tileHeight:16];
-
-		// Create an Aliased Atlas
-		[map.texture setAliasTexParameters];
-		
-		CGSize s = map.contentSize;
-		NSLog(@"ContentSize: %f, %f", s.width,s.height);
-		
-		// If you are not going to use the Map, you can free it now
-		// [tilemap releaseMap];
-		// And if you are going to use, it you can access the data with:
-		[self schedule:@selector(updateMap:) interval:0.2f];
-		
-		[self addChild:map z:0 tag:kTagTileMap];
-		
-		map.anchorPoint = ccp(0, 0);
-		map.position = ccp(-20,-200);
-	}	
-	return self;
-}
-
--(void) updateMap:(ccTime) dt
-{
-	// IMPORTANT
-	//   The only limitation is that you cannot change an empty, or assign an empty tile to a tile
-	//   The value 0 not rendered so don't assign or change a tile with value 0
-
-	TileMapAtlas *tilemap = (TileMapAtlas*) [self getChildByTag:kTagTileMap];
-	
-	//
-	// For example you can iterate over all the tiles
-	// using this code, but try to avoid the iteration
-	// over all your tiles in every frame. It's very expensive
-	//	for(int x=0; x < tilemap.tgaInfo->width; x++) {
-	//		for(int y=0; y < tilemap.tgaInfo->height; y++) {
-	//			ccColor3B c =[tilemap tileAt:ccg(x,y)];
-	//			if( c.r != 0 ) {
-	//				NSLog(@"%d,%d = %d", x,y,c.r);
-	//			}
-	//		}
-	//	}
-	
-	// NEW since v0.7
-	ccColor3B c =[tilemap tileAt:ccg(13,21)];		
-	c.r++;
-	c.r %= 50;
-	if( c.r==0)
-		c.r=1;
-	
-	// NEW since v0.7
-	[tilemap setTile:c at:ccg(13,21)];			
-	
-}
-
--(NSString *) title
-{
-	return @"Editable TileMapAtlas";
-}
-@end
-
 #pragma mark -
 #pragma mark TMXOrthoTest
 
@@ -314,12 +199,12 @@ Class restartAction()
 -(void) onEnter
 {
 	[super onEnter];
-	[[CCDirector sharedDirector] set3Dprojection];	
+	[[CCDirector sharedDirector] setProjection:CCDirectorProjection3D];
 }
 
 -(void) onExit
 {
-	[[CCDirector sharedDirector] set2Dprojection];
+	[[CCDirector sharedDirector] setProjection:CCDirectorProjection2D];
 	[super onExit];
 }
 
@@ -398,8 +283,8 @@ Class restartAction()
 		CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"orthogonal-test4.tmx"];
 		[self addChild:map z:0 tag:kTagTileMap];
 		
-		CGSize s = map.contentSize;
-		NSLog(@"ContentSize: %f, %f", s.width,s.height);
+		CGSize s1 = map.contentSize;
+		NSLog(@"ContentSize: %f, %f", s1.width,s1.height);
 		
 		for( CCAtlasSpriteManager* child in [map children] ) {
 			[[child texture] setAntiAliasTexParameters];
@@ -408,7 +293,7 @@ Class restartAction()
 		[map setAnchorPoint:ccp(0, 0)];
 
 		CCTMXLayer *layer = [map layerNamed:@"Layer 0"];
-		s = [layer layerSize];
+		CGSize s = [layer layerSize];
 		
 		CCAtlasSprite *sprite;
 		sprite = [layer tileAt:ccp(0,0)];
@@ -514,6 +399,38 @@ Class restartAction()
 -(NSString *) title
 {
 	return @"TMX Isometric test 2";
+}
+@end
+
+@implementation TMXUncompressedTest
+-(id) init
+{
+	if( (self=[super init]) ) {
+		CCColorLayer *color = [CCColorLayer layerWithColor:ccc4(64,64,64,255)];
+		[self addChild:color z:-1];
+		
+		CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"iso-test2-uncompressed.tmx"];
+		[self addChild:map z:0 tag:kTagTileMap];	
+		
+		CGSize s = map.contentSize;
+		NSLog(@"ContentSize: %f, %f", s.width,s.height);
+		
+		// move map to the center of the screen
+		CGSize ms = [map mapSize];
+		CGSize ts = [map tileSize];
+		[map runAction:[CCMoveTo actionWithDuration:1.0f position:ccp( -ms.width * ts.width/2, -ms.height * ts.height/2 ) ]];
+		
+		// testing release map
+		for( CCTMXLayer *layer in [map children])
+			[layer releaseMap];
+		
+	}	
+	return self;
+}
+
+-(NSString *) title
+{
+	return @"TMX Uncompressed test";
 }
 @end
 
@@ -705,7 +622,8 @@ Class restartAction()
 	//
 	// Run all the test with 2d projection
 	//
-	[[CCDirector sharedDirector] set2Dprojection];
+	[[CCDirector sharedDirector] setProjection:CCDirectorProjection2D];
+
 	
 
 	[[CCDirector sharedDirector] runWithScene: scene];

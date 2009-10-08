@@ -47,6 +47,7 @@ extern NSString * cocos2dVersion(void);
 
 -(void) initGLDefaultValues;
 
+-(void) preMainLoop;
 -(void) mainLoop;
 -(void) setNextScene;
 // rotates the screen if Landscape mode is activated
@@ -203,7 +204,7 @@ static CCDirector *_sharedDirector = nil;
 
 	[self setAlphaBlending: YES];
 	[self setDepthTest: YES];
-	[self setDefaultProjection];
+	[self setProjection: CCDirectorProjectionDefault];
 	
 	// set other opengl default values
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -301,32 +302,59 @@ static CCDirector *_sharedDirector = nil;
 
 - (void) setDefaultProjection
 {
-//	[self set2Dprojection];
-	[self set3Dprojection];
+	[self setProjection:CCDirectorProjectionDefault];
+}
+
+-(ccDirectorProjection) projection
+{
+	return projection_;
+}
+
+-(void) setProjection:(ccDirectorProjection)projection
+{
+	switch (projection) {
+		case CCDirectorProjection2D:
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrthof(0, openGLView_.frame.size.width, 0, openGLView_.frame.size.height, -1, 1);
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();			
+			break;
+
+		case CCDirectorProjection3D:
+			glViewport(0, 0, openGLView_.frame.size.width, openGLView_.frame.size.height);
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			gluPerspective(60, (GLfloat)openGLView_.frame.size.width/openGLView_.frame.size.height, 0.5f, 1500.0f);
+			
+			glMatrixMode(GL_MODELVIEW);	
+			glLoadIdentity();
+			gluLookAt( openGLView_.frame.size.width/2, openGLView_.frame.size.height/2, [CCCamera getZEye],
+					  openGLView_.frame.size.width/2, openGLView_.frame.size.height/2, 0,
+					  0.0f, 1.0f, 0.0f);			
+			break;
+			
+		case CCDirectorProjectionCustom:
+			// if custom, ignore it. The user is resposible for setting the correct projection
+			break;
+			
+		default:
+			CCLOG(@"cocos2d: Director: unrecognized projecgtion");
+			break;
+	}
+	
+	projection_ = projection;
 }
 
 -(void)set2Dprojection
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrthof(0, openGLView_.frame.size.width, 0, openGLView_.frame.size.height, -1, 1);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	[self setProjection: CCDirectorProjection2D];
 }
 
 // set a 3d projection matrix
 -(void)set3Dprojection
 {
-	glViewport(0, 0, openGLView_.frame.size.width, openGLView_.frame.size.height);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(60, (GLfloat)openGLView_.frame.size.width/openGLView_.frame.size.height, 0.5f, 1500.0f);
-	
-	glMatrixMode(GL_MODELVIEW);	
-	glLoadIdentity();
-	gluLookAt( openGLView_.frame.size.width/2, openGLView_.frame.size.height/2, [CCCamera getZEye],
-			  openGLView_.frame.size.width/2, openGLView_.frame.size.height/2, 0,
-			  0.0f, 1.0f, 0.0f);
+	[self setProjection: CCDirectorProjection3D];
 }
 
 - (void) setAlphaBlending: (BOOL) on

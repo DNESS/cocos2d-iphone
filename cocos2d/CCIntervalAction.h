@@ -45,8 +45,6 @@ Example:
 +(id) actionWithDuration: (ccTime) d;
 /** initializes the action */
 -(id) initWithDuration: (ccTime) d;
-/** called when the action is about to start */
--(void) start;
 /** returns YES if the action has finished */
 -(BOOL) isDone;
 /** returns a reversed action */
@@ -155,7 +153,7 @@ Example:
 -(id) initWithDuration: (ccTime)duration position:(CGPoint)deltaPosition;
 @end
 
-/** Moves a CocosNode object simulating a jump movement by modifying it's position attribute.
+/** Moves a CocosNode object simulating a parabolic jump movement by modifying it's position attribute.
 */
  @interface CCJumpBy : CCIntervalAction <NSCopying>
 {
@@ -170,7 +168,7 @@ Example:
 -(id) initWithDuration: (ccTime)duration position:(CGPoint)position height:(ccTime)height jumps:(int)jumps;
 @end
 
-/** Moves a CocosNode object to a position simulating a jump movement by modifying it's position attribute.
+/** Moves a CocosNode object to a parabolic position simulating a jump movement by modifying it's position attribute.
 */ 
  @interface CCJumpTo : CCJumpBy <NSCopying>
 {
@@ -180,8 +178,6 @@ Example:
 /** bezier configuration structure
  */
 typedef struct _ccBezierConfig {
-	//! startPosition of the bezier
-	CGPoint startPosition;
 	//! end position of the bezier
 	CGPoint endPosition;
 	//! Bezier control point 1
@@ -190,9 +186,7 @@ typedef struct _ccBezierConfig {
 	CGPoint controlPoint_2;
 } ccBezierConfig;
 
-/** A action that moves the target with a cubic Bezier curve.
- Since BezierBy moves the target "relative" it will be easier if
- the startPosition of the Bezier configuration is (0,0)
+/** An action that moves the target with a cubic Bezier curve by a certain distance.
  */
 @interface CCBezierBy : CCIntervalAction <NSCopying>
 {
@@ -205,6 +199,14 @@ typedef struct _ccBezierConfig {
 
 /** initializes the action with a duration and a bezier configuration */
 -(id) initWithDuration: (ccTime) t bezier:(ccBezierConfig) c;
+@end
+
+/** An action that moves the target with a cubic Bezier curve to a destination point.
+ @since v0.8.2
+ */
+@interface CCBezierTo : CCBezierBy
+{
+}
 @end
 
 /** Scales a CocosNode object to a zoom factor by modifying it's scale attribute.

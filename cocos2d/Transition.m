@@ -32,6 +32,7 @@ enum {
 
 @interface CCTransitionScene (Private)
 -(void) sceneOrder;
+- (void)setNewScene:(ccTime)dt;
 @end
 
 @implementation CCTransitionScene

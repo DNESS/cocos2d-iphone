@@ -25,8 +25,7 @@
 #pragma mark Action
 @implementation CCAction
 
-@synthesize target;
-@synthesize tag;
+@synthesize tag, target;
 
 +(id) action
 {
@@ -35,11 +34,10 @@
 
 -(id) init
 {
-	if( !(self=[super init]) )
-		return nil;
-	
-	target = nil;
-	tag = kActionTagInvalid;
+	if( (self=[super init]) ) {	
+		target = nil;
+		tag = kActionTagInvalid;
+	}
 	return self;
 }
 
@@ -57,19 +55,18 @@
 -(id) copyWithZone: (NSZone*) zone
 {
 	CCAction *copy = [[[self class] allocWithZone: zone] init];
-	[copy setTarget: target];
 	copy.tag = tag;
 	return copy;
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	// override me
+	target = aTarget;
 }
 
 -(void) stop
 {
-	// override me
+	target = nil;
 }
 
 -(BOOL) isDone
@@ -136,18 +133,17 @@
 	[super dealloc];
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
-	[other setTarget: target];
-	[other start];
+	[super startWithTarget:aTarget];
+	[other startWithTarget:target];
 }
 
 -(void) step:(ccTime) dt
 {
 	[other step: dt];
 	if( [other isDone] ) {
-		[other start];
+		[other startWithTarget:target];
 	}
 }
 
@@ -199,11 +195,10 @@
 	[super dealloc];
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
-	[other setTarget: target];
-	[other start];
+	[super startWithTarget:aTarget];
+	[other startWithTarget:target];
 }
 
 -(void) stop

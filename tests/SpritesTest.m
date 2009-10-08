@@ -25,6 +25,7 @@ static NSString *transitions[] = {
 						 @"SpriteTint",
 						 @"SpriteAnimate",
 						 @"SpriteSequence",
+						 @"SpriteSequence2",
 						 @"SpriteSpawn",
 						 @"SpriteReverse",
 						 @"SpriteDelayTime",
@@ -287,7 +288,6 @@ Class restartAction()
 	
 	// sprite 1
 	ccBezierConfig bezier;
-	bezier.startPosition = ccp(0,0);
 	bezier.controlPoint_1 = ccp(0, s.height/2);
 	bezier.controlPoint_2 = ccp(300, -s.height/2);
 	bezier.endPosition = ccp(300,100);
@@ -299,24 +299,28 @@ Class restartAction()
 	
 
 	// sprite 2
+	[tamara setPosition:ccp(80,160)];
 	ccBezierConfig bezier2;
-	bezier2.startPosition = ccp(0,0);
 	bezier2.controlPoint_1 = ccp(100, s.height/2);
 	bezier2.controlPoint_2 = ccp(200, -s.height/2);
-	bezier2.endPosition = ccp(300,0);
+	bezier2.endPosition = ccp(240,160);
 	
-	id bezierForward2 = [CCBezierBy actionWithDuration:3 bezier:bezier2];
-	id bezierBack2 = [bezierForward2 reverse];	
-	id seq2 = [CCSequence actions: bezierForward2, bezierBack2, nil];
-	id rep2 = [CCRepeatForever actionWithAction:seq2];
+	id bezierTo1 = [BezierTo actionWithDuration:2 bezier:bezier2];	
 	
+	// sprite 3
+	Sprite *kathia = [Sprite spriteWithFile:@"grossinis_sister2.png"];
+	[self addChild:kathia];
+	[kathia setPosition:ccp(400,160)];
+	id bezierTo2 = [BezierTo actionWithDuration:2 bezier:bezier2];
 	
 	[grossini runAction: rep];
-	[tamara runAction:rep2];
+	[tamara runAction:bezierTo1];
+	[kathia runAction:bezierTo2];
+
 }
 -(NSString *) title
 {
-	return @"BezierBy";
+	return @"BezierBy / BezierTo";
 }
 @end
 
@@ -424,6 +428,60 @@ Class restartAction()
 -(NSString *) title
 {
 	return @"Sequence: Move + Rotate";
+}
+@end
+
+@implementation SpriteSequence2
+-(void) onEnter
+{
+	[super onEnter];
+	
+	[tamara setVisible:NO];
+	[grossini setVisible:NO];
+	
+	id action = [Sequence actions:
+				 [Place actionWithPosition:ccp(200,200)],
+				 [Show action],
+				 [MoveBy actionWithDuration:1 position:ccp(100,0)],
+				 [CallFunc actionWithTarget:self selector:@selector(callback1)],
+				 [CallFuncN actionWithTarget:self selector:@selector(callback2:)],
+				 [CallFuncND actionWithTarget:self selector:@selector(callback3:data:) data:(void*)0xbebabeba],
+				 nil];
+	
+	[grossini runAction:action];
+}
+
+-(void) callback1
+{
+	CGSize s = [[Director sharedDirector] winSize];
+	Label *label = [Label labelWithString:@"callback 1 called" fontName:@"Marker Felt" fontSize:16];
+	[label setPosition:ccp( s.width/4*1,s.height/2)];
+	
+	[self addChild:label];
+}
+
+-(void) callback2:(id)sender
+{
+	CGSize s = [[Director sharedDirector] winSize];
+	Label *label = [Label labelWithString:@"callback 2 called" fontName:@"Marker Felt" fontSize:16];
+	[label setPosition:ccp( s.width/4*2,s.height/2)];
+	
+	[self addChild:label];
+}
+
+-(void) callback3:(id)sender data:(void*)data
+{
+	CGSize s = [[Director sharedDirector] winSize];
+	Label *label = [Label labelWithString:@"callback 3 called" fontName:@"Marker Felt" fontSize:16];
+	[label setPosition:ccp( s.width/4*3,s.height/2)];
+	
+	[self addChild:label];
+}
+
+
+-(NSString *) title
+{
+	return @"Sequence of InstantActions";
 }
 @end
 

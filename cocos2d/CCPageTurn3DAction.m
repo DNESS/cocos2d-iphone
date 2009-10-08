@@ -14,7 +14,7 @@
  */
 #import "CCPageTurn3DAction.h"
 
-@implementation CCPageTurn3DAction
+@implementation CCPageTurn3D
 
 /*
  * Update each tick

@@ -17,6 +17,7 @@
 
 #import "CCAtlasNode.h"
 #import "CCAtlasSpriteManager.h"
+#import "Support/ccArray.h"
 
 
 @class CCTMXMapInfo;
@@ -28,13 +29,13 @@
 enum
 {
 	/** Orthogonal orientation */
-	TMXOrientationOrtho,
+	CCTMXOrientationOrtho,
 	
 	/** Hexagonal orientation */
-	TMXOrientationHex,
+	CCTMXOrientationHex,
 	
 	/** Isometric orientation */
-	TMXOrientationIso,
+	CCTMXOrientationIso,
 };
 
 /** TMXTiledMap knows how to parse and render a TMX map.
@@ -73,7 +74,7 @@ enum
 {
 	CGSize		mapSize_;
 	CGSize		tileSize_;
-	int			mapOrientation_;
+	int			mapOrientation_;	
 }
 
 /** the map's size property measured in tiles */
@@ -105,11 +106,15 @@ enum
 @interface CCTMXLayer : CCAtlasSpriteManager
 {
 	CCTMXTilesetInfo	*tileset_;
-	NSString		*layerName_;
-	CGSize			layerSize_;
-	CGSize			mapTileSize_;
-	unsigned int	*tiles_;
-	int				layerOrientation_;
+	NSString			*layerName_;
+	CGSize				layerSize_;
+	CGSize				mapTileSize_;
+	unsigned int		*tiles_;
+	int					layerOrientation_;
+	
+	// used for optimization
+	CCAtlasSprite		*reusedTile;
+	ccCArray		*atlasIndexArray;
 }
 /** name of the layer */
 @property (nonatomic,readwrite,retain) NSString *layerName;
@@ -135,11 +140,6 @@ enum
  If you are going to call [layer tileGIDAt:] then, don't release the map
  */
 -(void) releaseMap;
-
-/** adds a tile given a GID and a tile coordinate.
- The tile will be added with the z and tag the belongs to the tile coordinate
- */
--(CCAtlasSprite*) addTileForGID:(unsigned int)gid at:(CGPoint)pos;
 
 /** returns the tile (AtlasSprite) at a given a tile coordinate */
 -(CCAtlasSprite*) tileAt:(CGPoint)tileCoordinate;

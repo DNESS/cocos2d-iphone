@@ -16,7 +16,7 @@
 #import "CCTextureAtlas.h"
 #import "ccMacros.h"
 
-#pragma mark AtlasSpriteManager
+#pragma mark CCAtlasSpriteManager
 
 @class CCAtlasSprite;
 
@@ -31,7 +31,6 @@
  */
 @interface CCAtlasSpriteManager : CCNode <CCNodeTexture>
 {
-	unsigned int totalSprites_;
 	CCTextureAtlas *textureAtlas_;
 	ccBlendFunc	blendFunc_;
 }
@@ -63,6 +62,16 @@
 -(id)initWithFile:(NSString*)fileImage capacity:(NSUInteger)capacity;
 
 -(NSUInteger)indexForNewChildAtZ:(int)z;
+-(void) increateAtlasCapacity;
+
+/* Adds a quad into the texture atlas but it won't be added into the children array.
+ This method should be called only when you are dealing with very big AtlasSrite and when most of the AtlasSprite won't be updated.
+ For example: a tile map (TMXMap) or a label with lots of characgers (BitmapFontAtlas)
+ @since v0.8.2
+ */
+-(void) addQuadFromSprite:(CCAtlasSprite*)sprite quadIndex:(unsigned int)index;
+
+-(id)addChildWithoutQuad:(CCAtlasSprite*)child z:(int)z tag:(int)aTag;
 
 /** creates an sprite with a rect in the AtlasSpriteManage */
 -(CCAtlasSprite*) createSpriteWithRect:(CGRect)rect;

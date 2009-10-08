@@ -56,10 +56,10 @@
 // Show
 //
 @implementation CCShow
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
-	[target setVisible: YES];
+	[super startWithTarget:aTarget];
+	((CCNode *)target).visible = YES;
 }
 -(CCFiniteTimeAction*) reverse
 {
@@ -71,10 +71,10 @@
 // Hide
 //
 @implementation CCHide
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
-	[target setVisible: NO];
+	[super startWithTarget:aTarget];
+	((CCNode *)target).visible = NO;
 }
 -(CCFiniteTimeAction*) reverse
 {
@@ -86,11 +86,10 @@
 // ToggleVisibility
 //
 @implementation CCToggleVisibility
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
-	BOOL v = [target visible];
-	[target setVisible: !v];
+	[super startWithTarget:aTarget];
+	((CCNode *)target).visible = !((CCNode *)target).visible;
 }
 @end
 
@@ -116,10 +115,10 @@
 	return copy;
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
-	[target setPosition: position];
+	[super startWithTarget:aTarget];
+	((CCNode *)target).position = position;
 }
 @end
 
@@ -154,9 +153,9 @@
 }
 
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 	[self execute];
 }
 

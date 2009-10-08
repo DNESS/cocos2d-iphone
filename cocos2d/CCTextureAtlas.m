@@ -62,11 +62,11 @@
 		// retained in property
 		self.texture = tex;
 
-		quads_ = malloc( sizeof(quads_[0]) * capacity_ );
-		indices = malloc( sizeof(indices[0]) * capacity_ * 6 );
+		quads_ = calloc( sizeof(quads_[0]) * capacity_, 1 );
+		indices = calloc( sizeof(indices[0]) * capacity_ * 6, 1 );
 		
 		if( ! ( quads_ && indices) ) {
-			NSLog(@"TextureAtlas: not enough memory");
+			CCLOG(@"cocos2d: TextureAtlas: not enough memory");
 			if( quads_ )
 				free(quads_);
 			if( indices )
@@ -100,7 +100,7 @@
 -(void) initIndices
 {
 	for( NSUInteger i=0;i< capacity_;i++) {
-#ifdef USE_TRIANGLE_STRIP
+#if USE_TRIANGLE_STRIP
 		indices[i*6+0] = i*4+0;
 		indices[i*6+1] = i*4+0;
 		indices[i*6+2] = i*4+2;		
@@ -127,9 +127,8 @@
 
 -(void) updateQuad:(ccV3F_C4B_T2F_Quad*)quad atIndex:(NSUInteger) n
 {
-	
 	NSAssert( n >= 0 && n < capacity_, @"updateQuadWithTexture: Invalid index");
-
+	
 	totalQuads_ =  MAX( n+1, totalQuads_);
 
 	quads_[n] = *quad;
@@ -138,14 +137,15 @@
 
 -(void) insertQuad:(ccV3F_C4B_T2F_Quad*)quad atIndex:(NSUInteger)index
 {
-	NSAssert( index >= 0 && index < capacity_, @"updateQuadWithTexture: Invalid index");
-	
+	NSAssert( index >= 0 && index < capacity_, @"insertQuadWithTexture: Invalid index");
+
 	totalQuads_++;
 	
-	NSUInteger remaining = (totalQuads_-1) - index;
+	// issue #575. index can be > totalQuads
+	int remaining = (totalQuads_-1) - index;
 	
 	// last object doesn't need to be moved
-	if( remaining ) {
+	if( remaining > 0) {
 		// tex coordinates
 		memmove( &quads_[index+1],&quads_[index], sizeof(quads_[0]) * remaining );
 	}
@@ -211,7 +211,7 @@
 	void * tmpIndices = realloc( indices, sizeof(indices[0]) * capacity_ * 6 );
 	
 	if( ! ( tmpQuads && tmpIndices) ) {
-		NSLog(@"TextureAtlas: not enough memory");
+		CCLOG(@"cocos2d: TextureAtlas: not enough memory");
 		if( tmpQuads )
 			free(tmpQuads);
 		else
@@ -262,7 +262,7 @@
 	diff = offsetof( ccV3F_C4B_T2F, texCoords);
 	glTexCoordPointer(2, GL_FLOAT, kPointSize, (void*)(offset + diff));
 	
-#ifdef USE_TRIANGLE_STRIP
+#if USE_TRIANGLE_STRIP
 	glDrawElements(GL_TRIANGLE_STRIP, n*6, GL_UNSIGNED_SHORT, indices);	
 #else
 	glDrawElements(GL_TRIANGLES, n*6, GL_UNSIGNED_SHORT, indices);	

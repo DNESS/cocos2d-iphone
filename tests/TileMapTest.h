@@ -15,17 +15,6 @@
 -(NSString*) subtitle;
 @end
 
-@interface TileMapTest : TileDemo
-{
-}
-@end
-
-@interface TileMapEditTest : TileDemo
-{
-}
-@end
-
-
 @interface TMXOrthoTest : TileDemo
 {
 }
@@ -72,6 +61,12 @@
 {
 }
 @end
+
+@interface TMXUncompressedTest : TileDemo
+{
+}
+@end
+
 
 @interface TMXTilesetTest : TileDemo
 {

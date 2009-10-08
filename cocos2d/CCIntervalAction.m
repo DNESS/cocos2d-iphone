@@ -81,8 +81,9 @@
 	[self update: MIN(1, elapsed/duration)];
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
+	[super startWithTarget:aTarget];
 	elapsed = 0.0f;
 	firstTick = YES;
 }
@@ -155,14 +156,18 @@
 	[super dealloc];
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
-	for( CCAction * action in actions )
-		[action setTarget: target];
-	
+	[super startWithTarget:aTarget];	
 	split = [[actions objectAtIndex:0] duration] / duration;
 	last = -1;
+}
+
+-(void) stop
+{
+	for( CCAction *action in actions )
+		[action stop];
+	[super stop];
 }
 
 -(void) update: (ccTime) t
@@ -185,19 +190,19 @@
 	}
 	
 	if (last == -1 && found==1)	{
-		[[actions objectAtIndex:0] start];
-		[[actions objectAtIndex:0] update:1.0f];
-		[[actions objectAtIndex:0] stop];
+		[(CCAction *) [actions objectAtIndex:0] startWithTarget:target];
+		[(CCAction *) [actions objectAtIndex:0] update:1.0f];
+		[(CCAction *) [actions objectAtIndex:0] stop];
 	}
 
 	if (last != found ) {
 		if( last != -1 ) {
-			[[actions objectAtIndex: last] update: 1.0f];
-			[[actions objectAtIndex: last] stop];
+			[(CCAction *) [actions objectAtIndex: last] update: 1.0f];
+			[(CCAction *) [actions objectAtIndex: last] stop];
 		}
-		[[actions objectAtIndex: found] start];
+		[(CCAction *) [actions objectAtIndex: found] startWithTarget:target];
 	}
-	[[actions objectAtIndex:found] update: new_t];
+	[(CCAction *) [actions objectAtIndex:found] update: new_t];
 	last = found;
 }
 
@@ -243,13 +248,19 @@
 	[super dealloc];
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
 	total = 0;
-	[super start];
-	[other setTarget: target];
-	[other start];
+	[super startWithTarget:aTarget];
+	[other startWithTarget:aTarget];
 }
+
+-(void) stop {
+    
+    [other stop];
+	[super stop];
+}
+
 
 //-(void) step:(ccTime) dt
 //{
@@ -270,7 +281,7 @@
 		[other update:1.0f];
 		total++;
 		[other stop];
-		[other start];
+		[other startWithTarget:target];
 		[other update:0.0f];
 	} else {
 		// fix last repeat position
@@ -361,13 +372,18 @@
 	[super dealloc];
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
-	[one setTarget: target];
-	[two setTarget: target];
-	[one start];
-	[two start];
+	[super startWithTarget:aTarget];
+	[one startWithTarget:target];
+	[two startWithTarget:target];
+}
+
+-(void) stop
+{
+	[one stop];
+	[two stop];
+	[super stop];
 }
 
 -(void) update: (ccTime) t
@@ -408,17 +424,16 @@
 	return copy;
 }
 
--(void) start
+-(void) startWithTarget:(CCNode *)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 	
-	// 
+	startAngle = [target rotation];
 	if (startAngle > 0)
 		startAngle = fmodf(startAngle, 360.0f);
 	else
 		startAngle = fmodf(startAngle, -360.0f);
 	
-	startAngle = [target rotation];
 	angle -= startAngle;
 	if (angle > 180)
 		angle = -360 + angle;
@@ -459,9 +474,9 @@
 	return copy;
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 	startAngle = [target rotation];
 }
 
@@ -505,9 +520,9 @@
 	return copy;
 }
 
--(void) start
+-(void) startWithTarget:(CCNode *)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 	startPosition = [(CCNode*)target position];
 	delta = ccpSub( endPosition, startPosition );
 }
@@ -545,10 +560,10 @@
 	return copy;
 }
 
--(void) start
+-(void) startWithTarget:(CCNode *)aTarget
 {
 	CGPoint dTmp = delta;
-	[super start];
+	[super startWithTarget:aTarget];
 	delta = dTmp;
 }
 
@@ -587,18 +602,27 @@
 	return copy;
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 	startPosition = [(CCNode*)target position];
 }
 
 -(void) update: (ccTime) t
 {
-	ccTime y = height * fabsf( sinf(t * (CGFloat)M_PI * jumps ) );
+	// Sin jump. Less realistic
+//	ccTime y = height * fabsf( sinf(t * (CGFloat)M_PI * jumps ) );
+//	y += delta.y * t;
+//	ccTime x = delta.x * t;
+//	[target setPosition: ccp( startPosition.x + x, startPosition.y + y )];	
+	
+	// parabolic jump (since v0.8.2)
+	ccTime frac = fmodf( t * jumps, 1.0f );
+	ccTime y = height * 4 * frac * (1 - frac);
 	y += delta.y * t;
 	ccTime x = delta.x * t;
 	[target setPosition: ccp( startPosition.x + x, startPosition.y + y )];
+	
 }
 
 -(CCIntervalAction*) reverse
@@ -614,9 +638,9 @@
 #pragma mark JumpTo
 
 @implementation CCJumpTo
--(void) start
+-(void) startWithTarget:(CCNode *)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 	delta = ccp( delta.x - startPosition.x, delta.y - startPosition.y );
 }
 @end
@@ -660,20 +684,20 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
     return copy;
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 	startPosition = [(CCNode*)target position];
 }
 
 -(void) update: (ccTime) t
 {
-	float xa = config.startPosition.x;
+	float xa = 0;
 	float xb = config.controlPoint_1.x;
 	float xc = config.controlPoint_2.x;
 	float xd = config.endPosition.x;
 	
-	float ya = config.startPosition.y;
+	float ya = 0;
 	float yb = config.controlPoint_1.y;
 	float yc = config.controlPoint_2.y;
 	float yd = config.endPosition.y;
@@ -685,17 +709,32 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 
 - (CCIntervalAction*) reverse
 {
-	// XXX: reverse it's not working as expected
 	ccBezierConfig r;
-	r.startPosition = ccpNeg( config.startPosition);
-	r.endPosition = ccpNeg(config.endPosition);
-	r.controlPoint_1 = ccpNeg(config.controlPoint_1);
-	r.controlPoint_2 = ccpNeg(config.controlPoint_2);
+
+	r.endPosition	 = ccpNeg(config.endPosition);
+	r.controlPoint_1 = ccpAdd(config.controlPoint_2, ccpNeg(config.endPosition));
+	r.controlPoint_2 = ccpAdd(config.controlPoint_1, ccpNeg(config.endPosition));
 	
 	CCBezierBy *action = [CCBezierBy actionWithDuration:[self duration] bezier:r];
 	return action;
 }
 @end
+
+//
+// BezierTo
+//
+#pragma mark -
+#pragma mark BezierTo
+@implementation CCBezierTo
+-(void) startWithTarget:(id)aTarget
+{
+	[super startWithTarget:aTarget];
+	config.controlPoint_1 = ccpSub(config.controlPoint_1, startPosition);
+	config.controlPoint_2 = ccpSub(config.controlPoint_2, startPosition);
+	config.endPosition = ccpSub(config.endPosition, startPosition);
+}
+@end
+
 
 //
 // ScaleTo
@@ -737,9 +776,9 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 	return copy;
 }
 
--(void) start
+-(void) startWithTarget:(CCNode *)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 	startScaleX = [target scaleX];
 	startScaleY = [target scaleY];
 	deltaX = endScaleX - startScaleX;
@@ -759,9 +798,9 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 #pragma mark -
 #pragma mark ScaleBy
 @implementation CCScaleBy
--(void) start
+-(void) startWithTarget:(CCNode *)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 	deltaX = startScaleX * endScaleX - startScaleX;
 	deltaY = startScaleY * endScaleY - startScaleY;
 }
@@ -867,9 +906,9 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 	return copy;
 }
 
--(void) start
+-(void) startWithTarget:(CCNode *)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 	fromOpacity = [(id<CCNodeRGBA>)target opacity];
 }
 
@@ -904,9 +943,9 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 	return copy;
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 	
 	id<CCNodeRGBA> tn = (id<CCNodeRGBA>) target;
 	from = [tn color];
@@ -945,9 +984,9 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 	return[(CCTintBy*)[[self class] allocWithZone: zone] initWithDuration: [self duration] red:deltaR green:deltaG blue:deltaB];
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 	
 	id<CCNodeRGBA> tn = (id<CCNodeRGBA>) target;
 	ccColor3B color = [tn color];
@@ -1017,11 +1056,10 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 	[super dealloc];
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
-	[other setTarget: target];
-	[other start];
+	[super startWithTarget:aTarget];
+	[other startWithTarget:target];
 }
 
 -(void) stop
@@ -1089,9 +1127,9 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 	[super dealloc];
 }
 
--(void) start
+-(void) startWithTarget:(id)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 	id<CCNodeFrames> sprite = (id<CCNodeFrames>) target;
 
 	[origFrame release];

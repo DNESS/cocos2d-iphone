@@ -84,10 +84,6 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 		patches for CocosNode
 		patches for Layer
 		patches for MultiplexLayer
-	* Rolandas Razma (gamebit):
-		added support for auto-remove-on-finish in particles
-		TMX maps support visibility and opacity patch
-		TMX maps possibility to access the layers patch
 	* Graham Perks:
 		Atlas works with GL_CULL_FACE
 		FastDirector doesn't leak autorelease pool patch
@@ -112,6 +108,7 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 		added WorldSpace coordinates to ParticleSystem
 		author of RenderTexture class
 		author of RenderTexture sample
+		author of Joystick / ProximityManager
 	* Jason Cecil:
 		Fixed memory leak in Director#FPSLabel
 		patches for CocosDenshion
@@ -122,6 +119,8 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 		patch for menu align. takes scale into account
 	* johnnyflash71:
 		TMX suports 1 tileset per layer patch
+	* jtbowden
+		RotateTo uses min distance patch
 	* kasatani:
 		AtlasSprite index 0 is not overwritten
 	* kermidt.zed:
@@ -154,6 +153,8 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 		Director: added converToUI method
 		Added support for FontLabel
 		Author of FontTest
+		PointParticleSystem doesn't draw if there are no particles patch
+		Actions: cleaner way to start/stop actions patches
 	* Manu Valladolid:
 		added isPaused property to Director
 		patches for the setColor API for the RGBA protocol
@@ -187,9 +188,16 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 	* ratman:
 		patch for TileMapAtlas: it works with 255 tiles
 		patch for TextureMgr: supports directory within image names
+	* Rolandas Razma (gamebit):
+		added support for auto-remove-on-finish in particles
+		TMX maps support visibility and opacity patch
+		TMX maps possibility to access the layers patch
 	* Rolando Abarca:
 		XCode only displays the libz dependency just once
 		added userData property in CocosNode
+	* Scott Iisystems:
+		TextureAtlas signed math error patch
+		BezierBy#reverse patch
 	* Serge Kolgan:
 		patches for CocosNode
 	* sflory:
@@ -199,6 +207,8 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 		author of PageTurn3DTransition
 	* SmallMike (http://www.smallrocksoftware.com/)
 		author of DisplayLink Director
+	* spoon.reloaded:
+		JumpBy/To uses parabolic function patch
 	* Steve Israelson:
 		patches for Scheduler
 		pactches for Actions
@@ -212,6 +222,8 @@ Poeple/companies who were/are contributing code to cocos2d for iPhone (alphabeti
 		Author of CocosDenshion Sound Engine
 		Integrated Box2d physics engine
 		Created Box2d + cocos2d demo example
+	* TheArsenik:
+		added BezierTo action
 	* thoechsm:
 		update the VBO buffer with only the needed particles
 	* Thomas Visser:

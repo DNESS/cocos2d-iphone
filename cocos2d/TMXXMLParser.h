@@ -40,16 +40,25 @@ enum {
  */
 @interface CCTMXLayerInfo : NSObject
 {
-@public
-	NSString		*name;
-	CGSize			layerSize;
-	unsigned int	*tiles;
-	BOOL			visible;
-	unsigned char	opacity;
-	BOOL			ownTiles;
-	unsigned int	minGID;
-	unsigned int	maxGID;
+	NSString		*name_;
+	CGSize			layerSize_;
+	unsigned int	*tiles_;
+	BOOL			visible_;
+	unsigned char	opacity_;
+	BOOL			ownTiles_;
+	unsigned int	minGID_;
+	unsigned int	maxGID_;
 }
+
+@property (nonatomic,readwrite,retain) NSString *name;
+@property (nonatomic,readwrite,assign) CGSize layerSize;
+@property (nonatomic,readwrite,assign) unsigned int *tiles;
+@property (nonatomic,readwrite,assign) BOOL visible;
+@property (nonatomic,readwrite,assign) unsigned char opacity;
+@property (nonatomic,readwrite,assign) BOOL ownTiles;
+@property (nonatomic,readwrite,assign) unsigned int minGID;
+@property (nonatomic,readwrite,assign) unsigned int maxGID;
+
 @end
 
 /* TMXTilesetInfo contains the information about the tilesets like:
@@ -64,19 +73,26 @@ enum {
  */
 @interface CCTMXTilesetInfo : NSObject
 {
-@public
-	NSString		*name;
-	unsigned int	firstGid;
-	CGSize			tileSize;
-	unsigned int	spacing;
-	unsigned int	margin;
+	NSString		*name_;
+	unsigned int	firstGid_;
+	CGSize			tileSize_;
+	unsigned int	spacing_;
+	unsigned int	margin_;
 	
 	// filename containing the tiles (should be spritesheet / texture atlas)
-	NSString	*sourceImage;
+	NSString	*sourceImage_;
 	
 	// size in pixels of the image
-	CGSize		imageSize;
+	CGSize		imageSize_;
 }
+@property (nonatomic,readwrite,retain) NSString *name;
+@property (nonatomic,readwrite,assign) unsigned int firstGid;
+@property (nonatomic,readwrite,assign) CGSize tileSize;
+@property (nonatomic,readwrite,assign) unsigned int spacing;
+@property (nonatomic,readwrite,assign) unsigned int margin;
+@property (nonatomic,readwrite,retain) NSString *sourceImage;
+@property (nonatomic,readwrite,assign) CGSize imageSize;
+
 -(CGRect) tileForGID:(unsigned int)gid;
 @end
 
@@ -93,29 +109,33 @@ enum {
  
  */
 @interface CCTMXMapInfo : NSObject
-{
-	
-	NSMutableString		*currentLayer;
+{	
 	NSMutableString		*currentString;
     BOOL				storingCharacters;	
 	int					layerAttribs;
 	
-@public
-	int	orientation;
-	
+	// map orientation
+	int	orientation_;	
 	
 	// map width & height
-	CGSize	mapSize;
+	CGSize	mapSize_;
 	
 	// tiles width & height
-	CGSize	tileSize;
+	CGSize	tileSize_;
 	
 	// Layers
-	NSMutableArray *layers;
+	NSMutableArray *layers_;
 	
 	// tilesets
-	NSMutableArray *tilesets;
+	NSMutableArray *tilesets_;
 }
+
+@property (nonatomic,readwrite,assign) int orientation;
+@property (nonatomic,readwrite,assign) CGSize mapSize;
+@property (nonatomic,readwrite,assign) CGSize tileSize;
+@property (nonatomic,readwrite,retain) NSMutableArray *layers;
+@property (nonatomic,readwrite,retain) NSMutableArray *tilesets;
+
 
 /** creates a TMX Format with a tmx file */
 +(id) formatWithTMXFile:(NSString*)tmxFile;

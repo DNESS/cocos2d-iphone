@@ -1,11 +1,33 @@
 version 0.9.0 - XX-MMM-2009
  . Major refactoring: now all Cocos2D classes are prefixed by `CC'
 
-version 0.8.2 - XX-MMM-2009
+version 0.8.2-rc1 - dd-MMM-2009
+ . Actions: start/stop sets the target (issue #489)
+ . Actions: Compound actions all stop (issue #489 and #issue #589)
+ . Actions: Fixed BezierBy reverse. BezierBy doesn't use startPosition (issue #586)
+ . Actions: added BezierTo (issue #562)
+ . Actions: RotateTo uses min distance (issue #584)
+ . Actions: JumpBy/To uses parabolic function (issue #324)
+ . FontLabel: updates version from git 2009-10-07 (issue #582)
+ . Particles: FreeMovement uses World-Coordinates (issue #241)
+ . Tests: Added Particle + Parallax test (part of issue #241)
+ . TileMap: TMXLayers work without tiles (issue #587)
+ . TileMap: TMX maps HUGE performance boost (issue #574)
+ 
+version 0.8.2-rc0 - 5-Oct-2009
  . Actions: Added EaseBack family actios (issue #568)
  . AtlasSprite: set atlasIndex to invalid on remove (issue #569)
+ . Box2d: using google code r22 (pre v2.1.0) (issue #494)
  . CocosNode: Better message error on scale (issue #556)
+ . Effects: [effect copy] works (issue #573)
+ . Effects: restore orignal director projection (issue #573)
+ . Extras: added Joystick / ProximityManager (issue #XXX)
+ . FontLabel: updates version from git (issue #582)
+ . Macros: CCLOG uses the "cocos2d:" prefix (issue #XXX)
  . Parallax: fixed limit of 5 children (issue #565)
+ . Templates: works with FontLabel (part of issue #534)
+ . Templates: added cocos2d+chipmunk template (issue #XXX)
+ . TextureAtlas: insertQuad fixed signed math (issue #575)
  
 version 0.8.2-beta - 23-Sept-2009
  . All: ccConfig.h file added (issue #551)

@@ -15,6 +15,9 @@
 #import "CCGridAction.h"
 #import "CCDirector.h"
 
+#pragma mark -
+#pragma mark GridAction
+
 @implementation CCGridAction
 
 @synthesize gridSize;
@@ -34,9 +37,9 @@
 	return self;
 }
 
--(void)start
+-(void)startWithTarget:(id)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 
 	CCGridBase *newgrid = [self grid];
 	
@@ -72,9 +75,18 @@
 {
 	return [CCReverseTime actionWithAction:self];
 }
+
+-(id) copyWithZone: (NSZone*) zone
+{
+	CCGridAction *copy = [[[self class] allocWithZone:zone] initWithSize:gridSize duration:duration];
+	return copy;
+}
 @end
 
 ////////////////////////////////////////////////////////////
+
+#pragma mark -
+#pragma mark Grid3DAction
 
 @implementation CCGrid3DAction
 
@@ -103,6 +115,9 @@
 @end
 
 ////////////////////////////////////////////////////////////
+
+#pragma mark -
+#pragma mark TiledGrid3DAction
 
 @implementation CCTiledGrid3DAction
 
@@ -153,6 +168,9 @@
 
 ////////////////////////////////////////////////////////////
 
+#pragma mark -
+#pragma mark AccelDeccelAmplitude
+
 @implementation CCAccelDeccelAmplitude
 
 @synthesize rate;
@@ -179,11 +197,10 @@
 	[super dealloc];
 }
 
--(void)start
+-(void)startWithTarget:(id)aTarget
 {
-	[super start];
-	other.target = self.target;
-	[other start];
+	[super startWithTarget:aTarget];
+	[other startWithTarget:target];
 }
 
 -(void) update: (ccTime) time;
@@ -208,6 +225,9 @@
 @end
 
 ////////////////////////////////////////////////////////////
+
+#pragma mark -
+#pragma mark AccelAmplitude
 
 @implementation CCAccelAmplitude
 
@@ -235,11 +255,10 @@
 	[super dealloc];
 }
 
--(void)start
+-(void)startWithTarget:(id)aTarget
 {
-	[super start];
-	other.target = self.target;
-	[other start];
+	[super startWithTarget:aTarget];
+	[other startWithTarget:target];
 }
 
 -(void) update: (ccTime) time;
@@ -256,6 +275,9 @@
 @end
 
 ////////////////////////////////////////////////////////////
+
+#pragma mark -
+#pragma mark DeccelAmplitude
 
 @implementation CCDeccelAmplitude
 
@@ -283,11 +305,10 @@
 	[super dealloc];
 }
 
--(void)start
+-(void)startWithTarget:(id)aTarget
 {
-	[super start];
-	other.target = self.target;
-	[other start];
+	[super startWithTarget:aTarget];
+	[other startWithTarget:target];
 }
 
 -(void) update: (ccTime) time;
@@ -305,19 +326,28 @@
 
 ////////////////////////////////////////////////////////////
 
+#pragma mark -
+#pragma mark StopGrid
+
 @implementation CCStopGrid
 
--(void)start
+-(void)startWithTarget:(id)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 
-	if ( [[self target] grid] && [[[self target] grid] active] )
+	if ( [[self target] grid] && [[[self target] grid] active] ) {
 		[[[self target] grid] setActive: NO];
+		
+//		[[self target] setGrid: nil];
+	}
 }
 
 @end
 
 ////////////////////////////////////////////////////////////
+
+#pragma mark -
+#pragma mark ReuseGrid
 
 @implementation CCReuseGrid
 
@@ -336,9 +366,9 @@
 	return self;
 }
 
--(void)start
+-(void)startWithTarget:(id)aTarget
 {
-	[super start];
+	[super startWithTarget:aTarget];
 
 	CCNode *myTarget = (CCNode*) [self target];
 	if ( myTarget.grid && myTarget.grid.active )

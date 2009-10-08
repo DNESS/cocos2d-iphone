@@ -19,6 +19,7 @@
 // limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
 @interface ZFont : NSObject {
@@ -40,6 +41,7 @@
 @property (nonatomic, readonly) NSString *fontName;
 @property (nonatomic, readonly) NSString *postScriptName;
 + (ZFont *)fontWithCGFont:(CGFontRef)cgFont size:(CGFloat)fontSize;
++ (ZFont *)fontWithUIFont:(UIFont *)uiFont;
 - (id)initWithCGFont:(CGFontRef)cgFont size:(CGFloat)fontSize;
 - (ZFont *)fontWithSize:(CGFloat)fontSize;
 @end
