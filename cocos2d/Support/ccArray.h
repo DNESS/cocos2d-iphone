@@ -3,6 +3,7 @@
  * http://www.cocos2d-iphone.org
  *
  * Copyright (C) 2008,2009 Ricardo Quesada
+ * Copyright (C) 2009 Valentin Milea
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the 'cocos2d for iPhone' license.
@@ -41,12 +42,12 @@
  faster because:
  - it uses a plain C interface so it doesn't incur Objective-c messaging overhead 
  - it assumes you know what you're doing, so it doesn't spend time on safety checks
- (index out of bounds, required capacity etc.)
+   (index out of bounds, required capacity etc.)
  - comparisons are done using pointer equality instead of isEqual
  
  There are 2 kind of functions:
- - ccArray functions that manipulates objective-c objects (retain and release are performanced)
- - ccCArray functions that manipulates values like if they were standard C structures (no retain/release is performed)
+  - ccArray functions that manipulates objective-c objects (retain and release are performanced)
+  - ccCArray functions that manipulates values like if they were standard C structures (no retain/release is performed)
  */
 
 #ifndef CC_ARRAY_H
@@ -286,13 +287,13 @@ static inline void ccCArrayInsertValueAtIndex( ccCArray *arr, void *value, NSUIn
 	}
 	
 	arr->num++;	
-	arr->arr[index] = value;
+	arr->arr[index] = (id) value;
 }
 
 /** Appends an value. Bahaviour undefined if array doesn't have enough capacity. */
 static inline void ccCArrayAppendValue(ccCArray *arr, void* value)
 {
-	arr->arr[arr->num] = value;
+	arr->arr[arr->num] = (id) value;
 	arr->num++;
 }
 

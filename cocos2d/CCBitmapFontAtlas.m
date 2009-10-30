@@ -123,7 +123,7 @@ void FNTConfigRemoveCache( void )
 			// Parse the current line and create a new CharDef
 			ccBitmapFontDef characterDefinition;
 			[self parseCharacterDefinition:line charDef:&characterDefinition];
-			
+
 			// Add the CharDef returned to the charArray
 			bitmapFontArray[ characterDefinition.charID ] = characterDefinition;
 		}
@@ -236,7 +236,7 @@ void FNTConfigRemoveCache( void )
 	propertyValue = [nse nextObject];
 	NSAssert( [propertyValue intValue] <= 1024, @"BitmapFontAtlas: page can't be larger than 1024x1024");
 	
-	// pages
+	// pages. sanity check
 	propertyValue = [nse nextObject];
 	NSAssert( [propertyValue intValue] == 1, @"BitfontAtlas: only supports 1 page");
 	
@@ -254,7 +254,10 @@ void FNTConfigRemoveCache( void )
 	
 	// Character ID
 	propertyValue = [nse nextObject];
+	propertyValue = [propertyValue substringToIndex: [propertyValue rangeOfString: @" "].location];
 	characterDefinition->charID = [propertyValue intValue];
+	NSAssert(characterDefinition->charID < kBitmapFontAtlasMaxChars, @"BitmpaFontAtlas: CharID bigger than supported");
+
 	// Character x
 	propertyValue = [nse nextObject];
 	characterDefinition->rect.origin.x = [propertyValue intValue];
@@ -328,7 +331,7 @@ void FNTConfigRemoveCache( void )
 @end
 
 #pragma mark -
-#pragma mark BitmapFontAtlas
+#pragma mark CCBitmapFontAtlas
 
 @interface CCBitmapFontAtlas (Private)
 -(NSString*) atlasNameFromFntFile:(NSString*)fntFile;
@@ -445,7 +448,8 @@ void FNTConfigRemoveCache( void )
 
 	NSUInteger l = [string_ length];
 	for(NSUInteger i=0; i<l; i++) {
-		unichar c = [string_ characterAtIndex:i] % 256; // Keep only the lower byte of the unicode point (issue #517)
+		unichar c = [string_ characterAtIndex:i];
+		NSAssert( c < kBitmapFontAtlasMaxChars, @"BitmapFontAtlas: character outside bounds");
 		
 		kerningAmount = [self kerningAmountForFirst:prev second:c];
 		
@@ -488,7 +492,7 @@ void FNTConfigRemoveCache( void )
 	[self setContentSize:tmpSize];
 }
 
-#pragma mark BitmapFontAtlas - CCNodeLabel protocol
+#pragma mark BitmapFontAtlas - CocosNodeLabel protocol
 - (void) setString:(NSString*) newString
 {	
 	[string_ release];
@@ -500,7 +504,7 @@ void FNTConfigRemoveCache( void )
 	[self createFontChars];
 }
 
-#pragma mark BitmapFontAtlas - CCNodeRGBA protocol
+#pragma mark BitmapFontAtlas - CocosNodeRGBA protocol
 
 -(void) setColor:(ccColor3B)color
 {
@@ -518,13 +522,13 @@ void FNTConfigRemoveCache( void )
 {
 	opacity_ = opacity;
 
-	for( id child in children )
+ 	for( id<CCNodeRGBA> child in children )
 		[child setOpacity:opacity_];
 }
 -(void) setOpacityModifyRGB:(BOOL)modify
 {
 	opacityModifyRGB_ = modify;
-	for( id child in children)
+ 	for( id<CCNodeRGBA> child in children )
 		[child setOpacityModifyRGB:modify];
 }
 -(BOOL) doesOpacityModifyRGB

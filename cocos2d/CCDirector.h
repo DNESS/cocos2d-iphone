@@ -22,10 +22,12 @@
 
 /** Possible Pixel Formats for the EAGLView */
 typedef enum {
-	/** RGB565 pixel format. No alpha. 16-bit */
+	/** RGB565 pixel format. No alpha. 16-bit. (Default) */
 	kPixelFormatRGB565,
-	/** RGBA format. 32-bit (default) */
+	/** RGBA format. 32-bit. Needed for some 3D effects. It is not as fast as the RGB565 format. */
 	kPixelFormatRGBA8888,
+	/** default pixel format */
+	kPixelFormatDefault = kPixelFormatRGB565,
 
 	kRGB565 = kPixelFormatRGB565,
 	kRGBA8 = kPixelFormatRGBA8888,
@@ -100,6 +102,10 @@ typedef enum {
 	 * - The interval update can be 1/60, 1/30, 1/15
 	 */	
 	CCDirectorTypeDisplayLink,
+	
+	/** Default director is the NSTimer directory */
+	CCDirectorTypeDefault = CCDirectorTypeNSTimer,
+
 } ccDirectorType;
 
 /** Possible device orientations */

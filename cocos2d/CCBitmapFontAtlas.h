@@ -22,7 +22,7 @@
 /** bitmap font definition */
 typedef struct _bitmapFontDef {
 	//! ID of the character
-	unsigned char charID;
+	unsigned int charID;
 	//! origin and size of the font
 	CGRect rect;
 	//! The X amount the image should be offset when drawing the image (in pixels)
@@ -48,10 +48,11 @@ typedef struct _bitmapFontPadding {
 } ccBitmapFontPadding;
 
 enum {
-	kBitmapFontAtlasMaxChars = 256,
+	// how many characters are supported
+	kBitmapFontAtlasMaxChars = 2048, //256,
 };
 
-/** BitmapFontConfiguration has parsed configuration of the the .fnt file
+/** CCBitmapFontConfiguration has parsed configuration of the the .fnt file
  @since v0.8
  */
 @interface CCBitmapFontConfiguration : NSObject
@@ -71,14 +72,14 @@ enum {
 	NSMutableDictionary	*kerningDictionary;
 }
 
-/** allocates a BitmapFontConfiguration with a FNT file */
+/** allocates a CCBitmapFontConfiguration with a FNT file */
 +(id) configurationWithFNTFile:(NSString*)FNTfile;
 /** initializes a BitmapFontConfiguration with a FNT file */
 -(id) initWithFNTfile:(NSString*)FNTfile;
 @end
 
 
-/** BitmapFontAtlas is a subclass of AtlasSpriteManger.
+/** CCBitmapFontAtlas is a subclass of CCAtlasSpriteManger.
   
  Features:
  - Treats each character like an AtlasSprite. This means that each individual character can be:
@@ -95,9 +96,9 @@ enum {
   - All inner characters are using an anchorPoint of (0.5f, 0.5f) and it is not recommend to change it
     because it might affect the rendering
  
- BitmapFontAtlas implements the protocol CCNodeLabel, like Label and LabelAtlas.
- BitmapFontAtlas has the flexibility of Label, the speed of LabelAtlas and all the features of AtlasSprite.
- If in doubt, use BitmapFontAtlas instead of LabelAtlas / Label.
+ CCBitmapFontAtlas implements the protocol CCNodeLabel, like CCLabel and CCLabelAtlas.
+ CCBitmapFontAtlas has the flexibility of CCLabel, the speed of CCLabelAtlas and all the features of CCAtlasSprite.
+ If in doubt, use CCBitmapFontAtlas instead of CCLabelAtlas / CCLabel.
  
  Supported editors:
   - http://www.n4te.com/hiero/hiero.jnlp
@@ -142,6 +143,3 @@ CCBitmapFontConfiguration * FNTConfigLoadFile( NSString *file );
 /** Purges the FNT config cache
  */
 void FNTConfigRemoveCache( void );
-
-
-

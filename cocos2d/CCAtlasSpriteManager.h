@@ -3,6 +3,7 @@
  * http://www.cocos2d-iphone.org
  *
  * Copyright (C) 2009 Matt Oswald
+ * Copyright (C) 2009 Ricardo Quesada
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the 'cocos2d for iPhone' license.
@@ -38,7 +39,7 @@
 /** returns the TextureAtlas that is used */
 @property (nonatomic,readwrite,retain) CCTextureAtlas * textureAtlas;
 
-/** conforms to CocosNodeTexture protocol */
+/** conforms to CCNodeTexture protocol */
 @property (nonatomic,readwrite) ccBlendFunc blendFunc;
 
 /** creates an AtlasSpriteManager with a texture2d */
@@ -62,18 +63,9 @@
 -(id)initWithFile:(NSString*)fileImage capacity:(NSUInteger)capacity;
 
 -(NSUInteger)indexForNewChildAtZ:(int)z;
--(void) increateAtlasCapacity;
+-(void) increaseAtlasCapacity;
 
-/* Adds a quad into the texture atlas but it won't be added into the children array.
- This method should be called only when you are dealing with very big AtlasSrite and when most of the AtlasSprite won't be updated.
- For example: a tile map (TMXMap) or a label with lots of characgers (BitmapFontAtlas)
- @since v0.8.2
- */
--(void) addQuadFromSprite:(CCAtlasSprite*)sprite quadIndex:(unsigned int)index;
-
--(id)addChildWithoutQuad:(CCAtlasSprite*)child z:(int)z tag:(int)aTag;
-
-/** creates an sprite with a rect in the AtlasSpriteManage */
+/** creates an sprite with a rect in the CCAtlasSpriteManage */
 -(CCAtlasSprite*) createSpriteWithRect:(CGRect)rect;
 
 /** removes a child given a certain index. It will also cleanup the running actions depending on the cleanup parameter.

@@ -26,6 +26,7 @@
 @implementation CCAction
 
 @synthesize tag, target;
+@synthesize tag, target, originalTarget;
 
 +(id) action
 {
@@ -35,7 +36,7 @@
 -(id) init
 {
 	if( (self=[super init]) ) {	
-		target = nil;
+		originalTarget = target = nil;
 		tag = kActionTagInvalid;
 	}
 	return self;

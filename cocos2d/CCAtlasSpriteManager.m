@@ -3,6 +3,7 @@
  * http://www.cocos2d-iphone.org
  *
  * Copyright (C) 2009 Matt Oswald
+ * Copyright (C) 2009 Ricardo Quesada
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the 'cocos2d for iPhone' license.
@@ -118,7 +119,7 @@ const int defaultCapacity = 29;
 	// This visit is almost identical to CocosNode#visit
 	// with the exception that it doesn't call visit on it's children
 	//
-	// The alternative is to have a void AtlasSprite#visit, but this
+	// The alternative is to have a void CCAtlasSprite#visit, but this
 	// although is less mantainable, is faster
 	//
 	if (!visible)
@@ -165,7 +166,7 @@ const int defaultCapacity = 29;
 	NSAssert( [child isKindOfClass:[CCAtlasSprite class]], @"CCAtlasSpriteManager only supports CCAtlasSprites as children");
 	
 	if(textureAtlas_.totalQuads == textureAtlas_.capacity)
-		[self increateAtlasCapacity];
+		[self increaseAtlasCapacity];
 
 	NSUInteger index = [self indexForNewChildAtZ:z];
 	[child insertInAtlasAtIndex: index];
@@ -182,30 +183,6 @@ const int defaultCapacity = 29;
 	
 	return self;
 }
-
--(void) addQuadFromSprite:(CCAtlasSprite*)sprite quadIndex:(unsigned int)index
-{
-	NSAssert( sprite != nil, @"Argument must be non-nil");
-	NSAssert( [sprite isKindOfClass:[CCAtlasSprite class]], @"CCAtlasSpriteManager only supports AtlasSprites as children");
-	
-	while(index >= textureAtlas_.capacity)
-		[self increateAtlasCapacity];
-	
-	[sprite insertInAtlasAtIndex:index];
-	[sprite updatePosition];
-}
-
--(id) addChildWithoutQuad:(CCAtlasSprite*)child z:(int)z tag:(int)aTag
-{
-	NSAssert( child != nil, @"Argument must be non-nil");
-	NSAssert( [child isKindOfClass:[CCAtlasSprite class]], @"CCAtlasSpriteManager only supports AtlasSprites as children");
-
-	// quad index is Z
-	[child setAtlasIndex:z];
-	[super addChild:child z:z tag:aTag];	
-	return self;	
-}
-
 
 // override reorderChild
 -(void) reorderChild:(CCAtlasSprite*)child z:(int)z
@@ -250,7 +227,7 @@ const int defaultCapacity = 29;
 	
 	NSUInteger index= sprite.atlasIndex;
 	
-	// When the AtlasSprite is removed, the index should be invalid. issue #569
+	// When the CCAtlasSprite is removed, the index should be invalidated. issue #569
 	[sprite setAtlasIndex: CCAtlasSpriteIndexNotInitialized];
 	
 	[super removeChild:sprite cleanup:doCleanup];
@@ -328,14 +305,14 @@ const int defaultCapacity = 29;
 }
 
 #pragma mark CCAtlasSpriteManager - private
--(void) increateAtlasCapacity
+-(void) increaseAtlasCapacity
 {
-	// if we're going beyond the current CCTextureAtlas's capacity,
+	// if we're going beyond the current TextureAtlas's capacity,
 	// all the previously initialized sprites will need to redo their texture coords
 	// this is likely computationally expensive
 	NSUInteger quantity = (textureAtlas_.capacity + 1) * 4 / 3;
 
-	CCLOG(@"cocos2d: Resizing CCTextureAtlas capacity, from [%d] to [%d].", textureAtlas_.capacity, quantity);
+	CCLOG(@"cocos2d: Resizing TextureAtlas capacity, from [%d] to [%d].", textureAtlas_.capacity, quantity);
 
 
 	if( ! [textureAtlas_ resizeCapacity:quantity] ) {

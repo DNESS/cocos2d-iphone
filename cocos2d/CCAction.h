@@ -25,6 +25,7 @@ enum {
 /** Base class for actions
  */
 @interface CCAction : NSObject <NSCopying> {
+	id	originalTarget;
 	id	target;
 	int	tag;
 }
@@ -35,6 +36,13 @@ enum {
  The target is 'assigned', it is not 'retained'.
  */
 @property (nonatomic,readonly,assign) id target;
+
+/** The original target, since target can be nil.
+ Is the target that were used to run the action. Unless you are doing something complex, like ActionManager, you should NOT call this method.
+ @since v0.8.2
+*/
+@property (nonatomic,readonly,assign) id originalTarget;
+
 
 /** The action tag. An identifier of the action */
 @property (nonatomic,readwrite,assign) int tag;
@@ -52,6 +60,7 @@ enum {
 //! called before the action start. It will also set the target.
 -(void) startWithTarget:(id)target;
 //! called after the action has finished. It will set the 'target' to nil.
+//! IMPORTANT: You should never call "[action stop]" manually. Instead, use: "[target stopAction:action];"
 -(void) stop;
 //! called every frame with it's delta time. DON'T override unless you know what you are doing.
 -(void) step: (ccTime) dt;

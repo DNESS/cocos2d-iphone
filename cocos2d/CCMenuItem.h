@@ -29,8 +29,14 @@
 @interface CCMenuItem : CCNode
 {
 	NSInvocation *invocation;
-	BOOL isEnabled;
+	BOOL isEnabled_;
+	BOOL isSelected_;
 }
+
+/** returns whether or not the item is selected
+@since v0.8.2
+*/
+@property (nonatomic,readonly) BOOL isSelected;
 
 /** Creates a menu item with a target/selector */
 +(id) itemWithTarget:(id)target selector:(SEL)selector;
@@ -148,7 +154,6 @@
  */
 @interface CCMenuItemSprite : CCMenuItem <CCNodeRGBA>
 {
-	BOOL selected;
 	CCNode<CCNodeRGBA> *normalImage_, *selectedImage_, *disabledImage_;
 }
 
